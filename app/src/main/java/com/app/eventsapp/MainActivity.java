@@ -3,18 +3,34 @@ package com.app.eventsapp;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+import com.app.eventsapp.core.base.BaseActivity;
+import com.app.eventsapp.core.di.HasComponent;
+import com.app.eventsapp.core.di.components.DaggerMainActivityComponent;
+import com.app.eventsapp.core.di.components.EventsAppComponent;
+import com.app.eventsapp.core.di.components.MainActivityComponent;
+import com.app.eventsapp.core.di.modules.MainActivityModule;
+import com.app.eventsapp.core.mvp.main.MainActivityPresenterImpl;
+import com.app.eventsapp.core.mvp.main.MainActivityView;
+
+import javax.inject.Inject;
+
+public class MainActivity extends BaseActivity implements MainActivityView, HasComponent<MainActivityComponent> {
+
+    @Inject
+    MainActivityPresenterImpl presenter;
+
+    private MainActivityComponent mainActivityComponent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -48,5 +64,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void setupComponent(EventsAppComponent appComponent) {
+        mainActivityComponent = DaggerMainActivityComponent.builder()
+                .eventsAppComponent(appComponent)
+                .mainActivityModule(new MainActivityModule(this))
+                .build();
+
+        mainActivityComponent.inject(this);
+    }
+
+    @Override
+    public MainActivityComponent getComponent() {
+        return mainActivityComponent;
     }
 }
