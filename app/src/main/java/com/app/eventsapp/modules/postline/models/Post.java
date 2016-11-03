@@ -1,6 +1,6 @@
 package com.app.eventsapp.modules.postline.models;
 
-import android.icu.util.Calendar;
+import java.util.Calendar;
 
 import com.app.eventsapp.entities.Address;
 
@@ -15,9 +15,9 @@ public class Post
     private Address address;
     private Calendar beginTime;
     private Calendar endTime;
-    private String poster;
+    private String posterUrl;
 
-    public Post(Long id, String name, String description, Address address, Calendar beginTime, Calendar endTime, String poster)
+    public Post(Long id, String name, String description, Address address, Calendar beginTime, Calendar endTime, String posterUrl)
     {
         this.id = id;
         this.name = name;
@@ -25,7 +25,17 @@ public class Post
         this.address = address;
         this.beginTime = beginTime;
         this.endTime = endTime;
-        this.poster = poster;
+        this.posterUrl = posterUrl;
+    }
+
+    public Post(Long id, String name, String description, Address address, Calendar beginTime, Calendar endTime)
+    {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.address = address;
+        this.beginTime = beginTime;
+        this.endTime = endTime;
     }
 
     public Long getId()
@@ -88,13 +98,13 @@ public class Post
         this.endTime = endTime;
     }
 
-    public String getPoster()
+    public String getPosterUrl()
     {
-        return poster;
+        return posterUrl;
     }
 
-    public void setPoster(String poster)
+    public void setPosterUrl(String poster)
     {
-        this.poster = poster;
+        this.posterUrl = posterUrl;
     }
 }

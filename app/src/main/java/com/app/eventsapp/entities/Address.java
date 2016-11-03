@@ -57,4 +57,9 @@ public class Address
     {
         this.house = house;
     }
+
+    @Override
+    public String toString() {
+        return city + " " + ", ул." + street + ", д." + house;
+    }
 }
