@@ -11,7 +11,9 @@ import java.util.List;
  */
 public interface PostLinePresenter extends BaseFragmentPresenter<PostLineFragmentView>
 {
+    void onResume();
+    void onPause();
     void onLoadMore();
     void onItemClick();
-    void addListToAdapter(List<Post> postList);
+    void addPostsToAdapter(List<Post> postList);
 }

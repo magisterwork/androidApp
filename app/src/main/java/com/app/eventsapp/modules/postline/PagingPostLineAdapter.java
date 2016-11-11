@@ -37,6 +37,12 @@ public class PagingPostLineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         this.posts  = posts;
     }
 
+    public void addPosts(List<Post> posts)
+    {
+        this.posts.addAll(posts);
+        notifyDataSetChanged();
+    }
+
     static class PostViewHolder extends RecyclerView.ViewHolder
     {
         private TextView name;

@@ -1,8 +1,8 @@
 package com.app.eventsapp.core.di.modules;
 
-import com.app.eventsapp.MainActivity;
 import com.app.eventsapp.core.mvp.main.MainActivityPresenterImpl;
 import com.app.eventsapp.core.mvp.main.MainActivityView;
+import com.app.eventsapp.modules.postline.presenters.PostLinePresenterImpl;
 
 import dagger.Module;
 import dagger.Provides;
@@ -29,5 +29,11 @@ public class MainActivityModule
     public MainActivityPresenterImpl providesMainActivityPresenterImpl(MainActivityView view)
     {
         return new MainActivityPresenterImpl(view);
+    }
+
+    @Provides
+    public PostLinePresenterImpl providesPostLinePresenterImpl()
+    {
+        return new PostLinePresenterImpl();
     }
 }

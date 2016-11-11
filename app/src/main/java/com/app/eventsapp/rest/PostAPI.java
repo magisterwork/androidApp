@@ -17,6 +17,6 @@ public interface PostAPI
     /**
      * @return список постов
      */
-    @GET("/events/api/list")
+    @GET("events/api/list")
     Call<List<Post>> getPosts();
 }
