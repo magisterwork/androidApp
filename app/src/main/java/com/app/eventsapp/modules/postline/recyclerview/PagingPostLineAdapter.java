@@ -1,4 +1,4 @@
-package com.app.eventsapp.modules.postline;
+package com.app.eventsapp.modules.postline.recyclerview;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
