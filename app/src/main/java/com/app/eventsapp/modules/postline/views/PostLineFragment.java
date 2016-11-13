@@ -3,6 +3,7 @@ package com.app.eventsapp.modules.postline.views;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -31,7 +32,6 @@ public class PostLineFragment extends BaseFragment implements PostLineFragmentVi
     private Activity activity;
     private PagingPostLineAdapter adapter;
     private RecyclerView recyclerView;
-    private View rootView;
 
     public PostLineFragment()
     {}
@@ -69,17 +69,14 @@ public class PostLineFragment extends BaseFragment implements PostLineFragmentVi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        if(rootView == null)
-        {
-            rootView = inflater.inflate(R.layout.postline_fragment, container, false);
+        super.onCreateView(inflater, container, savedInstanceState);
 
-            recyclerView = (RecyclerView) rootView.findViewById(R.id.postRecyclerView);
-            recyclerView.setSaveEnabled(true);
-            GridLayoutManager recyclerViewLayoutManager = new GridLayoutManager(getActivity(), 1);
-            recyclerViewLayoutManager.supportsPredictiveItemAnimations();
-            recyclerView.setLayoutManager(recyclerViewLayoutManager);
-            recyclerView.setAdapter(adapter);
-        }
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.postRecyclerView);
+        recyclerView.setSaveEnabled(true);
+        GridLayoutManager recyclerViewLayoutManager = new GridLayoutManager(getActivity(), 1);
+        recyclerViewLayoutManager.supportsPredictiveItemAnimations();
+        recyclerView.setLayoutManager(recyclerViewLayoutManager);
+        recyclerView.setAdapter(adapter);
 
         return rootView;
     }
@@ -89,6 +86,14 @@ public class PostLineFragment extends BaseFragment implements PostLineFragmentVi
     {
         // TODO реализовать свой OnScrollListener
         //recyclerView.addOnScrollListener();
+    }
+
+    @NonNull
+    @Override
+    protected View initRootView(LayoutInflater inflater, ViewGroup container)
+    {
+        rootView = inflater.inflate(R.layout.postline_fragment, container, false);
+        return rootView;
     }
 
     @Override
