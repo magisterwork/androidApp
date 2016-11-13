@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <!--<android.support.design.widget.AppBarLayout-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:id="@+id/detail_app_bar"-->
+        <!--android:theme="@style/AppTheme.AppBarOverlay">-->
+
+        <!--<android.support.v7.widget.Toolbar-->
+            <!--android:id="@+id/detail_toolbar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="?attr/actionBarSize"-->
+            <!--android:background="@color/colorAccent"-->
+            <!--app:popupTheme="@style/AppTheme.PopupOverlay"/>-->
+    <!--</android.support.design.widget.AppBarLayout>-->
+
+    <!--<ScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:paddingBottom="@dimen/horizontal_margin"-->
+            <!--android:background="@android:color/white">-->
+
+
+            <!--&lt;!&ndash; Аватар заведения &ndash;&gt;-->
+            <!--<de.hdodenhof.circleimageview.CircleImageView-->
+                <!--android:id="@+id/detail_post_place_logo"-->
+                <!--android:layout_width="32dp"-->
+                <!--android:layout_height="32dp"-->
+                <!--android:src="@drawable/splin"-->
+                <!--android:layout_marginLeft="@dimen/horizontal_margin"-->
+                <!--android:layout_marginTop="@dimen/vertical_margin"/>-->
+
+
+            <!--&lt;!&ndash; Заголовок поста &ndash;&gt;-->
+            <!--<TextView-->
+                <!--android:id="@+id/detail_post_title"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="18sp"-->
+                <!--android:text="@string/app_name"-->
+                <!--android:fontFamily="sans-serif-medium"-->
+                <!--android:textColor="@android:color/primary_text_light_nodisable"-->
+                <!--android:layout_toRightOf="@+id/detail_post_place_logo"-->
+                <!--android:layout_toEndOf="@+id/detail_post_place_logo"-->
+                <!--android:layout_marginTop="@dimen/margin_text"-->
+                <!--android:layout_marginLeft="@dimen/vertical_margin" />-->
+
+            <!--&lt;!&ndash; Тип заведения &ndash;&gt;-->
+            <!--<TextView-->
+                <!--android:id="@+id/detail_post_place_type"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="@color/colorGrey"-->
+                <!--android:textSize="15sp"-->
+                <!--android:text="@string/app_name"-->
+                <!--android:fontFamily="sans-serif-light"-->
+                <!--android:layout_below="@+id/detail_post_title"-->
+                <!--android:layout_alignLeft="@+id/detail_post_title"-->
+                <!--android:layout_alignStart="@+id/detail_post_title"-->
+                <!--android:layout_marginTop="-4dp"/>-->
+
+            <!--&lt;!&ndash; Картинка поста &ndash;&gt;-->
+            <!--<ImageView-->
+                <!--android:id="@+id/detail_post_poster"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="250dp"-->
+                <!--android:src="@drawable/splin"-->
+                <!--android:scaleType="fitXY"-->
+                <!--android:layout_marginTop="@dimen/vertical_margin"-->
+                <!--android:layout_below="@+id/detail_post_place_logo" />-->
+
+            <!--&lt;!&ndash; Описание события &ndash;&gt;-->
+            <!--<TextView-->
+                <!--android:id="@+id/detail_post_description"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="18sp"-->
+                <!--android:text="@string/app_name"-->
+                <!--android:fontFamily="sans-serif-light"-->
+                <!--android:textColor="@android:color/primary_text_light"-->
+                <!--android:paddingBottom="6dp"-->
+                <!--android:layout_below="@id/detail_post_poster"-->
+                <!--android:layout_marginTop="@dimen/vertical_margin"-->
+                <!--android:layout_marginLeft="@dimen/horizontal_margin"-->
+                <!--android:layout_marginRight="@dimen/horizontal_margin"/>-->
+
+
+            <!--<TextView-->
+                <!--android:id="@+id/detail_post_address"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="12sp"-->
+                <!--android:text="г.Вологда, ул. Городской вал"-->
+                <!--android:textColor="@color/colorGrey"-->
+                <!--android:textStyle="bold"-->
+                <!--android:fontFamily="sans-serif"-->
+                <!--android:paddingBottom="2dp"-->
+                <!--android:layout_alignTop="@+id/detail_post_type"-->
+                <!--android:layout_toRightOf="@+id/detail_post_type"-->
+                <!--android:layout_toEndOf="@+id/detail_post_type"-->
+                <!--android:layout_marginLeft="@dimen/horizontal_margin"/>-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/detail_post_time"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="12sp"-->
+                <!--android:text="1ч"-->
+                <!--android:textColor="@color/colorGrey"-->
+                <!--android:textStyle="bold"-->
+                <!--android:fontFamily="sans-serif"-->
+                <!--android:paddingBottom="2dp"-->
+                <!--android:layout_alignTop="@+id/detail_post_type"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_marginRight="@dimen/vertical_margin"-->
+                <!--android:layout_marginEnd="@dimen/horizontal_margin" />-->
+
+        <!--</RelativeLayout>-->
+    <!--</ScrollView>-->
+
+</LinearLayout>

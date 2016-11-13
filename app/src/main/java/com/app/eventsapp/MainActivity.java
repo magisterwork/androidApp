@@ -1,6 +1,6 @@
 package com.app.eventsapp;
 
-import android.app.FragmentManager;
+import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 
 import android.support.v7.widget.Toolbar;
@@ -14,15 +14,16 @@ import com.app.eventsapp.core.di.components.MainActivityComponent;
 import com.app.eventsapp.core.di.modules.MainActivityModule;
 import com.app.eventsapp.core.mvp.main.MainActivityPresenterImpl;
 import com.app.eventsapp.core.mvp.main.MainActivityView;
-import com.app.eventsapp.modules.postline.views.PostLineFragment;
+import com.app.eventsapp.modules.navigation.ContentFragment;
 
 import javax.inject.Inject;
 
-public class MainActivity extends BaseActivity implements MainActivityView, HasComponent<MainActivityComponent> {
-
+public class MainActivity extends BaseActivity implements MainActivityView, HasComponent<MainActivityComponent>
+{
     @Inject
     public MainActivityPresenterImpl presenter;
 
+    private final int FRAGMENT_CONTAINER = R.id.fragment_container;
     private MainActivityComponent mainActivityComponent;
     private FragmentManager fragmentManager;
 
@@ -32,20 +33,17 @@ public class MainActivity extends BaseActivity implements MainActivityView, HasC
         setupComponent(EventsApp.get(this).getAppComponent());
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        fragmentManager = getSupportFragmentManager();
+        ContentFragment contentFragment = (ContentFragment) fragmentManager.findFragmentByTag("ContentFragment");
 
-        fragmentManager = getFragmentManager();
-        PostLineFragment postLineFragment = (PostLineFragment) fragmentManager.findFragmentByTag("PostLineFragment");
-
-        if (postLineFragment == null)
+        if (contentFragment == null)
         {
-            postLineFragment = new PostLineFragment();
+            contentFragment = new ContentFragment();
         }
 
         if (savedInstanceState == null) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, postLineFragment)
+                    .replace(FRAGMENT_CONTAINER, contentFragment)
                     .commit();
         }
     }
