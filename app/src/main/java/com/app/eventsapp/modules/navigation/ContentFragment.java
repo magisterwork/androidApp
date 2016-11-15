@@ -30,6 +30,7 @@ public class ContentFragment extends BaseFragment
 
     public ContentFragment()
     {
+        //TODO убрать(?)
         super();
     }
 

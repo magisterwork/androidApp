@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,9 +14,12 @@ import android.view.ViewGroup;
 import com.app.eventsapp.R;
 import com.app.eventsapp.core.base.BaseFragment;
 import com.app.eventsapp.core.di.components.MainActivityComponent;
-import com.app.eventsapp.modules.postline.PagingPostLineAdapter;
+import com.app.eventsapp.modules.postline.recyclerview.PagingPostLineAdapter;
 import com.app.eventsapp.modules.postline.models.Post;
 import com.app.eventsapp.modules.postline.presenters.PostLinePresenterImpl;
+import com.app.eventsapp.modules.postline.recyclerview.RecyclerOnItemClickListener;
+
+import static com.app.eventsapp.MainActivity.FRAGMENT_CONTAINER;
 
 import java.util.List;
 
@@ -84,8 +88,32 @@ public class PostLineFragment extends BaseFragment implements PostLineFragmentVi
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
-        // TODO реализовать свой OnScrollListener
-        //recyclerView.addOnScrollListener();
+        recyclerView.addOnItemTouchListener(new RecyclerOnItemClickListener(this.context, recyclerView, new RecyclerOnItemClickListener.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(View view, int position)
+            {
+                //TODO подумать как лучше всего создавать фрагменты
+                DetailPostFragment detailPostFragment = (DetailPostFragment) fragmentManager.findFragmentByTag("DetailPostFragment");
+
+                if (detailPostFragment == null)
+                {
+                    detailPostFragment = new DetailPostFragment();
+                }
+
+                fragmentManager.beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .replace(FRAGMENT_CONTAINER, detailPostFragment)
+                        .addToBackStack(DetailPostFragment.FRAGMENT_TAG)
+                        .commit();
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position)
+            {
+
+            }
+        }));
     }
 
     @NonNull

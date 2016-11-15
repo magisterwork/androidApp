@@ -23,7 +23,8 @@ public class MainActivity extends BaseActivity implements MainActivityView, HasC
     @Inject
     public MainActivityPresenterImpl presenter;
 
-    private final int FRAGMENT_CONTAINER = R.id.fragment_container;
+    public static final int FRAGMENT_CONTAINER = R.id.fragment_container;
+
     private MainActivityComponent mainActivityComponent;
     private FragmentManager fragmentManager;
 
