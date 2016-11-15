@@ -15,9 +15,9 @@ public class Post
     private Address address;
     private Calendar beginTime;
     private Calendar endTime;
-    private String posterUrl;
+    private String imageUrl;
 
-    public Post(Long id, String name, String description, Address address, Calendar beginTime, Calendar endTime, String posterUrl)
+    public Post(Long id, String name, String description, Address address, Calendar beginTime, Calendar endTime, String imageUrl)
     {
         this.id = id;
         this.name = name;
@@ -25,7 +25,7 @@ public class Post
         this.address = address;
         this.beginTime = beginTime;
         this.endTime = endTime;
-        this.posterUrl = posterUrl;
+        this.imageUrl = imageUrl;
     }
 
     public Post(Long id, String name, String description, Address address, Calendar beginTime, Calendar endTime)
@@ -98,13 +98,13 @@ public class Post
         this.endTime = endTime;
     }
 
-    public String getPosterUrl()
+    public String getImageUrl()
     {
-        return posterUrl;
+        return imageUrl;
     }
 
-    public void setPosterUrl(String poster)
+    public void setImageUrl(String poster)
     {
-        this.posterUrl = posterUrl;
+        this.imageUrl = imageUrl;
     }
 }
