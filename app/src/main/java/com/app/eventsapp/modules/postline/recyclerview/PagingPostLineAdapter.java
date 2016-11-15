@@ -8,7 +8,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.eventsapp.R;
+import com.app.eventsapp.core.managers.PicassoImageManager;
 import com.app.eventsapp.modules.postline.models.Post;
+import com.squareup.picasso.Picasso;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +89,12 @@ public class PagingPostLineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         postViewHolder.address.setText(post.getAddress().toString());
         postViewHolder.beginTime.setText(post.getBeginTime().getTime().toString());
         postViewHolder.endTime.setText(post.getBeginTime().getTime().toString());
+
+        String posterURL = post.getImageUrl();
+
+        // TODO если нет картинки
+        if (!StringUtils.isEmpty(posterURL))
+            PicassoImageManager.getInstance().loadResource(posterURL, postViewHolder.poster, Picasso.Priority.HIGH);
     }
 
     @Override

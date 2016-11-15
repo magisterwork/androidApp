@@ -15,6 +15,7 @@ import com.app.eventsapp.core.di.modules.EventsAppModule;
 public class EventsApp extends Application
 {
     private EventsAppComponent appComponent;
+    private static EventsApp instance;
 
     public static EventsApp get(Context context)
     {
@@ -25,6 +26,8 @@ public class EventsApp extends Application
     public void onCreate() {
         super.onCreate();
         buildGraphAndInject();
+
+        instance = this;
     }
 
     public EventsAppComponent getAppComponent()
@@ -39,5 +42,15 @@ public class EventsApp extends Application
                 .build();
 
         appComponent.inject(this);
+    }
+
+    public static EventsApp getInstance()
+    {
+        return instance;
+    }
+
+    public static Context getAppContext()
+    {
+        return instance.getApplicationContext();
     }
 }
