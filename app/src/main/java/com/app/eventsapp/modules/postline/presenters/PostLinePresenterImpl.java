@@ -39,9 +39,9 @@ public class PostLinePresenterImpl implements PostLinePresenter
     }
 
     @Override
-    public void onItemClick()
+    public void onItemClick(int position)
     {
-
+        view.openPostDetails(position);
     }
 
     @Override

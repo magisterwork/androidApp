@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface PostLineFragmentView
 {
-    void openPostDetails();
+    void openPostDetails(int position);
     void addPostsToAdapter(List<Post> posts);
     void setRecyclerViewAdapter(List<Post> posts);
 }

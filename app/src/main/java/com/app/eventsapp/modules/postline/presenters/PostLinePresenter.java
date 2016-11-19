@@ -14,6 +14,6 @@ public interface PostLinePresenter extends BaseFragmentPresenter<PostLineFragmen
     void onResume();
     void onPause();
     void onLoadMore();
-    void onItemClick();
+    void onItemClick(int position);
     void addPostsToAdapter(List<Post> postList);
 }

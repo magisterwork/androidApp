@@ -93,19 +93,7 @@ public class PostLineFragment extends BaseFragment implements PostLineFragmentVi
             @Override
             public void onItemClick(View view, int position)
             {
-                //TODO подумать как лучше всего создавать фрагменты
-                DetailPostFragment detailPostFragment = (DetailPostFragment) fragmentManager.findFragmentByTag("DetailPostFragment");
-
-                if (detailPostFragment == null)
-                {
-                    detailPostFragment = new DetailPostFragment();
-                }
-
-                fragmentManager.beginTransaction()
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .replace(FRAGMENT_CONTAINER, detailPostFragment)
-                        .addToBackStack(DetailPostFragment.FRAGMENT_TAG)
-                        .commit();
+                presenter.onItemClick(position);
             }
 
             @Override
@@ -145,8 +133,22 @@ public class PostLineFragment extends BaseFragment implements PostLineFragmentVi
     }
 
     @Override
-    public void openPostDetails()
+    public void openPostDetails(int position)
     {
+        //TODO как лучше всего создавать фрагменты
+        DetailPostFragment detailPostFragment = (DetailPostFragment)
+                fragmentManager.findFragmentByTag("DetailPostFragment");
+
+        if (detailPostFragment == null)
+        {
+            detailPostFragment = new DetailPostFragment();
+        }
+
+        fragmentManager.beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(FRAGMENT_CONTAINER, detailPostFragment)
+                .addToBackStack(DetailPostFragment.FRAGMENT_TAG)
+                .commit();
 
     }
 }
