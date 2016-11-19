@@ -3,10 +3,14 @@ package com.app.eventsapp.modules.postline.presenters;
 import com.app.eventsapp.modules.postline.models.Post;
 import com.app.eventsapp.modules.postline.views.PostLineFragmentView;
 import com.app.eventsapp.rest.PostService;
+import com.app.eventsapp.rest.RequestListener;
 
 import java.util.List;
 
 import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Created by Grigory Kalyashov on 31.10.2016.
@@ -22,8 +26,7 @@ public class PostLinePresenterImpl implements PostLinePresenter
     @Override
     public void onResume()
     {
-        // TODO может быть заюзать RequestListener
-        view.setRecyclerViewAdapter(sendRequest());
+        sendRequest();
     }
 
     @Override
@@ -56,8 +59,27 @@ public class PostLinePresenterImpl implements PostLinePresenter
         this.view = view;
     }
 
-    private List<Post> sendRequest()
+    private void sendRequest()
     {
-        return PostService.getPosts();
+        PostService.getInstance().getPosts(new RequestListener<List<Post>>()
+        {
+            @Override
+            public void onSuccess(Call<List<Post>> call, Response<List<Post>> response)
+            {
+                view.setRecyclerViewAdapter(response.body());
+            }
+
+            @Override
+            public void onErrorResponse(Call<List<Post>> call, Response<List<Post>> response)
+            {
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t)
+            {
+
+            }
+        });
     }
 }

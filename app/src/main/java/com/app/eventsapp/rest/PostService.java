@@ -2,14 +2,9 @@ package com.app.eventsapp.rest;
 
 import com.app.eventsapp.modules.postline.models.Post;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
+import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -23,48 +18,51 @@ public class PostService
 {
     private static final String SERVER_END_POINT = "http://webapp.bbifqmci6u.us-west-2.elasticbeanstalk.com/";
 
+    private static volatile PostService instance;
+
+    /**
+     * @return PostService
+     */
+    public static PostService getInstance()
+    {
+        PostService localInstance = instance;
+
+        if(localInstance == null)
+        {
+            synchronized (PostService.class)
+            {
+                localInstance = instance;
+
+                if(localInstance == null)
+                {
+                    instance = localInstance = new PostService();
+                }
+            }
+        }
+
+        return localInstance;
+    }
+
     /**
      * @return список постов
      */
-    public static List<Post> getPosts()
+    public void getPosts(final RequestListener<List<Post>> requestListener)
     {
-        ExecutorService es = Executors.newSingleThreadExecutor();
-
-        Future<List<Post>> result = es.submit(new Callable<List<Post>>()
-        {
-            @Override
-            public List<Post> call() throws Exception
-            {
-                return PostService.sendPostsRequest();
-            }
-        });
-
-        try
-        {
-            return result.get();
-        }
-        catch (InterruptedException | ExecutionException e)
-        {
-            e.printStackTrace();
-        }
-
-        return Collections.emptyList();
+        sendPostsRequest(requestListener);
     }
 
-    private static List<Post> sendPostsRequest()
+    private void sendPostsRequest(RequestListener<List<Post>> requestListener)
     {
         try
         {
             PostAPI postAPI = buildRetrofit().create(PostAPI.class);
-            Response<List<Post>> response = postAPI.getPosts().execute();
-            return response.body();
+            Call<List<Post>> call = postAPI.getPosts();
+            call.enqueue(new PostRequestCallback<>(requestListener));
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
-
-        return Collections.emptyList();
     }
 
     private static Retrofit buildRetrofit()
@@ -73,5 +71,21 @@ public class PostService
                 .baseUrl(SERVER_END_POINT)
                 .addConverterFactory(GsonConverterFactory.create(PostJsonBuilder.buildPostGson()))
                 .build();
+    }
+
+    private class PostRequestCallback<T> extends  RequestCallback<T>
+    {
+
+        PostRequestCallback(RequestListener<T> listener)
+        {
+            super(listener);
+        }
+
+        @Override
+        public void onResponse(Call<T> call, Response<T> response)
+        {
+            super.onResponse(call, response);
+            //TODO добавить в кеш
+        }
     }
 }
