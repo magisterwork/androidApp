@@ -20,6 +20,7 @@ import com.app.eventsapp.modules.postline.recyclerview.PagingPostLineAdapter;
 import com.app.eventsapp.modules.postline.models.Post;
 import com.app.eventsapp.modules.postline.presenters.PostLinePresenterImpl;
 import com.app.eventsapp.modules.postline.recyclerview.RecyclerOnItemClickListener;
+import com.app.eventsapp.utils.PostUtils;
 
 import static com.app.eventsapp.MainActivity.FRAGMENT_CONTAINER;
 
@@ -151,6 +152,8 @@ public class PostLineFragment extends BaseFragment implements PostLineFragmentVi
     @Override
     public void openPostDetails(int position)
     {
+        Post post = ((PagingPostLineAdapter) recyclerView.getAdapter()).getPost(position);
+
         //TODO как лучше всего создавать фрагменты
         DetailPostFragment detailPostFragment = (DetailPostFragment)
                 fragmentManager.findFragmentByTag("DetailPostFragment");
@@ -159,6 +162,10 @@ public class PostLineFragment extends BaseFragment implements PostLineFragmentVi
         {
             detailPostFragment = new DetailPostFragment();
         }
+
+        Bundle postBundle = new Bundle();
+        postBundle.putLong(PostUtils.postIdBundleKey, post.getId());
+        detailPostFragment.setArguments(postBundle);
 
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)

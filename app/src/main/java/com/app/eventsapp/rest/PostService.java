@@ -1,5 +1,6 @@
 package com.app.eventsapp.rest;
 
+import com.app.eventsapp.core.cache.PostCacheUtils;
 import com.app.eventsapp.modules.postline.models.Post;
 
 import java.util.List;
@@ -41,6 +42,21 @@ public class PostService
         }
 
         return localInstance;
+    }
+
+    public Post getPost(Long id)
+    {
+        Post post = PostCacheUtils.getPostFromCache(id);
+
+        if(post != null)
+        {
+            return post;
+        }
+        else
+        {
+            //TODO иначе тянем с сервера
+            return null;
+        }
     }
 
     /**
@@ -85,7 +101,12 @@ public class PostService
         public void onResponse(Call<T> call, Response<T> response)
         {
             super.onResponse(call, response);
-            //TODO добавить в кеш
+
+            if(response.isSuccessful())
+            {
+                PostCacheUtils.addPostsToCache((List<Post>) response.body());
+            }
+
         }
     }
 }
