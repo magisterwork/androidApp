@@ -61,24 +61,27 @@ public class PostLinePresenterImpl implements PostLinePresenter
 
     private void sendRequest()
     {
+        view.showProgressBar();
+
         PostService.getInstance().getPosts(new RequestListener<List<Post>>()
         {
             @Override
             public void onSuccess(Call<List<Post>> call, Response<List<Post>> response)
             {
                 view.setRecyclerViewAdapter(response.body());
+                view.hideProgressBar();
             }
 
             @Override
             public void onErrorResponse(Call<List<Post>> call, Response<List<Post>> response)
             {
-
+                view.hideProgressBar();
             }
 
             @Override
             public void onFailure(Call<List<Post>> call, Throwable t)
             {
-
+                view.hideProgressBar();
             }
         });
     }

@@ -5,11 +5,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.app.eventsapp.R;
 import com.app.eventsapp.core.base.BaseFragment;
@@ -124,6 +126,20 @@ public class PostLineFragment extends BaseFragment implements PostLineFragmentVi
         {
             presenter.addPostsToAdapter(posts);
         }
+    }
+
+    @Override
+    public void showProgressBar()
+    {
+        ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.postline_progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar()
+    {
+        ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.postline_progress_bar);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override

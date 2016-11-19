@@ -12,4 +12,6 @@ public interface PostLineFragmentView
     void openPostDetails(int position);
     void addPostsToAdapter(List<Post> posts);
     void setRecyclerViewAdapter(List<Post> posts);
+    void showProgressBar();
+    void hideProgressBar();
 }
