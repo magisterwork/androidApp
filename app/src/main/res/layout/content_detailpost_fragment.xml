@@ -68,7 +68,7 @@
             android:layout_marginRight="@dimen/horizontal_margin"/>
 
         <TextView
-            android:id="@+id/detail_post_time"
+            android:id="@+id/detail_post_begin_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
@@ -78,6 +78,20 @@
             android:fontFamily="sans-serif"
             android:paddingBottom="2dp"
             android:layout_below="@id/detail_post_address"
+            android:layout_marginLeft="@dimen/horizontal_margin"
+            android:layout_marginRight="@dimen/horizontal_margin"/>
+
+        <TextView
+            android:id="@+id/detail_post_end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:text="1ч"
+            android:textColor="@android:color/darker_gray"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif"
+            android:paddingBottom="2dp"
+            android:layout_below="@id/detail_post_begin_time"
             android:layout_marginLeft="@dimen/horizontal_margin"
             android:layout_marginRight="@dimen/horizontal_margin"/>
 
