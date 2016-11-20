@@ -26,18 +26,6 @@
             android:layout_marginTop="@dimen/margin_text"
             android:layout_marginLeft="@dimen/vertical_margin" />
 
-        <!-- Картинка поста -->
-        <ImageView
-            android:id="@+id/detail_post_poster"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:src="@drawable/event"
-            android:scaleType="fitXY"
-            android:layout_marginTop="16dp"
-            android:layout_below="@+id/detail_post_title"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
         <!-- Описание события -->
         <TextView
             android:id="@+id/detail_post_description"
@@ -48,7 +36,7 @@
             android:fontFamily="sans-serif-light"
             android:textColor="@android:color/primary_text_light"
             android:paddingBottom="6dp"
-            android:layout_below="@id/detail_post_poster"
+            android:layout_below="@id/detail_post_title"
             android:layout_marginTop="@dimen/vertical_margin"
             android:layout_marginLeft="@dimen/horizontal_margin"
             android:layout_marginRight="@dimen/horizontal_margin"/>
