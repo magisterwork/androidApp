@@ -10,12 +10,10 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 import java.util.TimeZone;
 
-import static com.app.eventsapp.utils.DateTimeHelper.SIMPLE_DATE_PATTERN;
+import static com.app.eventsapp.utils.DateTimeHelper.POST_CALENDAR_PATTERN;
 
 /**
  * Created by Grigory Kalyashov on 07.11.2016.
@@ -25,7 +23,7 @@ public class DateTimeAdapter implements JsonDeserializer
     @Override
     public Object deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
     {
-        DateFormat format = new SimpleDateFormat(SIMPLE_DATE_PATTERN);
+        DateFormat format = new SimpleDateFormat(POST_CALENDAR_PATTERN);
         format.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         try

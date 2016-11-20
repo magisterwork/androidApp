@@ -20,6 +20,7 @@ import com.app.eventsapp.core.base.BaseFragment;
 import com.app.eventsapp.core.cache.PostCacheUtils;
 import com.app.eventsapp.core.managers.PicassoImageManager;
 import com.app.eventsapp.modules.postline.models.Post;
+import com.app.eventsapp.utils.DateTimeHelper;
 import com.app.eventsapp.utils.PostUtils;
 import com.squareup.picasso.Picasso;
 
@@ -80,8 +81,8 @@ public class DetailPostFragment extends BaseFragment implements DetailPostFragme
         postTitle.setText(post.getName());
         address.setText(post.getAddress().toString());
         description.setText(post.getDescription());
-        beginTime.setText(post.getBeginTime().getTime().toString());
-        endTime.setText(post.getBeginTime().getTime().toString());
+        beginTime.setText(DateTimeHelper.formatEventDate(post.getBeginTime()));
+        endTime.setText(DateTimeHelper.formatEventDate(post.getBeginTime()));
 
         String posterURL = post.getImageUrl();
 
@@ -93,6 +94,7 @@ public class DetailPostFragment extends BaseFragment implements DetailPostFragme
     {
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.scrolling_toolbar);
         context.setSupportActionBar(toolbar);
+        context.getSupportActionBar().setTitle("");
         context.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         context.getSupportActionBar().setDisplayShowHomeEnabled(true);
 

@@ -10,11 +10,14 @@ import android.widget.TextView;
 import com.app.eventsapp.R;
 import com.app.eventsapp.core.managers.PicassoImageManager;
 import com.app.eventsapp.modules.postline.models.Post;
+import com.app.eventsapp.utils.DateTimeHelper;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,6 +34,7 @@ public class PagingPostLineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         posts = new ArrayList<>();
     }
 
+    //TODO что если посты не пришли с сервера
     public PagingPostLineAdapter(List<Post> posts)
     {
         this.posts = posts;
@@ -47,6 +51,11 @@ public class PagingPostLineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         notifyDataSetChanged();
     }
 
+    public Post getPost(int id)
+    {
+        return posts.get(id);
+    }
+
     static class PostViewHolder extends RecyclerView.ViewHolder
     {
         private TextView name;
@@ -54,7 +63,6 @@ public class PagingPostLineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         private TextView address;
         private TextView description;
         private TextView beginTime;
-        private TextView endTime;
 
         public PostViewHolder(View itemView)
         {
@@ -65,7 +73,6 @@ public class PagingPostLineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             address = (TextView) itemView.findViewById(R.id.post_address);
             description = (TextView) itemView.findViewById(R.id.post_description);
             beginTime = (TextView) itemView.findViewById(R.id.post_begin_time);
-            endTime = (TextView)itemView.findViewById(R.id.post_end_time);
         }
     }
 
@@ -87,8 +94,9 @@ public class PagingPostLineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         postViewHolder.name.setText(post.getName());
         postViewHolder.description.setText(post.getDescription());
         postViewHolder.address.setText(post.getAddress().toString());
-        postViewHolder.beginTime.setText(post.getBeginTime().getTime().toString());
-        postViewHolder.endTime.setText(post.getBeginTime().getTime().toString());
+
+        Calendar postBeginTime = post.getBeginTime();
+        postViewHolder.beginTime.setText(DateTimeHelper.formatEventDate(postBeginTime));
 
         String posterURL = post.getImageUrl();
 
