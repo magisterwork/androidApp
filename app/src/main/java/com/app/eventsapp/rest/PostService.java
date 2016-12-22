@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class PostService
 {
-    private static final String SERVER_END_POINT = "http://webapp.bbifqmci6u.us-west-2.elasticbeanstalk.com/";
+    private static final String SERVER_END_POINT = "http://35.166.6.87:8080/eventsapi/";
 
     private static volatile PostService instance;
 
