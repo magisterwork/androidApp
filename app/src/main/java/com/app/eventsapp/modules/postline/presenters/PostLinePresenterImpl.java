@@ -2,8 +2,8 @@ package com.app.eventsapp.modules.postline.presenters;
 
 import com.app.eventsapp.modules.postline.models.Post;
 import com.app.eventsapp.modules.postline.views.PostLineFragmentView;
-import com.app.eventsapp.rest.PostService;
-import com.app.eventsapp.rest.RequestListener;
+import com.app.eventsapp.rest.postapi.PostService;
+import com.app.eventsapp.rest.request.RequestListener;
 
 import java.util.List;
 
@@ -19,14 +19,22 @@ public class PostLinePresenterImpl implements PostLinePresenter
 {
     private PostLineFragmentView view;
 
+    private int offset = 0;
+    private final int count = 20;
+    private int totalItemsCount = 0;
+
+    private PostService postService;
+
     @Inject
-    public PostLinePresenterImpl()
-    {}
+    public PostLinePresenterImpl(PostService postService)
+    {
+        this.postService = postService;
+    }
 
     @Override
     public void onResume()
     {
-        sendRequest();
+        sendPostRequest(offset, count);
     }
 
     @Override
@@ -38,7 +46,11 @@ public class PostLinePresenterImpl implements PostLinePresenter
     @Override
     public void onLoadMore()
     {
-
+        if(offset <= totalItemsCount)
+        {
+            offset+=count;
+            sendPostRequest(offset, count);
+        }
     }
 
     @Override
@@ -59,30 +71,33 @@ public class PostLinePresenterImpl implements PostLinePresenter
         this.view = view;
     }
 
-    private void sendRequest()
+    private void sendPostRequest(int offset, final int count)
     {
         view.showProgressBar();
 
-        PostService.getInstance().getPosts(new RequestListener<List<Post>>()
+        postService.getPosts(new RequestListener<List<Post>>()
         {
             @Override
             public void onSuccess(Call<List<Post>> call, Response<List<Post>> response)
             {
-                view.setRecyclerViewAdapter(response.body());
                 view.hideProgressBar();
+                view.setRecyclerViewAdapter(response.body());
+                totalItemsCount += count;
             }
 
             @Override
             public void onErrorResponse(Call<List<Post>> call, Response<List<Post>> response)
             {
                 view.hideProgressBar();
+                view.onErrorLoading();
             }
 
             @Override
             public void onFailure(Call<List<Post>> call, Throwable t)
             {
                 view.hideProgressBar();
+                view.onFailureLoading();
             }
-        });
+        }, offset, count);
     }
 }

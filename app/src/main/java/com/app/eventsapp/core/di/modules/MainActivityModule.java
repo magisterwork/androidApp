@@ -3,6 +3,7 @@ package com.app.eventsapp.core.di.modules;
 import com.app.eventsapp.core.mvp.main.MainActivityPresenterImpl;
 import com.app.eventsapp.core.mvp.main.MainActivityView;
 import com.app.eventsapp.modules.postline.presenters.PostLinePresenterImpl;
+import com.app.eventsapp.rest.postapi.PostService;
 
 import dagger.Module;
 import dagger.Provides;
@@ -32,8 +33,14 @@ public class MainActivityModule
     }
 
     @Provides
-    public PostLinePresenterImpl providesPostLinePresenterImpl()
+    public PostLinePresenterImpl providesPostLinePresenterImpl(PostService postService)
     {
-        return new PostLinePresenterImpl();
+        return new PostLinePresenterImpl(postService);
+    }
+
+    @Provides
+    public PostService providesPostService()
+    {
+        return new PostService();
     }
 }

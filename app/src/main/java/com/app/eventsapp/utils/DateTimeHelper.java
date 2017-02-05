@@ -42,6 +42,11 @@ public class DateTimeHelper
     {
         SimpleDateFormat formater;
 
+        if(date == null)
+        {
+            return "";
+        }
+
         if(date.get(Calendar.YEAR) == Calendar.getInstance().get(Calendar.YEAR))
         {
             formater = new SimpleDateFormat(EVENT_DATE_PATTERN);

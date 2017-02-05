@@ -56,7 +56,7 @@ public class PagingPostLineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return posts.get(id);
     }
 
-    static class PostViewHolder extends RecyclerView.ViewHolder
+    private static class PostViewHolder extends RecyclerView.ViewHolder
     {
         private TextView name;
         private ImageView poster;
@@ -88,6 +88,7 @@ public class PagingPostLineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
+        //TODO binding
         PostViewHolder postViewHolder = (PostViewHolder) holder;
         Post post = posts.get(position);
 

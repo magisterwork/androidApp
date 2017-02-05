@@ -18,4 +18,6 @@
         "interact, and exist in space and in relation to each other. Realistic lighting shows "
         "seams, divides space, and indicates moving parts.\n\n"
     </string>
+
+    <string name="error_loading">Ошибка при загрузке данных. Проверьте подключение к сети.</string>
 </resources>

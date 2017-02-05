@@ -1,4 +1,4 @@
-package com.app.eventsapp.rest;
+package com.app.eventsapp.rest.adapters;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

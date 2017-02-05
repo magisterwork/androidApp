@@ -1,4 +1,4 @@
-package com.app.eventsapp.rest;
+package com.app.eventsapp.rest.request;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -8,7 +8,7 @@ import retrofit2.Response;
  *
  * Слушатель запросов
  */
-public abstract interface RequestListener<T>
+public interface RequestListener<T>
 {
     /**
      * Вызывается при удачном выполнении запроса

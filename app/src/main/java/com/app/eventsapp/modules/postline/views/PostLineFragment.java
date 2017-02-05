@@ -5,17 +5,18 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.app.eventsapp.R;
 import com.app.eventsapp.core.base.BaseFragment;
 import com.app.eventsapp.core.di.components.MainActivityComponent;
+import com.app.eventsapp.modules.postline.recyclerview.OnLoadMoreListener;
 import com.app.eventsapp.modules.postline.recyclerview.PagingPostLineAdapter;
 import com.app.eventsapp.modules.postline.models.Post;
 import com.app.eventsapp.modules.postline.presenters.PostLinePresenterImpl;
@@ -51,10 +52,10 @@ public class PostLineFragment extends BaseFragment implements PostLineFragmentVi
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState)
+    {
         super.onActivityCreated(savedInstanceState);
         this.getComponent(MainActivityComponent.class).inject(this);
-
     }
 
     @Override
@@ -105,6 +106,8 @@ public class PostLineFragment extends BaseFragment implements PostLineFragmentVi
 
             }
         }));
+
+        setOnScrollListener();
     }
 
     @NonNull
@@ -120,13 +123,28 @@ public class PostLineFragment extends BaseFragment implements PostLineFragmentVi
     {
         if(adapter == null)
         {
-            PagingPostLineAdapter adapter = new PagingPostLineAdapter(posts);
+            adapter = new PagingPostLineAdapter(posts);
             recyclerView.setAdapter(adapter);
         }
         else
         {
             presenter.addPostsToAdapter(posts);
         }
+    }
+
+    @Override
+    public void setOnScrollListener()
+    {
+        recyclerView.addOnScrollListener(
+                new OnLoadMoreListener()
+                {
+                    @Override
+                    public void onLoadMore()
+                    {
+                        presenter.onLoadMore();
+                    }
+                }
+        );
     }
 
     @Override
@@ -141,6 +159,20 @@ public class PostLineFragment extends BaseFragment implements PostLineFragmentVi
     {
         ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.postline_progress_bar);
         progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onErrorLoading()
+    {
+        Toast.makeText(context,context.getResources().getString(R.string.error_loading),
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onFailureLoading()
+    {
+        Toast.makeText(context,context.getResources().getString(R.string.error_loading),
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override
