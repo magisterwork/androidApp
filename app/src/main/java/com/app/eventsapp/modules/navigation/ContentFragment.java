@@ -11,15 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.app.eventsapp.R;
-import com.app.eventsapp.core.base.BaseFragment;
-
+import com.app.eventsapp.core.base.NavigationDrawerFragment;
 
 /**
  * Created by Grigory Kalyashov on 13.11.2016.
  *
  * Содержит навигацию табами и другие фрагменты
  */
-public class ContentFragment extends BaseFragment
+public class ContentFragment extends NavigationDrawerFragment
 {
     // количество табов в навигации
     private static final int TABS_COUNT = 3;
@@ -34,10 +33,10 @@ public class ContentFragment extends BaseFragment
         super();
     }
 
-
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,savedInstanceState);
         initTabs(savedInstanceState);
@@ -75,12 +74,13 @@ public class ContentFragment extends BaseFragment
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
 
-        viewPager.setCurrentItem(savedInstanceState == null ? 0 : savedInstanceState.getInt(BUNDLE_TAB_PAGE));
+        viewPager.setCurrentItem(savedInstanceState == null ? 0 :
+                savedInstanceState.getInt(BUNDLE_TAB_PAGE));
     }
 
     private void initToolbar()
     {
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         context.setSupportActionBar(toolbar);
     }
 }

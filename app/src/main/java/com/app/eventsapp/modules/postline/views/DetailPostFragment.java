@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import com.app.eventsapp.R;
 import com.app.eventsapp.core.base.BaseFragment;
+import com.app.eventsapp.core.base.DetailFragmentBase;
+import com.app.eventsapp.core.base.NavigationDrawerActivity;
 import com.app.eventsapp.core.cache.PostCacheUtils;
 import com.app.eventsapp.core.managers.PicassoImageManager;
 import com.app.eventsapp.modules.postline.models.Post;
@@ -31,7 +33,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * Фрагмент для детальной информации о посте
  */
-public class DetailPostFragment extends BaseFragment implements DetailPostFragmentView
+public class DetailPostFragment extends DetailFragmentBase implements DetailPostFragmentView
 {
     public static String FRAGMENT_TAG = "DetailPostFragment";
 
@@ -57,6 +59,7 @@ public class DetailPostFragment extends BaseFragment implements DetailPostFragme
         initFAB();
 
         Long postId = this.getArguments().getLong(PostUtils.postIdBundleKey);
+        // TODO если поста нет в кеше
         Post post = PostCacheUtils.getPostFromCache(postId);
 
         setPostDetails(rootView, post);
