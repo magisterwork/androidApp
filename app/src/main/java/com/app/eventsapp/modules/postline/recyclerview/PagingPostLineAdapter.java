@@ -56,6 +56,12 @@ public class PagingPostLineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return posts.get(id);
     }
 
+    public void clear()
+    {
+        this.posts.clear();
+        notifyDataSetChanged();
+    }
+
     private static class PostViewHolder extends RecyclerView.ViewHolder
     {
         private TextView name;

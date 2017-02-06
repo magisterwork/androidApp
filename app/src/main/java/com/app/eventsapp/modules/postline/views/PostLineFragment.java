@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -86,7 +87,33 @@ public class PostLineFragment extends BaseFragment implements PostLineFragmentVi
         recyclerView.setLayoutManager(recyclerViewLayoutManager);
         recyclerView.setAdapter(adapter);
 
+        initSwipeRefreshLayout(rootView);
         return rootView;
+    }
+
+    public void initSwipeRefreshLayout(View root)
+    {
+        final SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.refreshPostLine);
+        final PostLineFragmentView postLineFragmentView = this;
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        {
+            @Override
+            public void onRefresh()
+            {
+                new Thread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        presenter.init(postLineFragmentView);
+                        presenter.refresh();
+                    }
+                }).run();
+
+                refreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     @Override
@@ -179,6 +206,11 @@ public class PostLineFragment extends BaseFragment implements PostLineFragmentVi
     public void addPostsToAdapter(List<Post> posts)
     {
         adapter.addPosts(posts);
+    }
+
+    public void clearAdapter()
+    {
+        adapter.clear();
     }
 
     @Override

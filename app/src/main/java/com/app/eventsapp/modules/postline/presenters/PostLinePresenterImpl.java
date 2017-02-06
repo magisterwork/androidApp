@@ -34,7 +34,7 @@ public class PostLinePresenterImpl implements PostLinePresenter
     @Override
     public void onResume()
     {
-        sendPostRequest(offset, count);
+        sendPostRequest(offset, count, true);
     }
 
     @Override
@@ -44,12 +44,22 @@ public class PostLinePresenterImpl implements PostLinePresenter
     }
 
     @Override
+    public void refresh()
+    {
+        //TODO проверять есть ли новые посты, если есть, то добавлять в начало ленты
+        view.clearAdapter();
+        offset = 0;
+        totalItemsCount = 0;
+        sendPostRequest(offset, count, false);
+    }
+
+    @Override
     public void onLoadMore()
     {
         if(offset <= totalItemsCount)
         {
             offset+=count;
-            sendPostRequest(offset, count);
+            sendPostRequest(offset, count, true);
         }
     }
 
@@ -71,9 +81,12 @@ public class PostLinePresenterImpl implements PostLinePresenter
         this.view = view;
     }
 
-    private void sendPostRequest(int offset, final int count)
+    private void sendPostRequest(int offset, final int count, boolean isNeedShowProgressBar)
     {
-        view.showProgressBar();
+        if(isNeedShowProgressBar)
+        {
+            view.showProgressBar();
+        }
 
         postService.getPosts(new RequestListener<List<Post>>()
         {
