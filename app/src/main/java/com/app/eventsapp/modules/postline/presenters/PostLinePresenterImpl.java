@@ -32,8 +32,11 @@ public class PostLinePresenterImpl implements PostLinePresenter
     }
 
     @Override
-    public void onResume()
+    public void onResume(int eventsCount)
     {
+        totalItemsCount = eventsCount;
+        //TODO
+        offset = calculateOffset();
         sendPostRequest(offset, count, true);
     }
 
@@ -56,11 +59,7 @@ public class PostLinePresenterImpl implements PostLinePresenter
     @Override
     public void onLoadMore()
     {
-        if(offset <= totalItemsCount)
-        {
-            offset+=count;
-            sendPostRequest(offset, count, true);
-        }
+        sendPostRequest(offset, count, true);
     }
 
     @Override
@@ -81,36 +80,46 @@ public class PostLinePresenterImpl implements PostLinePresenter
         this.view = view;
     }
 
-    private void sendPostRequest(int offset, final int count, boolean isNeedShowProgressBar)
+    //TODO стоит вынести всю логику с пагинацией, запросами в отдельный класс
+    // offset нужно увеличивать на кол-во полученных событий ?
+    // иногда посылаем запрос дважды с одинаковыми параметрами, почему? (срабатывает onLoadMore слушатель)
+    private void sendPostRequest(int postsOffset, int count, boolean isNeedShowProgressBar)
     {
-        if(isNeedShowProgressBar)
+        if(postsOffset <= totalItemsCount)
         {
-            view.showProgressBar();
+            if (isNeedShowProgressBar)
+            {
+                view.showProgressBar();
+            }
+
+            postService.getPosts(new RequestListener<List<Post>>() {
+                @Override
+                public void onSuccess(Call<List<Post>> call, Response<List<Post>> response) {
+                    view.hideProgressBar();
+                    view.setRecyclerViewAdapter(response.body());
+                    int loadedEventsCount = response.body().size();
+                    totalItemsCount += loadedEventsCount;
+                }
+
+                @Override
+                public void onErrorResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                    view.hideProgressBar();
+                    view.onErrorLoading();
+                }
+
+                @Override
+                public void onFailure(Call<List<Post>> call, Throwable t) {
+                    view.hideProgressBar();
+                    view.onFailureLoading();
+                }
+            }, postsOffset, count);
+
+            offset+=count;
         }
+    }
 
-        postService.getPosts(new RequestListener<List<Post>>()
-        {
-            @Override
-            public void onSuccess(Call<List<Post>> call, Response<List<Post>> response)
-            {
-                view.hideProgressBar();
-                view.setRecyclerViewAdapter(response.body());
-                totalItemsCount += count;
-            }
-
-            @Override
-            public void onErrorResponse(Call<List<Post>> call, Response<List<Post>> response)
-            {
-                view.hideProgressBar();
-                view.onErrorLoading();
-            }
-
-            @Override
-            public void onFailure(Call<List<Post>> call, Throwable t)
-            {
-                view.hideProgressBar();
-                view.onFailureLoading();
-            }
-        }, offset, count);
+    private int calculateOffset()
+    {
+        return (totalItemsCount == 0 ) ? 0 : (totalItemsCount / count + 1) * count;
     }
 }

@@ -50,6 +50,12 @@ public class PostLineFragment extends BaseFragment implements PostLineFragmentVi
     {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+
+        //TODO
+        if(adapter == null)
+        {
+            adapter = new PagingPostLineAdapter();
+        }
     }
 
     @Override
@@ -64,7 +70,7 @@ public class PostLineFragment extends BaseFragment implements PostLineFragmentVi
     {
         super.onResume();
         presenter.init(this);
-        presenter.onResume();
+        presenter.onResume(adapter.getItemCount());
     }
 
     @Override
@@ -93,7 +99,12 @@ public class PostLineFragment extends BaseFragment implements PostLineFragmentVi
 
     public void initSwipeRefreshLayout(View root)
     {
-        final SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.refreshPostLine);
+        final SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout)
+                root.findViewById(R.id.refreshPostLine);
+
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary,
+                R.color.colorPrimaryDark);
+
         final PostLineFragmentView postLineFragmentView = this;
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
@@ -210,7 +221,10 @@ public class PostLineFragment extends BaseFragment implements PostLineFragmentVi
 
     public void clearAdapter()
     {
-        adapter.clear();
+        if (adapter != null && adapter.getItemCount() > 0)
+        {
+            adapter.clear();
+        }
     }
 
     @Override
