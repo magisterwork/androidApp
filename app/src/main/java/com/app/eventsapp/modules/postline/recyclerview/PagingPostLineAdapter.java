@@ -17,7 +17,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -100,12 +99,12 @@ public class PagingPostLineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         postViewHolder.name.setText(post.getName());
         postViewHolder.description.setText(post.getDescription());
-        postViewHolder.address.setText(post.getAddress().toString());
+        postViewHolder.address.setText(post.getPlace().toString());
 
         Calendar postBeginTime = post.getBeginTime();
         postViewHolder.beginTime.setText(DateTimeHelper.formatEventDate(postBeginTime));
 
-        String posterURL = post.getImageUrl();
+        String posterURL = post.getPreviewUrl();
 
         // TODO если нет картинки
         if (!StringUtils.isEmpty(posterURL))

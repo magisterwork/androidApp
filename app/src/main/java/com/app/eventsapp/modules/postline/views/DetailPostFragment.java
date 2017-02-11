@@ -2,7 +2,6 @@ package com.app.eventsapp.modules.postline.views;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
@@ -22,6 +21,12 @@ import com.app.eventsapp.core.managers.PicassoImageManager;
 import com.app.eventsapp.modules.postline.models.Post;
 import com.app.eventsapp.utils.DateTimeHelper;
 import com.app.eventsapp.utils.PostUtils;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
@@ -31,9 +36,12 @@ import org.apache.commons.lang3.StringUtils;
  *
  * Фрагмент для детальной информации о посте
  */
-public class DetailPostFragment extends BaseFragment implements DetailPostFragmentView
+public class DetailPostFragment extends BaseFragment implements DetailPostFragmentView, OnMapReadyCallback
 {
     public static String FRAGMENT_TAG = "DetailPostFragment";
+
+    private GoogleMap mMap;
+    private Post currentPost;
 
     public DetailPostFragment()
     {
@@ -57,9 +65,11 @@ public class DetailPostFragment extends BaseFragment implements DetailPostFragme
         initFAB();
 
         Long postId = this.getArguments().getLong(PostUtils.postIdBundleKey);
-        Post post = PostCacheUtils.getPostFromCache(postId);
+        currentPost = PostCacheUtils.getPostFromCache(postId);
 
-        setPostDetails(rootView, post);
+        setPostDetails(rootView, currentPost);
+
+        initMap();
 
         return rootView;
     }
@@ -79,7 +89,7 @@ public class DetailPostFragment extends BaseFragment implements DetailPostFragme
         TextView endTime = (TextView) view.findViewById(R.id.detail_post_end_time);
 
         postTitle.setText(post.getName());
-        address.setText(post.getAddress().toString());
+        address.setText(post.getPlace().toString());
         description.setText(post.getDescription());
         beginTime.setText(DateTimeHelper.formatEventDate(post.getBeginTime()));
         endTime.setText(DateTimeHelper.formatEventDate(post.getBeginTime()));
@@ -134,5 +144,36 @@ public class DetailPostFragment extends BaseFragment implements DetailPostFragme
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    private void initMap()
+    {
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
+                .findFragmentById(R.id.map);
+
+        if(currentPost.getPlace().hasCoordinates())
+        {
+            mapFragment.onLowMemory();
+            mapFragment.getMapAsync(this);
+        }
+        else
+        {
+            mapFragment.getView().setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap)
+    {
+        mMap = googleMap;
+
+        Double latitude = currentPost.getPlace().getLatitude();
+        Double longitude = currentPost.getPlace().getLongitude();
+
+        LatLng place = new LatLng(latitude, longitude);
+        mMap.getUiSettings().setAllGesturesEnabled(false);
+        mMap.addMarker(new MarkerOptions().position(place).title(currentPost.getName()));
+        mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(place , 14.0f) );
+
     }
 }
