@@ -91,10 +91,14 @@ public class DetailPostFragment extends BaseFragment implements DetailPostFragme
         postTitle.setText(post.getName());
         address.setText(post.getPlace().toString());
         description.setText(post.getDescription());
-        beginTime.setText(DateTimeHelper.formatEventDate(post.getBeginTime()));
-        endTime.setText(DateTimeHelper.formatEventDate(post.getBeginTime()));
 
-        String posterURL = post.getImageUrl();
+        String beginTimeStr = DateTimeHelper.formatEventDate(post.getBeginTime());
+        String endTimeStr = DateTimeHelper.formatEventDate(post.getEndTime());
+
+        beginTime.setText(beginTimeStr);
+        endTime.setText(endTimeStr);
+
+        String posterURL = post.getPreviewUrl();
 
         if (!StringUtils.isEmpty(posterURL))
             PicassoImageManager.getInstance().loadResource(posterURL, poster, Picasso.Priority.HIGH);
