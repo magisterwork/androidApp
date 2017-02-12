@@ -81,6 +81,7 @@ public class ContentFragment extends BaseFragment
     private void initToolbar()
     {
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(R.string.postline));
         context.setSupportActionBar(toolbar);
     }
 }
