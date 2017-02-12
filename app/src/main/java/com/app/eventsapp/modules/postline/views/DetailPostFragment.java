@@ -2,9 +2,6 @@ package com.app.eventsapp.modules.postline.views;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.app.eventsapp.MockPostService;
 import com.app.eventsapp.R;
 import com.app.eventsapp.core.base.BaseFragment;
 import com.app.eventsapp.core.cache.PostCacheUtils;
@@ -62,7 +60,6 @@ public class DetailPostFragment extends BaseFragment implements DetailPostFragme
         super.onCreateView(inflater, container, savedInstanceState);
 
         initToolbar();
-        initFAB();
 
         Long postId = this.getArguments().getLong(PostUtils.postIdBundleKey);
         currentPost = PostCacheUtils.getPostFromCache(postId);
@@ -74,19 +71,13 @@ public class DetailPostFragment extends BaseFragment implements DetailPostFragme
         return rootView;
     }
 
-    public void onBackPressed(FragmentActivity activity)
-    {
-
-    }
-
     private void setPostDetails(View view, Post post)
     {
         TextView postTitle = (TextView) view.findViewById(R.id.detail_post_title);
         ImageView poster = (ImageView) view.findViewById(R.id.detail_post_poster);
         TextView address = (TextView) view.findViewById(R.id.detail_post_address);
         TextView description = (TextView) view.findViewById(R.id.detail_post_description);
-        TextView beginTime = (TextView) view.findViewById(R.id.detail_post_begin_time);
-        TextView endTime = (TextView) view.findViewById(R.id.detail_post_end_time);
+        TextView date = (TextView) view.findViewById(R.id.detail_post_date);
 
         postTitle.setText(post.getName());
         address.setText(post.getPlace().toString());
@@ -95,13 +86,17 @@ public class DetailPostFragment extends BaseFragment implements DetailPostFragme
         String beginTimeStr = DateTimeHelper.formatEventDate(post.getBeginTime());
         String endTimeStr = DateTimeHelper.formatEventDate(post.getEndTime());
 
-        beginTime.setText(beginTimeStr);
-        endTime.setText(endTimeStr);
+        String dateTime = DateTimeHelper.formatDateWithPeriod(post.getBeginTime(), post.getEndTime());
 
-        String posterURL = post.getPreviewUrl();
+        date.setText(dateTime);
 
-        if (!StringUtils.isEmpty(posterURL))
-            PicassoImageManager.getInstance().loadResource(posterURL, poster, Picasso.Priority.HIGH);
+        final String previewUrl = post.getPreviewUrl();
+        final String fullImageUrl = post.getImageUrl();
+
+        if (!StringUtils.isEmpty(previewUrl))
+        {
+            PicassoImageManager.getInstance().loadResource(previewUrl, poster, Picasso.Priority.HIGH);
+        }
     }
 
     private void initToolbar()
@@ -138,18 +133,6 @@ public class DetailPostFragment extends BaseFragment implements DetailPostFragme
 
     }
 
-    private void initFAB()
-    {
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Добавить в избранное", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-    }
-
     private void initMap()
     {
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
@@ -177,7 +160,6 @@ public class DetailPostFragment extends BaseFragment implements DetailPostFragme
         LatLng place = new LatLng(latitude, longitude);
         mMap.getUiSettings().setAllGesturesEnabled(false);
         mMap.addMarker(new MarkerOptions().position(place).title(currentPost.getName()));
-        mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(place , 14.0f) );
-
+        mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(place , 18.0f) );
     }
 }

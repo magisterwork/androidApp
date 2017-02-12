@@ -15,6 +15,7 @@ public class DateTimeHelper
     public static final String POST_CALENDAR_PATTERN = "yyyy-MM-dd'T'HH:mm:ss'Z'";
     public static final String EVENT_DATE_PATTERN = "dd MMMM HH:mm";
     public static final String EVENT_DATE_PATTERN_WITH_YEAR = "dd MMMM yyyy HH:mm";
+    public static final String HOURS_AND_MINUTES = "HH:mm";
 
     /**
      * Отформатировать дату к формату, с которым работает сервер
@@ -59,6 +60,28 @@ public class DateTimeHelper
         formater.setDateFormatSymbols(dateFormatSymbols);
 
         return  formater.format(date.getTime());
+    }
+
+    /**
+     * Получить период времени из двух дат
+     * @param startDate - дата начала
+     * @param endDate - дата конца
+     * @return период времени
+     */
+    public static String formatDateWithPeriod(Calendar startDate, Calendar endDate)
+    {
+        SimpleDateFormat formater = new SimpleDateFormat(HOURS_AND_MINUTES);
+
+        String startDateTime = formatEventDate(startDate);
+
+        if(endDate == null)
+        {
+            return startDateTime;
+        }
+
+        String endDateTime = formater.format(endDate.getTime());
+
+        return startDateTime + " - " + endDateTime;
     }
 
     private static DateFormatSymbols dateFormatSymbols = new DateFormatSymbols()
