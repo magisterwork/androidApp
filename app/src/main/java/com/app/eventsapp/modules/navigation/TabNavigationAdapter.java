@@ -15,7 +15,7 @@ import com.app.eventsapp.modules.postline.views.PostLineFragment;
 public class TabNavigationAdapter extends FragmentPagerAdapter
 {
     //TODO доставать из строковых ресурсов
-    private final String[] tabsTitles = {"события", "заведения", "поиск"};
+    private final String[] tabsTitles = {"СОБЫТИЯ", "ЗАВЕДЕНИЯ", "ПОИСК"};
 
     public TabNavigationAdapter(FragmentManager fm)
     {
