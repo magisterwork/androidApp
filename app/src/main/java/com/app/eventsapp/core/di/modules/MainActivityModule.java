@@ -2,6 +2,7 @@ package com.app.eventsapp.core.di.modules;
 
 import com.app.eventsapp.core.mvp.main.MainActivityPresenterImpl;
 import com.app.eventsapp.core.mvp.main.MainActivityView;
+import com.app.eventsapp.modules.postline.presenters.DetailPostPresenterImpl;
 import com.app.eventsapp.modules.postline.presenters.PostLinePresenterImpl;
 import com.app.eventsapp.rest.postapi.PostService;
 
@@ -36,6 +37,12 @@ public class MainActivityModule
     public PostLinePresenterImpl providesPostLinePresenterImpl(PostService postService)
     {
         return new PostLinePresenterImpl(postService);
+    }
+
+    @Provides
+    public DetailPostPresenterImpl providesDetailPostPresenterImpl()
+    {
+        return new DetailPostPresenterImpl();
     }
 
     @Provides

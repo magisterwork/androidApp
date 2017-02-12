@@ -1,6 +1,5 @@
 package com.app.eventsapp.modules.postline.views;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
@@ -9,18 +8,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.app.eventsapp.MockPostService;
 import com.app.eventsapp.R;
 import com.app.eventsapp.core.base.BaseFragment;
 import com.app.eventsapp.core.cache.PostCacheUtils;
 import com.app.eventsapp.core.managers.PicassoImageManager;
 import com.app.eventsapp.modules.postline.models.Post;
+import com.app.eventsapp.modules.postline.presenters.DetailPostPresenterImpl;
 import com.app.eventsapp.utils.DateTimeHelper;
-import com.app.eventsapp.utils.NetworkUtil;
 import com.app.eventsapp.utils.PostUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,7 +29,8 @@ import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
 
-import uk.co.senab.photoview.PhotoView;
+import javax.inject.Inject;
+
 
 /**
  * Created by Grigory Kalyashov on 13.11.2016.
@@ -43,7 +41,10 @@ public class DetailPostFragment extends BaseFragment implements DetailPostFragme
 {
     public static String FRAGMENT_TAG = "DetailPostFragment";
 
-    private GoogleMap mMap;
+    @Inject
+    public DetailPostPresenterImpl presenter;
+
+    private GoogleMap map;
     private Post currentPost;
 
     public DetailPostFragment()
@@ -88,9 +89,6 @@ public class DetailPostFragment extends BaseFragment implements DetailPostFragme
         address.setText(post.getPlace().toString());
         description.setText(post.getDescription());
 
-        String beginTimeStr = DateTimeHelper.formatEventDate(post.getBeginTime());
-        String endTimeStr = DateTimeHelper.formatEventDate(post.getEndTime());
-
         String dateTime = DateTimeHelper.formatDateWithPeriod(post.getBeginTime(), post.getEndTime());
 
         date.setText(dateTime);
@@ -108,31 +106,7 @@ public class DetailPostFragment extends BaseFragment implements DetailPostFragme
             @Override
             public void onClick(View v)
             {
-                if(NetworkUtil.isInternetAvailable(context) && !StringUtils.isEmpty(fullImageUrl))
-                {
-                    //TODO можно использовать DialogFragment, чтобы окно не пропадало после смены ориентации
-                    final Dialog fullImageDialog = new Dialog(context,
-                            android.R.style.Theme_Black_NoTitleBar);
-
-                    fullImageDialog.setContentView(R.layout.full_image_dialog);
-
-                    Button btnClose = (Button) fullImageDialog.findViewById(R.id.btnIvClose);
-                    PhotoView fullImage = (PhotoView) fullImageDialog.findViewById(R.id.detail_full_image);
-
-                    PicassoImageManager.getInstance().loadResource(fullImageUrl,
-                            fullImage, Picasso.Priority.HIGH);
-
-                    btnClose.setOnClickListener(new View.OnClickListener()
-                    {
-                        @Override
-                        public void onClick(View arg0) {
-
-                            fullImageDialog.dismiss();
-                        }
-                    });
-
-                    fullImageDialog.show();
-                }
+                presenter.showFullEventImage(context, fullImageUrl);
             }
         });
     }
@@ -190,14 +164,14 @@ public class DetailPostFragment extends BaseFragment implements DetailPostFragme
     @Override
     public void onMapReady(GoogleMap googleMap)
     {
-        mMap = googleMap;
+        map = googleMap;
 
         Double latitude = currentPost.getPlace().getLatitude();
         Double longitude = currentPost.getPlace().getLongitude();
 
         LatLng place = new LatLng(latitude, longitude);
-        mMap.getUiSettings().setAllGesturesEnabled(false);
-        mMap.addMarker(new MarkerOptions().position(place).title(currentPost.getName()));
-        mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(place , 18.0f) );
+        map.getUiSettings().setAllGesturesEnabled(false);
+        map.addMarker(new MarkerOptions().position(place).title(currentPost.getName()));
+        map.moveCamera( CameraUpdateFactory.newLatLngZoom(place , 17.0f) );
     }
 }
