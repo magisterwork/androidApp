@@ -19,6 +19,7 @@ import com.app.eventsapp.modules.postline.models.Post;
 import com.app.eventsapp.modules.postline.presenters.DetailPostPresenterImpl;
 import com.app.eventsapp.utils.DateTimeHelper;
 import com.app.eventsapp.utils.PostUtils;
+import com.app.eventsapp.utils.ViewUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -86,8 +87,8 @@ public class DetailPostFragment extends BaseFragment implements DetailPostFragme
         TextView date = (TextView) view.findViewById(R.id.detail_post_date);
 
         postTitle.setText(post.getName());
-        address.setText(post.getPlace().toString());
-        description.setText(post.getDescription());
+        ViewUtils.hideTextViewIfNoText(post.getPlace().toString(), address);
+        ViewUtils.hideTextViewIfNoText(post.getDescription(), description);
 
         String dateTime = DateTimeHelper.formatDateWithPeriod(post.getBeginTime(), post.getEndTime());
 
@@ -157,7 +158,7 @@ public class DetailPostFragment extends BaseFragment implements DetailPostFragme
         }
         else
         {
-            mapFragment.getView().setVisibility(View.GONE);
+            ViewUtils.hideView(mapFragment.getView());
         }
     }
 
