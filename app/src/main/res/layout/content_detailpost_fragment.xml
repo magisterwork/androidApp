@@ -1,87 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.app.eventsapp.MainActivity"
-    tools:showIn="@layout/detailpost_fragment">
+    android:background="@color/colorWhite"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/horizontal_margin"
-        android:background="@android:color/white">
+        android:paddingBottom="@dimen/horizontal_margin">
 
-        <!-- Заголовок поста -->
-        <TextView
-            android:id="@+id/detail_post_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:text="@string/app_name"
-            android:fontFamily="sans-serif-medium"
-            android:textColor="@android:color/primary_text_light_nodisable"
-            android:layout_marginTop="@dimen/margin_text"
-            android:layout_marginLeft="@dimen/vertical_margin" />
+        <RelativeLayout
+            android:id="@+id/detail_header"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary">
 
-        <!-- Описание события -->
-        <TextView
-            android:id="@+id/detail_post_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:text="@string/app_name"
-            android:fontFamily="sans-serif-light"
-            android:textColor="@android:color/primary_text_light"
-            android:paddingBottom="6dp"
-            android:layout_below="@id/detail_post_title"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginLeft="@dimen/horizontal_margin"
-            android:layout_marginRight="@dimen/horizontal_margin"/>
+            <!-- Заголовок поста -->
+            <TextView
+                android:id="@+id/detail_post_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="@string/app_name"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/colorWhite"
+                android:layout_marginTop="@dimen/margin_text"
+                android:layout_marginLeft="@dimen/horizontal_margin" />
 
-        <TextView
-            android:id="@+id/detail_post_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:text="г.Вологда, ул. Городской вал"
-            android:textColor="@android:color/darker_gray"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif"
-            android:paddingBottom="2dp"
-            android:layout_below="@id/detail_post_description"
-            android:layout_marginLeft="@dimen/horizontal_margin"
-            android:layout_marginRight="@dimen/horizontal_margin"/>
+            <!-- Дата -->
+            <TextView
+                android:id="@+id/detail_post_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="@string/test_time"
+                android:textColor="@color/colorWhite"
+                android:fontFamily="sans-serif"
+                android:layout_marginTop="@dimen/margin_text"
+                android:layout_marginLeft="@dimen/horizontal_margin"
+                android:layout_below="@id/detail_post_title" />
 
-        <TextView
-            android:id="@+id/detail_post_begin_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:text="1ч"
-            android:textColor="@android:color/darker_gray"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif"
-            android:paddingBottom="2dp"
-            android:layout_below="@id/detail_post_address"
-            android:layout_marginLeft="@dimen/horizontal_margin"
-            android:layout_marginRight="@dimen/horizontal_margin"/>
+            <!-- Адрес -->
+            <TextView
+                android:id="@+id/detail_post_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="@string/test_address"
+                android:textColor="@color/colorWhite"
+                android:fontFamily="sans-serif"
+                android:layout_marginTop="@dimen/margin_text"
+                android:layout_marginLeft="@dimen/horizontal_margin"
+                android:paddingBottom="@dimen/text_margin"
+                android:layout_below="@id/detail_post_date" />
 
-        <TextView
-            android:id="@+id/detail_post_end_time"
-            android:layout_width="wrap_content"
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/detail_buttons"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:text="1ч"
-            android:textColor="@android:color/darker_gray"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif"
-            android:paddingBottom="2dp"
-            android:layout_below="@id/detail_post_begin_time"
-            android:layout_marginLeft="@dimen/horizontal_margin"
-            android:layout_marginRight="@dimen/horizontal_margin"/>
+            android:gravity="center"
+            android:paddingTop="@dimen/horizontal_margin"
+            android:paddingBottom="@dimen/horizontal_margin"
+            android:layout_below="@+id/detail_header"
+            android:background="@drawable/layout_divider">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_action_bookmark_border"
+                android:background="?android:attr/selectableItemBackground"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"
+                android:text="@string/to_favorites" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_action_favorite_border"
+                android:background="?android:attr/selectableItemBackground"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"
+                android:text="@string/evaluate" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_action_date_range"
+                android:background="?android:attr/selectableItemBackground"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"
+                android:text="@string/remind" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/detail_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/horizontal_margin"
+            android:background="@color/colorWhite"
+            android:layout_below="@+id/detail_buttons">
+
+            <TextView
+                android:id="@+id/detail_label"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAllCaps="true"
+                android:text="@string/details"
+                android:textColor="@android:color/darker_gray"
+                android:fontFamily="sans-serif"
+                android:textSize="12sp" />
+
+            <!-- Описание события -->
+            <TextView
+                android:id="@+id/detail_post_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="@string/app_name"
+                android:fontFamily="sans-serif-light"
+                android:textColor="@android:color/primary_text_light"
+                android:autoLink="all"
+                android:textIsSelectable="true"
+                android:layout_marginTop="@dimen/vertical_margin"
+                android:layout_below="@id/detail_label"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/detail_map"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:layout_below="@id/detail_info">
+
+            <TextView
+                android:id="@+id/detail_map_label"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/show_on_map"
+                android:textAllCaps="true"
+                android:textColor="@android:color/darker_gray"
+                android:padding="@dimen/horizontal_margin"
+                android:fontFamily="sans-serif"
+                android:textSize="12sp" />
+
+            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:map="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                map:cameraZoom="18"
+                map:mapType="normal"
+                map:liteMode="true"
+                android:layout_below="@id/detail_map_label"/>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

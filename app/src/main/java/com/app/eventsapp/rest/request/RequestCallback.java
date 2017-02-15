@@ -1,4 +1,4 @@
-package com.app.eventsapp.rest;
+package com.app.eventsapp.rest.request;
 
 import retrofit2.Call;
 import retrofit2.Callback;

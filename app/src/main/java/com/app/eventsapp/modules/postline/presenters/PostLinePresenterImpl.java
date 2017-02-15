@@ -2,8 +2,8 @@ package com.app.eventsapp.modules.postline.presenters;
 
 import com.app.eventsapp.modules.postline.models.Post;
 import com.app.eventsapp.modules.postline.views.PostLineFragmentView;
-import com.app.eventsapp.rest.PostService;
-import com.app.eventsapp.rest.RequestListener;
+import com.app.eventsapp.rest.postapi.PostService;
+import com.app.eventsapp.rest.request.RequestListener;
 
 import java.util.List;
 
@@ -19,14 +19,25 @@ public class PostLinePresenterImpl implements PostLinePresenter
 {
     private PostLineFragmentView view;
 
+    private int offset = 0;
+    private final int count = 20;
+    private int totalItemsCount = 0;
+
+    private PostService postService;
+
     @Inject
-    public PostLinePresenterImpl()
-    {}
+    public PostLinePresenterImpl(PostService postService)
+    {
+        this.postService = postService;
+    }
 
     @Override
-    public void onResume()
+    public void onResume(int eventsCount)
     {
-        sendRequest();
+        totalItemsCount = eventsCount;
+        //TODO
+        offset = calculateOffset();
+        sendPostRequest(offset, count, true);
     }
 
     @Override
@@ -36,9 +47,19 @@ public class PostLinePresenterImpl implements PostLinePresenter
     }
 
     @Override
+    public void refresh()
+    {
+        //TODO проверять есть ли новые посты, если есть, то добавлять в начало ленты
+        view.clearAdapter();
+        offset = 0;
+        totalItemsCount = 0;
+        sendPostRequest(offset, count, false);
+    }
+
+    @Override
     public void onLoadMore()
     {
-
+        sendPostRequest(offset, count, true);
     }
 
     @Override
@@ -59,30 +80,47 @@ public class PostLinePresenterImpl implements PostLinePresenter
         this.view = view;
     }
 
-    private void sendRequest()
+    //TODO стоит вынести всю логику с пагинацией, запросами в отдельный класс
+    // offset нужно увеличивать на кол-во полученных событий ?
+    // иногда посылаем запрос дважды с одинаковыми параметрами, почему? (срабатывает onLoadMore слушатель)
+    private void sendPostRequest(int postsOffset, final int count, boolean isNeedShowProgressBar)
     {
-        view.showProgressBar();
-
-        PostService.getInstance().getPosts(new RequestListener<List<Post>>()
+        if(postsOffset <= totalItemsCount)
         {
-            @Override
-            public void onSuccess(Call<List<Post>> call, Response<List<Post>> response)
+            if (isNeedShowProgressBar)
             {
-                view.setRecyclerViewAdapter(response.body());
-                view.hideProgressBar();
+                view.showProgressBar();
             }
 
-            @Override
-            public void onErrorResponse(Call<List<Post>> call, Response<List<Post>> response)
-            {
-                view.hideProgressBar();
-            }
+            postService.getPosts(new RequestListener<List<Post>>() {
+                @Override
+                public void onSuccess(Call<List<Post>> call, Response<List<Post>> response) {
+                    view.hideProgressBar();
+                    view.setRecyclerViewAdapter(response.body());
+                    int loadedEventsCount = response.body().size();
+                    totalItemsCount += loadedEventsCount;
+                }
 
-            @Override
-            public void onFailure(Call<List<Post>> call, Throwable t)
-            {
-                view.hideProgressBar();
-            }
-        });
+                @Override
+                public void onErrorResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                    view.hideProgressBar();
+                    view.onErrorLoading();
+                }
+
+                @Override
+                public void onFailure(Call<List<Post>> call, Throwable t) {
+                    view.hideProgressBar();
+                    view.onFailureLoading();
+                }
+            }, postsOffset, count);
+
+            //TODO offset стоит увеличивать только в случае удачной загрузки
+            offset+=count;
+        }
+    }
+
+    private int calculateOffset()
+    {
+        return (totalItemsCount == 0 ) ? 0 : (totalItemsCount / count + 1) * count;
     }
 }

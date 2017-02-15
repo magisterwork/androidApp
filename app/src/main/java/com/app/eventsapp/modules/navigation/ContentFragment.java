@@ -80,7 +80,9 @@ public class ContentFragment extends NavigationDrawerFragment
 
     private void initToolbar()
     {
-        toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(R.string.postline));
+
         context.setSupportActionBar(toolbar);
     }
 }

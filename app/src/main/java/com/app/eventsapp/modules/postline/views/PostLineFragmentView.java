@@ -11,7 +11,11 @@ public interface PostLineFragmentView
 {
     void openPostDetails(int position);
     void addPostsToAdapter(List<Post> posts);
+    void clearAdapter();
     void setRecyclerViewAdapter(List<Post> posts);
+    void setOnScrollListener();
     void showProgressBar();
     void hideProgressBar();
+    void onErrorLoading();
+    void onFailureLoading();
 }

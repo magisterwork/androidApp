@@ -17,7 +17,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -56,7 +55,13 @@ public class PagingPostLineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return posts.get(id);
     }
 
-    static class PostViewHolder extends RecyclerView.ViewHolder
+    public void clear()
+    {
+        this.posts.clear();
+        notifyDataSetChanged();
+    }
+
+    private static class PostViewHolder extends RecyclerView.ViewHolder
     {
         private TextView name;
         private ImageView poster;
@@ -88,17 +93,18 @@ public class PagingPostLineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
+        //TODO binding
         PostViewHolder postViewHolder = (PostViewHolder) holder;
         Post post = posts.get(position);
 
         postViewHolder.name.setText(post.getName());
         postViewHolder.description.setText(post.getDescription());
-        postViewHolder.address.setText(post.getAddress().toString());
+        postViewHolder.address.setText(post.getPlace().toString());
 
         Calendar postBeginTime = post.getBeginTime();
         postViewHolder.beginTime.setText(DateTimeHelper.formatEventDate(postBeginTime));
 
-        String posterURL = post.getImageUrl();
+        String posterURL = post.getPreviewUrl();
 
         // TODO если нет картинки
         if (!StringUtils.isEmpty(posterURL))

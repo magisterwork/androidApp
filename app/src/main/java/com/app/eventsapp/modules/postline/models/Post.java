@@ -2,7 +2,7 @@ package com.app.eventsapp.modules.postline.models;
 
 import java.util.Calendar;
 
-import com.app.eventsapp.entities.Address;
+import com.app.eventsapp.entities.Place;
 
 /**
  * Created by Grigory Kalyashov on 31.10.2016.
@@ -12,30 +12,23 @@ public class Post
     private Long id;
     private String name;
     private String description;
-    private Address address;
+    private Place place;
     private Calendar beginTime;
     private Calendar endTime;
+    private String previewUrl;
     private String imageUrl;
 
-    public Post(Long id, String name, String description, Address address, Calendar beginTime, Calendar endTime, String imageUrl)
+    public Post(Long id, String name, String description, Place place, Calendar beginTime,
+                Calendar endTime, String previewUrl, String imageUrl)
     {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.address = address;
+        this.place = place;
         this.beginTime = beginTime;
         this.endTime = endTime;
+        this.previewUrl = previewUrl;
         this.imageUrl = imageUrl;
-    }
-
-    public Post(Long id, String name, String description, Address address, Calendar beginTime, Calendar endTime)
-    {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.address = address;
-        this.beginTime = beginTime;
-        this.endTime = endTime;
     }
 
     public Long getId()
@@ -68,14 +61,14 @@ public class Post
         this.description = description;
     }
 
-    public Address getAddress()
+    public Place getPlace()
     {
-        return address;
+        return place;
     }
 
-    public void setAddress(Address address)
+    public void setPlace(Place place)
     {
-        this.address = address;
+        this.place = place;
     }
 
     public Calendar getBeginTime()
@@ -106,5 +99,15 @@ public class Post
     public void setImageUrl(String poster)
     {
         this.imageUrl = imageUrl;
+    }
+
+    public String getPreviewUrl()
+    {
+        return previewUrl;
+    }
+
+    public void setPreviewUrl(String previewUrl)
+    {
+        this.previewUrl = previewUrl;
     }
 }

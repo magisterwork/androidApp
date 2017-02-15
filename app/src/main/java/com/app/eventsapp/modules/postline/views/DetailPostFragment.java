@@ -2,10 +2,6 @@ package com.app.eventsapp.modules.postline.views;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
@@ -22,20 +18,37 @@ import com.app.eventsapp.core.base.NavigationDrawerActivity;
 import com.app.eventsapp.core.cache.PostCacheUtils;
 import com.app.eventsapp.core.managers.PicassoImageManager;
 import com.app.eventsapp.modules.postline.models.Post;
+import com.app.eventsapp.modules.postline.presenters.DetailPostPresenterImpl;
 import com.app.eventsapp.utils.DateTimeHelper;
 import com.app.eventsapp.utils.PostUtils;
+import com.app.eventsapp.utils.ViewUtils;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
+
+import javax.inject.Inject;
+
 
 /**
  * Created by Grigory Kalyashov on 13.11.2016.
  *
  * Фрагмент для детальной информации о посте
  */
-public class DetailPostFragment extends DetailFragmentBase implements DetailPostFragmentView
+public class DetailPostFragment extends BaseFragment implements DetailPostFragmentView, OnMapReadyCallback
 {
     public static String FRAGMENT_TAG = "DetailPostFragment";
+
+    @Inject
+    public DetailPostPresenterImpl presenter = new DetailPostPresenterImpl();
+
+    private GoogleMap map;
+    private Post currentPost;
 
     public DetailPostFragment()
     {
@@ -56,20 +69,16 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
         super.onCreateView(inflater, container, savedInstanceState);
 
         initToolbar();
-        initFAB();
 
         Long postId = this.getArguments().getLong(PostUtils.postIdBundleKey);
-        // TODO если поста нет в кеше
-        Post post = PostCacheUtils.getPostFromCache(postId);
 
-        setPostDetails(rootView, post);
+        currentPost = PostCacheUtils.getPostFromCache(postId);
+
+        setPostDetails(rootView, currentPost);
+
+        initMap();
 
         return rootView;
-    }
-
-    public void onBackPressed(FragmentActivity activity)
-    {
-
     }
 
     private void setPostDetails(View view, Post post)
@@ -78,19 +87,32 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
         ImageView poster = (ImageView) view.findViewById(R.id.detail_post_poster);
         TextView address = (TextView) view.findViewById(R.id.detail_post_address);
         TextView description = (TextView) view.findViewById(R.id.detail_post_description);
-        TextView beginTime = (TextView) view.findViewById(R.id.detail_post_begin_time);
-        TextView endTime = (TextView) view.findViewById(R.id.detail_post_end_time);
+        TextView date = (TextView) view.findViewById(R.id.detail_post_date);
 
         postTitle.setText(post.getName());
-        address.setText(post.getAddress().toString());
-        description.setText(post.getDescription());
-        beginTime.setText(DateTimeHelper.formatEventDate(post.getBeginTime()));
-        endTime.setText(DateTimeHelper.formatEventDate(post.getBeginTime()));
+        ViewUtils.hideTextViewIfNoText(post.getPlace().toString(), address);
+        ViewUtils.hideTextViewIfNoText(post.getDescription(), description);
 
-        String posterURL = post.getImageUrl();
+        String dateTime = DateTimeHelper.formatDateWithPeriod(post.getBeginTime(), post.getEndTime());
 
-        if (!StringUtils.isEmpty(posterURL))
-            PicassoImageManager.getInstance().loadResource(posterURL, poster, Picasso.Priority.HIGH);
+        date.setText(dateTime);
+
+        final String previewUrl = post.getPreviewUrl();
+        final String fullImageUrl = post.getImageUrl();
+
+        if (!StringUtils.isEmpty(previewUrl))
+        {
+            PicassoImageManager.getInstance().loadResource(previewUrl, poster, Picasso.Priority.HIGH);
+        }
+
+        poster.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                presenter.showFullEventImage(context, fullImageUrl);
+            }
+        });
     }
 
     private void initToolbar()
@@ -127,15 +149,34 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
 
     }
 
-    private void initFAB()
+    private void initMap()
     {
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Добавить в избранное", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
+                .findFragmentById(R.id.map);
+
+        if(currentPost.getPlace().hasCoordinates())
+        {
+            mapFragment.onLowMemory();
+            mapFragment.getMapAsync(this);
+        }
+        else
+        {
+            View mapView = rootView.findViewById(R.id.detail_map);
+            ViewUtils.hideView(mapView);
+        }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap)
+    {
+        map = googleMap;
+
+        Double latitude = currentPost.getPlace().getLatitude();
+        Double longitude = currentPost.getPlace().getLongitude();
+
+        LatLng place = new LatLng(latitude, longitude);
+        map.getUiSettings().setAllGesturesEnabled(false);
+        map.addMarker(new MarkerOptions().position(place).title(currentPost.getName()));
+        map.moveCamera( CameraUpdateFactory.newLatLngZoom(place , 17.0f) );
     }
 }

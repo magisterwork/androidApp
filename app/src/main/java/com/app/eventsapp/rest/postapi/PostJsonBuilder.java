@@ -1,5 +1,6 @@
-package com.app.eventsapp.rest;
+package com.app.eventsapp.rest.postapi;
 
+import com.app.eventsapp.rest.adapters.DateTimeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
