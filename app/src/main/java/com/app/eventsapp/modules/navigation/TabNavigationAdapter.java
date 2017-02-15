@@ -31,7 +31,7 @@ public class TabNavigationAdapter extends FragmentPagerAdapter
     @Override
     public Fragment getItem(int position)
     {
-        Fragment fragment = null;
+        Fragment fragment;
 
         switch (position)
         {

@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.app.eventsapp.R;
 import com.app.eventsapp.core.base.BaseFragment;
+import com.app.eventsapp.core.base.DetailFragmentBase;
+import com.app.eventsapp.core.base.NavigationDrawerActivity;
 import com.app.eventsapp.core.cache.PostCacheUtils;
 import com.app.eventsapp.core.managers.PicassoImageManager;
 import com.app.eventsapp.modules.postline.models.Post;
@@ -69,6 +71,7 @@ public class DetailPostFragment extends BaseFragment implements DetailPostFragme
         initToolbar();
 
         Long postId = this.getArguments().getLong(PostUtils.postIdBundleKey);
+
         currentPost = PostCacheUtils.getPostFromCache(postId);
 
         setPostDetails(rootView, currentPost);
