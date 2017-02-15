@@ -40,7 +40,7 @@ import javax.inject.Inject;
  *
  * Фрагмент для детальной информации о посте
  */
-public class DetailPostFragment extends BaseFragment implements DetailPostFragmentView, OnMapReadyCallback
+public class DetailPostFragment extends DetailFragmentBase implements DetailPostFragmentView, OnMapReadyCallback
 {
     public static String FRAGMENT_TAG = "DetailPostFragment";
 

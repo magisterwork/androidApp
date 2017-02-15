@@ -99,6 +99,7 @@ public class MainActivity extends BaseActivity implements MainActivityView,
                     }
                 });
 
+        navigationView.setCheckedItem(R.id.nav_feed);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 

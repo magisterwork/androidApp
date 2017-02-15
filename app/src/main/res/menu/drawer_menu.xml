@@ -4,22 +4,17 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_feed"
-            android:icon="@android:drawable/ic_delete"
+            android:icon="@drawable/ic_event_note_black_24dp"
             android:title="@string/feed" />
 
         <item
             android:id="@+id/nav_liked"
-            android:icon="@android:drawable/ic_delete"
+            android:icon="@drawable/ic_bookmark_border_black_24dp"
             android:title="@string/liked" />
 
         <item
-            android:id="@+id/nav_search"
-            android:icon="@android:drawable/ic_delete"
-            android:title="@string/search" />
-
-        <item
             android:id="@+id/nav_settings"
-            android:icon="@android:drawable/ic_delete"
+            android:icon="@drawable/ic_settings_black_24dp"
             android:title="@string/settings" />
 
     </group>
