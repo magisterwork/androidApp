@@ -83,7 +83,7 @@ public class PostLinePresenterImpl implements PostLinePresenter
     //TODO стоит вынести всю логику с пагинацией, запросами в отдельный класс
     // offset нужно увеличивать на кол-во полученных событий ?
     // иногда посылаем запрос дважды с одинаковыми параметрами, почему? (срабатывает onLoadMore слушатель)
-    private void sendPostRequest(int postsOffset, int count, boolean isNeedShowProgressBar)
+    private void sendPostRequest(int postsOffset, final int count, boolean isNeedShowProgressBar)
     {
         if(postsOffset <= totalItemsCount)
         {
@@ -114,6 +114,7 @@ public class PostLinePresenterImpl implements PostLinePresenter
                 }
             }, postsOffset, count);
 
+            //TODO offset стоит увеличивать только в случае удачной загрузки
             offset+=count;
         }
     }

@@ -43,7 +43,7 @@ public class DetailPostFragment extends BaseFragment implements DetailPostFragme
     public static String FRAGMENT_TAG = "DetailPostFragment";
 
     @Inject
-    public DetailPostPresenterImpl presenter;
+    public DetailPostPresenterImpl presenter = new DetailPostPresenterImpl();
 
     private GoogleMap map;
     private Post currentPost;
@@ -158,7 +158,8 @@ public class DetailPostFragment extends BaseFragment implements DetailPostFragme
         }
         else
         {
-            ViewUtils.hideView(mapFragment.getView());
+            View mapView = rootView.findViewById(R.id.detail_map);
+            ViewUtils.hideView(mapView);
         }
     }
 

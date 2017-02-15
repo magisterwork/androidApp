@@ -13,6 +13,8 @@ import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
 
+import javax.inject.Inject;
+
 import uk.co.senab.photoview.PhotoView;
 
 /**
@@ -21,6 +23,10 @@ import uk.co.senab.photoview.PhotoView;
 public class DetailPostPresenterImpl implements DetailPostPresenter
 {
     private DetailPostFragmentView view;
+
+    @Inject
+    public DetailPostPresenterImpl()
+    {}
 
     @Override
     public void init(DetailPostFragmentView view)
