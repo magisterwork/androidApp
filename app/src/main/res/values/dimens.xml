@@ -15,4 +15,10 @@
     <dimen name="one_half_margin">24dp</dimen>
     <dimen name="margin_text">10dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
+    <dimen name="postline_margin">8dp</dimen>
+    <dimen name="card_margin">8dp</dimen>
+
+    <dimen name="small_margin">8dp</dimen>
+    <dimen name="medium_margin">16dp</dimen>
+    <dimen name="big_margin">16dp</dimen>
 </resources>
