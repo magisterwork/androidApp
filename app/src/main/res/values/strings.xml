@@ -23,4 +23,7 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
+    <string name="common_signin_button_text">Войти</string>
+    <string name="not_now">Не сейчас</string>
+    <string name="need_to_login">Необходима авторизация</string>
 </resources>

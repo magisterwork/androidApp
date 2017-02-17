@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/postRecyclerView"
             android:scrollbars="vertical"
-            android:background="@color/colorGrey"
+            android:background="@color/colorGray"
             android:clipToPadding="false"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 

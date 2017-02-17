@@ -3,10 +3,13 @@ package com.app.eventsapp;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.app.eventsapp.core.app.EventsApp;
 import com.app.eventsapp.core.base.BaseActivity;
@@ -18,7 +21,10 @@ import com.app.eventsapp.core.di.components.MainActivityComponent;
 import com.app.eventsapp.core.di.modules.MainActivityModule;
 import com.app.eventsapp.core.mvp.main.MainActivityPresenterImpl;
 import com.app.eventsapp.core.mvp.main.MainActivityView;
+import com.app.eventsapp.modules.auth.AuthFragment;
 import com.app.eventsapp.modules.navigation.ContentFragment;
+import com.app.eventsapp.modules.postline.views.DetailPostFragment;
+import com.app.eventsapp.utils.PostUtils;
 
 import javax.inject.Inject;
 
@@ -101,6 +107,31 @@ public class MainActivity extends BaseActivity implements MainActivityView,
 
         navigationView.setCheckedItem(R.id.nav_feed);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+        ImageView profileImage = (ImageView) navigationView.getHeaderView(0)
+                .findViewById(R.id.profile_image);
+
+        profileImage.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                AuthFragment authFragment = (AuthFragment)
+                        fragmentManager.findFragmentByTag("AuthFragment");
+
+                if (authFragment == null)
+                {
+                    authFragment = new AuthFragment();
+                }
+
+
+                fragmentManager.beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .replace(FRAGMENT_CONTAINER, authFragment)
+                        .addToBackStack(AuthFragment.FRAGMENT_TAG)
+                        .commit();
+            }
+        });
     }
 
     @Override
