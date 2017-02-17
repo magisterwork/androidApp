@@ -17,24 +17,18 @@ import retrofit2.http.Query;
 public interface PostAPI
 {
     /**
-     * @return список постов
-     */
-    @GET("events/api/list")
-    Call<List<Post>> getPosts();
-
-    /**
      * Получить список событий
      * @param offset сдвиг
      * @param count количество событий
      * @return список
      */
-    @GET("events/api/list")
+    @GET("events/list")
     Call<List<Post>> getPosts(@Query("offset") int offset, @Query("count") int count);
 
     /**
      * @param id - id события
      * @return пост
      */
-    @GET("events/api/get/{id}")
+    @GET("get/{id}")
     Call<Post> getPost(@Path("id") Long id);
 }

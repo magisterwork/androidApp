@@ -22,7 +22,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class PostService extends RestService
 {
-    private static final String SERVER_ENDPOINT = "http://185.159.130.67:8080/eventsApi/";
+    private static final String VERSION_API = "v1/";
+    private static final String SERVER_ENDPOINT = "http://185.159.130.67:8080/api/" + VERSION_API;
 
     @Inject
     public PostService()
