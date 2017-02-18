@@ -3,6 +3,7 @@ package com.app.eventsapp.core.di.components;
 import com.app.eventsapp.MainActivity;
 import com.app.eventsapp.core.di.modules.MainActivityModule;
 import com.app.eventsapp.core.di.scopes.ActivityScope;
+import com.app.eventsapp.modules.postline.views.DetailPostFragment;
 import com.app.eventsapp.modules.postline.views.PostLineFragment;
 
 import dagger.Component;
@@ -19,4 +20,5 @@ public interface MainActivityComponent
 {
     void inject(MainActivity activity);
     void inject(PostLineFragment postLineFragment);
+    void inject(DetailPostFragment detailPostFragment);
 }

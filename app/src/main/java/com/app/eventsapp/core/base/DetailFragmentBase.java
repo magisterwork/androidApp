@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 
 /**
  * Created by Grigory Kalyashov on 21.01.2017.
+ *
+ * Фрагмент без боковой навигации
  */
 public abstract class DetailFragmentBase extends BaseFragment
 {

@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.app.eventsapp.R;
 import com.app.eventsapp.core.base.BaseFragment;
 import com.app.eventsapp.core.base.DetailFragmentBase;
-import com.app.eventsapp.core.base.NavigationDrawerActivity;
 import com.app.eventsapp.core.cache.PostCacheUtils;
 import com.app.eventsapp.core.managers.PicassoImageManager;
 import com.app.eventsapp.modules.postline.models.Post;
@@ -44,6 +43,7 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
 {
     public static String FRAGMENT_TAG = "DetailPostFragment";
 
+    //TODO почему-то не инжектится презентер
     @Inject
     public DetailPostPresenterImpl presenter = new DetailPostPresenterImpl();
 
@@ -53,6 +53,13 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
     public DetailPostFragment()
     {
         super();
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        presenter.init(this);
     }
 
     @NonNull

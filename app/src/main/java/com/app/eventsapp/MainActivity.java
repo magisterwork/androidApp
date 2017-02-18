@@ -21,10 +21,8 @@ import com.app.eventsapp.core.di.components.MainActivityComponent;
 import com.app.eventsapp.core.di.modules.MainActivityModule;
 import com.app.eventsapp.core.mvp.main.MainActivityPresenterImpl;
 import com.app.eventsapp.core.mvp.main.MainActivityView;
-import com.app.eventsapp.modules.auth.AuthFragment;
+import com.app.eventsapp.modules.auth.views.AuthFragment;
 import com.app.eventsapp.modules.navigation.ContentFragment;
-import com.app.eventsapp.modules.postline.views.DetailPostFragment;
-import com.app.eventsapp.utils.PostUtils;
 
 import javax.inject.Inject;
 
@@ -148,6 +146,9 @@ public class MainActivity extends BaseActivity implements MainActivityView,
     @Override
     public void setDrawerLockMode()
     {
-        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        if(drawerLayout != null)
+        {
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        }
     }
 }
