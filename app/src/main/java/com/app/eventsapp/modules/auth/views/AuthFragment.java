@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.app.eventsapp.R;
 import com.app.eventsapp.core.base.DetailFragmentBase;
+import com.app.eventsapp.modules.auth.presenters.AuthPresenterImpl;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -19,6 +20,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+
+import javax.inject.Inject;
 
 import static com.makeramen.roundedimageview.RoundedDrawable.TAG;
 
@@ -30,6 +33,9 @@ import static com.makeramen.roundedimageview.RoundedDrawable.TAG;
 public class AuthFragment extends DetailFragmentBase implements AuthFragmentView,
         GoogleApiClient.OnConnectionFailedListener
 {
+    @Inject
+    public AuthPresenterImpl presenter;
+
     public static String FRAGMENT_TAG = "AuthFragment";
     private final int SIGN_IN_REQUEST_CODE = 120;
 
@@ -39,6 +45,13 @@ public class AuthFragment extends DetailFragmentBase implements AuthFragmentView
     {
         rootView = inflater.inflate(R.layout.auth_fragment, container, false);
         return rootView;
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        presenter.init(this);
     }
 
     @Override
