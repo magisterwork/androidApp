@@ -30,7 +30,7 @@ public class AuthService extends RestService
     public void validateGoogleToken(String googleToken, RequestListener<ResponseBody> requestListener)
     {
         AuthAPI authAPI = buildRetrofit().create(AuthAPI.class);
-        Call<ResponseBody> call = authAPI.validateGoogleToken(googleToken);
+        Call<ResponseBody> call = authAPI.validateGoogleToken(new GoogleToken(googleToken));
         call.enqueue(new RequestCallback<>(requestListener));
     }
 }

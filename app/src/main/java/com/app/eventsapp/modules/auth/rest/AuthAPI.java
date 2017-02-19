@@ -2,8 +2,7 @@ package com.app.eventsapp.modules.auth.rest;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 /**
@@ -19,7 +18,6 @@ public interface AuthAPI
      * @param gtoken google токен
      * @return ответ, содержащий токен, сгенерированный сервером
      */
-    @FormUrlEncoded
     @POST("auth/google/validate")
-    Call<ResponseBody> validateGoogleToken(@Field("gtoken") String gtoken);
+    Call<ResponseBody> validateGoogleToken(@Body GoogleToken gtoken);
 }

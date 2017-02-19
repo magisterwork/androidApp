@@ -24,8 +24,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import javax.inject.Inject;
 
-import static com.makeramen.roundedimageview.RoundedDrawable.TAG;
-
 /**
  * Created by Grigory Kalyashov on 16.02.2017.
  *
@@ -113,7 +111,7 @@ public class AuthFragment extends DetailFragmentBase implements AuthFragmentView
 
     private void handleSignInResult(GoogleSignInResult result)
     {
-        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+        Log.d(FRAGMENT_TAG, "handleSignInResult:" + result.isSuccess());
 
         if (result.isSuccess())
         {

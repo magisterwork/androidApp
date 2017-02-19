@@ -17,6 +17,7 @@ public abstract class RestService
     {
         return new Retrofit.Builder()
                 .baseUrl(SERVER_ENDPOINT)
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
 
