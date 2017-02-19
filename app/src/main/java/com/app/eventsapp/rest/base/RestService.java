@@ -1,6 +1,6 @@
 package com.app.eventsapp.rest.base;
 
-import com.app.eventsapp.rest.postapi.PostJsonBuilder;
+import com.google.gson.Gson;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -10,11 +10,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public abstract class RestService
 {
-    protected static Retrofit buildRetrofit(String serverApiUrl)
+    private static final String VERSION_API = "v1/";
+    private static final String SERVER_ENDPOINT = "http://185.159.130.67:8080/api/" + VERSION_API;
+
+    protected static Retrofit buildRetrofit()
     {
         return new Retrofit.Builder()
-                .baseUrl(serverApiUrl)
-                .addConverterFactory(GsonConverterFactory.create(PostJsonBuilder.buildPostGson()))
+                .baseUrl(SERVER_ENDPOINT)
+                .build();
+    }
+
+    protected static Retrofit buildRetrofit(Gson gson)
+    {
+        return new Retrofit.Builder()
+                .baseUrl(SERVER_ENDPOINT)
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
     }
 }

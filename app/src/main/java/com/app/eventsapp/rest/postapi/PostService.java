@@ -12,8 +12,6 @@ import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Grigory Kalyashov on 04.11.2016.
@@ -22,9 +20,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class PostService extends RestService
 {
-    private static final String VERSION_API = "v1/";
-    private static final String SERVER_ENDPOINT = "http://185.159.130.67:8080/api/" + VERSION_API;
-
     @Inject
     public PostService()
     {}
@@ -56,7 +51,7 @@ public class PostService extends RestService
     private void sendPostRequest(RequestListener<List<Post>> requestListener,
                                  int offset, int count)
     {
-        PostAPI postAPI = buildRetrofit(SERVER_ENDPOINT).create(PostAPI.class);
+        PostAPI postAPI = buildRetrofit(PostJsonBuilder.buildPostGson()).create(PostAPI.class);
         Call<List<Post>> call = postAPI.getPosts(offset, count);
         call.enqueue(new PostRequestCallback<>(requestListener));
     }
