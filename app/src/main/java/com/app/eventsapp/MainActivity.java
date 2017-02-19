@@ -3,7 +3,6 @@ package com.app.eventsapp;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -25,7 +24,6 @@ import com.app.eventsapp.core.mvp.main.MainActivityPresenterImpl;
 import com.app.eventsapp.core.mvp.main.MainActivityView;
 import com.app.eventsapp.modules.auth.models.User;
 import com.app.eventsapp.modules.auth.session.UserSessionManager;
-import com.app.eventsapp.modules.auth.views.AuthFragment;
 import com.app.eventsapp.modules.navigation.ContentFragment;
 import com.squareup.picasso.Picasso;
 
@@ -124,20 +122,7 @@ public class MainActivity extends BaseActivity implements MainActivityView,
             @Override
             public void onClick(View view)
             {
-                AuthFragment authFragment = (AuthFragment)
-                        fragmentManager.findFragmentByTag("AuthFragment");
-
-                if (authFragment == null)
-                {
-                    authFragment = new AuthFragment();
-                }
-
-
-                fragmentManager.beginTransaction()
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .replace(FRAGMENT_CONTAINER, authFragment)
-                        .addToBackStack(AuthFragment.FRAGMENT_TAG)
-                        .commit();
+                presenter.onProfileImageClick(fragmentManager, userSessionManager);
             }
         });
 

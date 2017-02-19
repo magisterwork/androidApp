@@ -1,6 +1,15 @@
 package com.app.eventsapp.core.mvp.main;
 
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+
+import com.app.eventsapp.modules.auth.session.UserSessionManager;
+import com.app.eventsapp.modules.auth.views.AuthFragment;
+import com.app.eventsapp.modules.auth.views.UserProfileFragment;
+
 import javax.inject.Inject;
+
+import static com.app.eventsapp.MainActivity.FRAGMENT_CONTAINER;
 
 /**
  * Created by Grigory Kalyashov on 30.10.2016.
@@ -16,7 +25,39 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
     }
 
     @Override
-    public void onBackPressed() {
+    public void onProfileImageClick(FragmentManager fragmentManager, UserSessionManager userSessionManager)
+    {
+        if(userSessionManager.isUserLoggedIn())
+        {
+            UserProfileFragment userProfileFragment = (UserProfileFragment)
+                    fragmentManager.findFragmentByTag(UserProfileFragment.FRAGMENT_TAG);
 
+            if (userProfileFragment == null)
+            {
+                userProfileFragment = new UserProfileFragment();
+            }
+
+            fragmentManager.beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .replace(FRAGMENT_CONTAINER, userProfileFragment)
+                    .addToBackStack(AuthFragment.FRAGMENT_TAG)
+                    .commit();
+        }
+        else
+        {
+            AuthFragment authFragment = (AuthFragment)
+                    fragmentManager.findFragmentByTag(AuthFragment.FRAGMENT_TAG);
+
+            if (authFragment == null)
+            {
+                authFragment = new AuthFragment();
+            }
+
+            fragmentManager.beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .replace(FRAGMENT_CONTAINER, authFragment)
+                    .addToBackStack(AuthFragment.FRAGMENT_TAG)
+                    .commit();
+        }
     }
 }

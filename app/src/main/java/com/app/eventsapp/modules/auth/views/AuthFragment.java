@@ -13,9 +13,9 @@ import android.widget.Toast;
 import com.app.eventsapp.R;
 import com.app.eventsapp.core.base.DetailFragmentBase;
 import com.app.eventsapp.modules.auth.presenters.AuthPresenterImpl;
+import com.app.eventsapp.modules.auth.util.GoogleApiClientUtil;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
@@ -39,6 +39,8 @@ public class AuthFragment extends DetailFragmentBase implements AuthFragmentView
     public static String FRAGMENT_TAG = "AuthFragment";
     private final int SIGN_IN_REQUEST_CODE = 120;
 
+    private GoogleApiClient googleApiClient;
+
     @NonNull
     @Override
     protected View initRootView(LayoutInflater inflater, ViewGroup container)
@@ -59,14 +61,8 @@ public class AuthFragment extends DetailFragmentBase implements AuthFragmentView
     {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.server_client_id))
-                .build();
-
-        final GoogleApiClient mGoogleApiClient = new GoogleApiClient.Builder(context)
-                .enableAutoManage(context, this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
+        googleApiClient = GoogleApiClientUtil
+                .getGoogleApiClient(context, getString(R.string.server_client_id), this);
 
         SignInButton signInButton = (SignInButton) rootView.findViewById(R.id.sign_in_button);
         Button skipSignInButton = (Button) rootView.findViewById(R.id.skip_sign_in_button);
@@ -76,7 +72,7 @@ public class AuthFragment extends DetailFragmentBase implements AuthFragmentView
             @Override
             public void onClick(View view)
             {
-                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
                 startActivityForResult(signInIntent, SIGN_IN_REQUEST_CODE);
             }
         });
@@ -126,5 +122,13 @@ public class AuthFragment extends DetailFragmentBase implements AuthFragmentView
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult)
     {
         Toast.makeText(context,getString(R.string.auth_failure), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        googleApiClient.stopAutoManage(context);
+        googleApiClient.disconnect();
     }
 }
