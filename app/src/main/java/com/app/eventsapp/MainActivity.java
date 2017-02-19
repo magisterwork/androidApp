@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.app.eventsapp.core.app.EventsApp;
 import com.app.eventsapp.core.base.BaseActivity;
@@ -19,10 +20,14 @@ import com.app.eventsapp.core.di.components.DaggerMainActivityComponent;
 import com.app.eventsapp.core.di.components.EventsAppComponent;
 import com.app.eventsapp.core.di.components.MainActivityComponent;
 import com.app.eventsapp.core.di.modules.MainActivityModule;
+import com.app.eventsapp.core.managers.PicassoImageManager;
 import com.app.eventsapp.core.mvp.main.MainActivityPresenterImpl;
 import com.app.eventsapp.core.mvp.main.MainActivityView;
+import com.app.eventsapp.modules.auth.models.User;
+import com.app.eventsapp.modules.auth.session.UserSessionManager;
 import com.app.eventsapp.modules.auth.views.AuthFragment;
 import com.app.eventsapp.modules.navigation.ContentFragment;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -38,6 +43,7 @@ public class MainActivity extends BaseActivity implements MainActivityView,
     private FragmentManager fragmentManager;
     private ActionBarDrawerToggle drawerToggle;
     private DrawerLayout drawerLayout;
+    private UserSessionManager userSessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +66,7 @@ public class MainActivity extends BaseActivity implements MainActivityView,
                     .commit();
         }
 
+        userSessionManager = new UserSessionManager(getApplicationContext());
     }
 
     @Override
@@ -109,6 +116,9 @@ public class MainActivity extends BaseActivity implements MainActivityView,
         ImageView profileImage = (ImageView) navigationView.getHeaderView(0)
                 .findViewById(R.id.profile_image);
 
+        TextView userName = (TextView) navigationView.getHeaderView(0).
+                findViewById(R.id.username);
+
         profileImage.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -130,6 +140,20 @@ public class MainActivity extends BaseActivity implements MainActivityView,
                         .commit();
             }
         });
+
+        if(userSessionManager.isUserLoggedIn())
+        {
+            User currentUser = userSessionManager.getUserData();
+            String userPhotoUrl = currentUser.getPhotoUrl();
+
+            if(userPhotoUrl != null)
+            {
+                PicassoImageManager.getInstance()
+                        .loadResource(userPhotoUrl, profileImage, Picasso.Priority.HIGH);
+            }
+
+            userName.setText(currentUser.getFullName());
+        }
     }
 
     @Override
