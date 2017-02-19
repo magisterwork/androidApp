@@ -34,7 +34,7 @@ public class AuthFragment extends DetailFragmentBase implements AuthFragmentView
         GoogleApiClient.OnConnectionFailedListener
 {
     @Inject
-    public AuthPresenterImpl presenter;
+    public AuthPresenterImpl presenter = new AuthPresenterImpl();
 
     public static String FRAGMENT_TAG = "AuthFragment";
     private final int SIGN_IN_REQUEST_CODE = 120;
@@ -97,8 +97,6 @@ public class AuthFragment extends DetailFragmentBase implements AuthFragmentView
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == SIGN_IN_REQUEST_CODE)
         {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
@@ -106,24 +104,27 @@ public class AuthFragment extends DetailFragmentBase implements AuthFragmentView
         }
     }
 
-    private void handleSignInResult(GoogleSignInResult result) {
+    private void handleSignInResult(GoogleSignInResult result)
+    {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
 
         if (result.isSuccess())
         {
-            GoogleSignInAccount acct = result.getSignInAccount();
-            Toast.makeText(context,acct.getDisplayName() + acct.getIdToken(), Toast.LENGTH_LONG).show();
+            GoogleSignInAccount account = result.getSignInAccount();
+            presenter.saveUserData(account, context);
         }
         else
         {
             Toast.makeText(context,getString(R.string.auth_failure), Toast.LENGTH_LONG).show();
         }
+
+        getFragmentManager().popBackStack();
     }
 
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult)
     {
-
+        Toast.makeText(context,getString(R.string.auth_failure), Toast.LENGTH_LONG).show();
     }
 }

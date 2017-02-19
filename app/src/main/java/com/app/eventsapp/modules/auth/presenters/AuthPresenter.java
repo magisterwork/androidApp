@@ -1,5 +1,7 @@
 package com.app.eventsapp.modules.auth.presenters;
 
+import android.content.Context;
+
 import com.app.eventsapp.core.base.BaseFragmentPresenter;
 import com.app.eventsapp.modules.auth.views.AuthFragmentView;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -10,5 +12,5 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 public interface AuthPresenter extends BaseFragmentPresenter<AuthFragmentView>
 {
-    void saveUserData(GoogleSignInAccount account);
+    void saveUserData(GoogleSignInAccount account, Context context);
 }
