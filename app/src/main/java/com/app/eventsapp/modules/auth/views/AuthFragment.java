@@ -14,6 +14,7 @@ import com.app.eventsapp.R;
 import com.app.eventsapp.core.base.DetailFragmentBase;
 import com.app.eventsapp.modules.auth.presenters.AuthPresenterImpl;
 import com.app.eventsapp.modules.auth.util.GoogleApiClientUtil;
+import com.app.eventsapp.utils.NetworkUtil;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
@@ -41,6 +42,9 @@ public class AuthFragment extends DetailFragmentBase implements AuthFragmentView
 
     private GoogleApiClient googleApiClient;
 
+    public AuthFragment()
+    {}
+
     @NonNull
     @Override
     protected View initRootView(LayoutInflater inflater, ViewGroup container)
@@ -57,7 +61,7 @@ public class AuthFragment extends DetailFragmentBase implements AuthFragmentView
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container, savedInstanceState);
 
@@ -72,8 +76,15 @@ public class AuthFragment extends DetailFragmentBase implements AuthFragmentView
             @Override
             public void onClick(View view)
             {
-                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-                startActivityForResult(signInIntent, SIGN_IN_REQUEST_CODE);
+                if(NetworkUtil.isInternetAvailable(context))
+                {
+                    Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+                    startActivityForResult(signInIntent, SIGN_IN_REQUEST_CODE);
+                }
+                else
+                {
+                    Toast.makeText(context,getString(R.string.need_internet_connection), Toast.LENGTH_LONG).show();
+                }
             }
         });
 

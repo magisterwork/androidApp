@@ -35,6 +35,7 @@
     <string name="city_label">Город</string>
     <string name="notification_label">Уведомления</string>
 
+    <string name="need_internet_connection">Необходимо подключение к сети Интернет</string>
 
     <string-array name="cities">
         <item>Вологда</item>
