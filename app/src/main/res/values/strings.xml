@@ -26,4 +26,8 @@
     <string name="common_signin_button_text">Войти</string>
     <string name="not_now">Не сейчас</string>
     <string name="need_to_login">Необходима авторизация</string>
+    <string name="auth_failure">Неудачная авторизация</string>
+    
+    
+    <string name="server_client_id">4763853757-hgedrqim8lj2glrnn7gk66c6qreb56uc.apps.googleusercontent.com</string>
 </resources>
