@@ -1,6 +1,8 @@
 package com.app.eventsapp.modules.postline.views;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -8,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,6 +33,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Calendar;
 
 import javax.inject.Inject;
 
@@ -88,7 +93,7 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
         return rootView;
     }
 
-    private void setPostDetails(View view, Post post)
+    private void setPostDetails(View view, final Post post)
     {
         TextView postTitle = (TextView) view.findViewById(R.id.detail_post_title);
         ImageView poster = (ImageView) view.findViewById(R.id.detail_post_poster);
@@ -118,6 +123,24 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
             public void onClick(View v)
             {
                 presenter.showFullEventImage(context, fullImageUrl);
+            }
+        });
+
+        Button addReminder = (Button) rootView.findViewById(R.id.add_reminder);
+
+        addReminder.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(Intent.ACTION_INSERT)
+                        .setData(CalendarContract.Events.CONTENT_URI)
+                        .putExtra(CalendarContract.Events.TITLE, post.getName())
+                        .putExtra(CalendarContract.Events.DESCRIPTION, post.getDescription())
+                        .putExtra(CalendarContract.Events.EVENT_LOCATION, post.getPlace().toString())
+                        .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+
+                startActivity(intent);
             }
         });
     }
