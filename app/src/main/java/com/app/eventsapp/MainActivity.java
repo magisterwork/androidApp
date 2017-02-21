@@ -1,6 +1,7 @@
 package com.app.eventsapp;
 
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -24,6 +25,7 @@ import com.app.eventsapp.core.mvp.main.MainActivityPresenterImpl;
 import com.app.eventsapp.core.mvp.main.MainActivityView;
 import com.app.eventsapp.modules.auth.models.User;
 import com.app.eventsapp.modules.auth.session.UserSessionManager;
+import com.app.eventsapp.modules.auth.views.UserFavoritesFragment;
 import com.app.eventsapp.modules.navigation.ContentFragment;
 import com.squareup.picasso.Picasso;
 
@@ -99,10 +101,49 @@ public class MainActivity extends BaseActivity implements MainActivityView,
         drawerToggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
+                new NavigationView.OnNavigationItemSelectedListener()
+                {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem)
                     {
+                        fragmentManager = getSupportFragmentManager();
+
+                        switch (menuItem.getItemId())
+                        {
+                            case R.id.nav_feed:
+                            {
+                                ContentFragment contentFragment = (ContentFragment)
+                                        fragmentManager.findFragmentByTag("ContentFragment");
+
+                                if (contentFragment == null)
+                                {
+                                    contentFragment = new ContentFragment();
+                                }
+
+                                fragmentManager.beginTransaction()
+                                        .replace(FRAGMENT_CONTAINER, contentFragment)
+                                        .commit();
+
+                                break;
+                            }
+                            case R.id.nav_favorites:
+                            {
+                                UserFavoritesFragment userFavoritesFragment = (UserFavoritesFragment)
+                                        fragmentManager.findFragmentByTag(UserFavoritesFragment.FRAGMENT_TAG);
+
+                                if (userFavoritesFragment == null)
+                                {
+                                    userFavoritesFragment = new UserFavoritesFragment();
+                                }
+
+                                fragmentManager.beginTransaction()
+                                        .replace(FRAGMENT_CONTAINER, userFavoritesFragment)
+                                        .commit();
+
+                                break;
+                            }
+                        }
+
                         drawerLayout.closeDrawers();
                         return true;
                     }

@@ -8,7 +8,7 @@
             android:title="@string/feed" />
 
         <item
-            android:id="@+id/nav_liked"
+            android:id="@+id/nav_favorites"
             android:icon="@drawable/ic_bookmark_border_black_24dp"
             android:title="@string/liked" />
 
