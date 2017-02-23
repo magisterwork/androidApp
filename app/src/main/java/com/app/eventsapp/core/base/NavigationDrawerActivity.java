@@ -6,6 +6,6 @@ import android.support.v7.widget.Toolbar;
  */
 public interface NavigationDrawerActivity
 {
-    void initDrawer(Toolbar toolbar);
+    void initDrawer(Toolbar toolbar, int checkedItem);
     void setDrawerLockMode();
 }

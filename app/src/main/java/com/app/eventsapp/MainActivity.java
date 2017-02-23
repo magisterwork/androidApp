@@ -86,7 +86,7 @@ public class MainActivity extends BaseActivity implements MainActivityView,
     }
 
     @Override
-    public void initDrawer(Toolbar toolbar)
+    public void initDrawer(Toolbar toolbar, int checkedItem)
     {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -149,7 +149,7 @@ public class MainActivity extends BaseActivity implements MainActivityView,
                     }
                 });
 
-        navigationView.setCheckedItem(R.id.nav_feed);
+        navigationView.setCheckedItem(checkedItem);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 
         ImageView profileImage = (ImageView) navigationView.getHeaderView(0)

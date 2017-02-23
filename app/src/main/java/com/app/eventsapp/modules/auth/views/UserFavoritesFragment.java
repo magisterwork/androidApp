@@ -11,13 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.app.eventsapp.R;
-import com.app.eventsapp.core.base.BaseFragment;
+import com.app.eventsapp.core.base.NavigationDrawerFragment;
 
 /**
  * Created by Grigory Kalyashov on 21.02.2017.
+ *
+ * Фрагмент избранных событий пользователя
  */
-
-public class UserFavoritesFragment extends BaseFragment
+public class UserFavoritesFragment extends NavigationDrawerFragment
 {
     public static String FRAGMENT_TAG = "UserFavoritesFragment";
 
@@ -25,6 +26,8 @@ public class UserFavoritesFragment extends BaseFragment
     @Override
     protected View initRootView(LayoutInflater inflater, ViewGroup container)
     {
+        checkedItem = R.id.nav_favorites;
+
         rootView = inflater.inflate(R.layout.favorites_fragment, container, false);
 
         initToolbar();
@@ -34,7 +37,7 @@ public class UserFavoritesFragment extends BaseFragment
 
     private void initToolbar()
     {
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.favorites_toolbar);
+        toolbar = (Toolbar) rootView.findViewById(R.id.favorites_toolbar);
         context.setSupportActionBar(toolbar);
         context.getSupportActionBar().setTitle(getString(R.string.liked));
     }
