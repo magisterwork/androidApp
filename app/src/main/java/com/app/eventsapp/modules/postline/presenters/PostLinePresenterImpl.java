@@ -2,7 +2,7 @@ package com.app.eventsapp.modules.postline.presenters;
 
 import com.app.eventsapp.modules.postline.models.Post;
 import com.app.eventsapp.modules.postline.views.PostLineFragmentView;
-import com.app.eventsapp.rest.postapi.PostService;
+import com.app.eventsapp.rest.postapi.EventsService;
 import com.app.eventsapp.rest.request.RequestListener;
 
 import java.util.List;
@@ -23,12 +23,12 @@ public class PostLinePresenterImpl implements PostLinePresenter
     private final int count = 20;
     private int totalItemsCount = 0;
 
-    private PostService postService;
+    private EventsService eventsService;
 
     @Inject
-    public PostLinePresenterImpl(PostService postService)
+    public PostLinePresenterImpl(EventsService eventsService)
     {
-        this.postService = postService;
+        this.eventsService = eventsService;
     }
 
     @Override
@@ -92,7 +92,7 @@ public class PostLinePresenterImpl implements PostLinePresenter
                 view.showProgressBar();
             }
 
-            postService.getPosts(new RequestListener<List<Post>>() {
+            eventsService.getPosts(new RequestListener<List<Post>>() {
                 @Override
                 public void onSuccess(Call<List<Post>> call, Response<List<Post>> response) {
                     view.hideProgressBar();

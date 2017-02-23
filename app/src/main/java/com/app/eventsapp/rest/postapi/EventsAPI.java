@@ -14,7 +14,7 @@ import retrofit2.http.Query;
  *
  * Интерфейс для получения событий
  */
-public interface PostAPI
+public interface EventsAPI
 {
     /**
      * Получить список событий

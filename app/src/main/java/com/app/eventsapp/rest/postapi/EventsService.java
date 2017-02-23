@@ -18,10 +18,10 @@ import retrofit2.Response;
  *
  * Сервис для получения постов (событий)
  */
-public class PostService extends RestService
+public class EventsService extends RestService
 {
     @Inject
-    public PostService()
+    public EventsService()
     {}
 
     public Post getPost(Long id)
@@ -51,8 +51,8 @@ public class PostService extends RestService
     private void sendPostRequest(RequestListener<List<Post>> requestListener,
                                  int offset, int count)
     {
-        PostAPI postAPI = buildRetrofit(PostJsonBuilder.buildPostGson()).create(PostAPI.class);
-        Call<List<Post>> call = postAPI.getPosts(offset, count);
+        EventsAPI eventsAPI = buildRetrofit(PostJsonBuilder.buildPostGson()).create(EventsAPI.class);
+        Call<List<Post>> call = eventsAPI.getPosts(offset, count);
         call.enqueue(new PostRequestCallback<>(requestListener));
     }
 
