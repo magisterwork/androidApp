@@ -24,6 +24,7 @@ public class UserSessionManager
     public static final String KEY_SECOND_NAME = "second_name";
     public static final String KEY_PROFILE_IMAGE_URL = "profile_image_url";
     public static final String KEY_EMAIL = "email";
+    public static final String KEY_USER_TOKEN = "user_token";
 
     @SuppressLint("CommitPrefEdits")
     public UserSessionManager(Context c)
@@ -77,5 +78,23 @@ public class UserSessionManager
     public boolean isUserLoggedIn()
     {
         return pref.getBoolean(IS_USER_LOGIN, false);
+    }
+
+    /**
+     * @return токен пользователя
+     */
+    public String getUserToken()
+    {
+        return pref.getString(KEY_USER_TOKEN, null);
+    }
+
+    /**
+     * Сохранить токен пользователя
+     * @param userToken - токен с сервера
+     */
+    public void saveUserToken(String userToken)
+    {
+        editor.putString(KEY_USER_TOKEN, userToken);
+        editor.commit();
     }
 }
