@@ -1,5 +1,7 @@
 package com.app.eventsapp.modules.auth.rest;
 
+import com.app.eventsapp.modules.auth.rest.request.GoogleToken;
+import com.app.eventsapp.modules.auth.rest.response.SimpleResponse;
 import com.app.eventsapp.rest.base.RestService;
 import com.app.eventsapp.rest.request.RequestCallback;
 import com.app.eventsapp.rest.request.RequestListener;
@@ -27,10 +29,10 @@ public class AuthService extends RestService
      * @param googleToken google токен
      * @param requestListener слушатель
      */
-    public void validateGoogleToken(String googleToken, RequestListener<ResponseBody> requestListener)
+    public void validateGoogleToken(String googleToken, RequestListener<SimpleResponse> requestListener)
     {
         AuthAPI authAPI = buildRetrofit().create(AuthAPI.class);
-        Call<ResponseBody> call = authAPI.validateGoogleToken(new GoogleToken(googleToken));
+        Call<SimpleResponse> call = authAPI.validateGoogleToken(new GoogleToken(googleToken));
         call.enqueue(new RequestCallback<>(requestListener));
     }
 }

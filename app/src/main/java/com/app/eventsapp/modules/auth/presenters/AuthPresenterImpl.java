@@ -5,6 +5,8 @@ import android.util.Log;
 
 import com.app.eventsapp.modules.auth.models.User;
 import com.app.eventsapp.modules.auth.rest.AuthService;
+import com.app.eventsapp.modules.auth.rest.response.ResponseStatus;
+import com.app.eventsapp.modules.auth.rest.response.SimpleResponse;
 import com.app.eventsapp.modules.auth.session.UserSessionManager;
 import com.app.eventsapp.modules.auth.views.AuthFragmentView;
 import com.app.eventsapp.rest.request.RequestListener;
@@ -47,22 +49,31 @@ public class AuthPresenterImpl implements AuthPresenter
 
         if(!StringUtils.isEmpty(account.getIdToken()))
         {
-            authService.validateGoogleToken(account.getIdToken(), new RequestListener<ResponseBody>()
+            authService.validateGoogleToken(account.getIdToken(), new RequestListener<SimpleResponse>()
             {
                 @Override
-                public void onSuccess(Call<ResponseBody> call, Response<ResponseBody> response)
+                public void onSuccess(Call<SimpleResponse> call, Response<SimpleResponse> response)
                 {
-                    Log.d("Auth","success");
+                    SimpleResponse rs = response.body();
+
+                    if(rs.getStatus().equals(ResponseStatus.SUCCESS))
+                    {
+                        userSessionManager.saveUserToken(rs.getToken());
+                    }
+                    else
+                    {
+                        Log.d("Auth","Unsuccess response");
+                    }
                 }
 
                 @Override
-                public void onErrorResponse(Call<ResponseBody> call, Response<ResponseBody> response)
+                public void onErrorResponse(Call<SimpleResponse> call, Response<SimpleResponse> response)
                 {
                     Log.d("Auth","error response");
                 }
 
                 @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t)
+                public void onFailure(Call<SimpleResponse> call, Throwable t)
                 {
                     Log.d("Auth","fail");
                 }

@@ -1,5 +1,8 @@
 package com.app.eventsapp.modules.auth.rest;
 
+import com.app.eventsapp.modules.auth.rest.request.GoogleToken;
+import com.app.eventsapp.modules.auth.rest.response.SimpleResponse;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -19,5 +22,5 @@ public interface AuthAPI
      * @return ответ, содержащий токен, сгенерированный сервером
      */
     @POST("auth/google/validate")
-    Call<ResponseBody> validateGoogleToken(@Body GoogleToken gtoken);
+    Call<SimpleResponse> validateGoogleToken(@Body GoogleToken gtoken);
 }
