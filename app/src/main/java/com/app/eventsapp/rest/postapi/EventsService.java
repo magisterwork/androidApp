@@ -24,19 +24,9 @@ public class EventsService extends RestService
     public EventsService()
     {}
 
-    public Post getPost(Long id)
+    public void getPost(long id, final RequestListener<Post> requestListener)
     {
-        Post post = PostCacheUtils.getPostFromCache(id);
-
-        if(post != null)
-        {
-            return post;
-        }
-        else
-        {
-            //TODO иначе тянем с сервера
-            return null;
-        }
+        getPostById(requestListener, id);
     }
 
     /**
@@ -53,7 +43,35 @@ public class EventsService extends RestService
     {
         EventsAPI eventsAPI = buildRetrofit(PostJsonBuilder.buildPostGson()).create(EventsAPI.class);
         Call<List<Post>> call = eventsAPI.getPosts(offset, count);
+        call.enqueue(new PostListRequestCallback<>(requestListener));
+    }
+
+    private void getPostById(RequestListener<Post> requestListener, long id)
+    {
+        EventsAPI eventsAPI = buildRetrofit(PostJsonBuilder.buildPostGson()).create(EventsAPI.class);
+        Call<Post> call = eventsAPI.getPost(id);
         call.enqueue(new PostRequestCallback<>(requestListener));
+    }
+
+    private class PostListRequestCallback<T> extends RequestCallback<T>
+    {
+
+        PostListRequestCallback(RequestListener<T> listener)
+        {
+            super(listener);
+        }
+
+        @Override
+        public void onResponse(Call<T> call, Response<T> response)
+        {
+            super.onResponse(call, response);
+
+            if(response.isSuccessful())
+            {
+                PostCacheUtils.addPostsToCache((List<Post>) response.body());
+            }
+
+        }
     }
 
     private class PostRequestCallback<T> extends RequestCallback<T>
@@ -71,7 +89,7 @@ public class EventsService extends RestService
 
             if(response.isSuccessful())
             {
-                PostCacheUtils.addPostsToCache((List<Post>) response.body());
+                PostCacheUtils.addPostToCache((Post) response.body());
             }
 
         }

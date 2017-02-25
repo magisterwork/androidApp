@@ -6,7 +6,6 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -29,6 +28,6 @@ public interface EventsAPI
      * @param id - id события
      * @return пост
      */
-    @GET("get/{id}")
-    Call<Post> getPost(@Path("id") Long id);
+    @GET("events/get")
+    Call<Post> getPost(@Query("id") long id);
 }
