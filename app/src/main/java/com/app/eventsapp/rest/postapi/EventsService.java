@@ -1,6 +1,8 @@
 package com.app.eventsapp.rest.postapi;
 
 import com.app.eventsapp.core.cache.PostCacheUtils;
+import com.app.eventsapp.modules.auth.rest.request.Token;
+import com.app.eventsapp.modules.auth.rest.response.SimpleResponse;
 import com.app.eventsapp.modules.postline.models.Post;
 import com.app.eventsapp.rest.base.RestService;
 import com.app.eventsapp.rest.request.RequestCallback;
@@ -36,6 +38,20 @@ public class EventsService extends RestService
                          int offset, int count)
     {
         sendPostRequest(requestListener, offset, count);
+    }
+
+    public void rateUp(String token, RequestListener<SimpleResponse> requestListener)
+    {
+        EventsAPI eventsAPI = buildRetrofit().create(EventsAPI.class);
+        Call<SimpleResponse> call = eventsAPI.rateUp(new Token(token));
+        call.enqueue(new RequestCallback<>(requestListener));
+    }
+
+    public void rateDown(String token, RequestListener<SimpleResponse> requestListener)
+    {
+        EventsAPI eventsAPI = buildRetrofit().create(EventsAPI.class);
+        Call<SimpleResponse> call = eventsAPI.rateDown(new Token(token));
+        call.enqueue(new RequestCallback<>(requestListener));
     }
 
     private void sendPostRequest(RequestListener<List<Post>> requestListener,

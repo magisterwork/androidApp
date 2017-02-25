@@ -1,11 +1,16 @@
 package com.app.eventsapp.rest.postapi;
 
+import com.app.eventsapp.modules.auth.rest.request.Token;
+import com.app.eventsapp.modules.auth.rest.response.SimpleResponse;
 import com.app.eventsapp.modules.postline.models.Post;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -30,4 +35,20 @@ public interface EventsAPI
      */
     @GET("events/get")
     Call<Post> getPost(@Query("id") long id);
+
+    /**
+     * Повысить рейтинг события
+     * @param token
+     * @return
+     */
+    @POST("events/rateup")
+    Call<SimpleResponse> rateUp(@Body Token token);
+
+    /**
+     * Понизить рейтинг события
+     * @param token
+     * @return
+     */
+    @POST("events/ratedown")
+    Call<SimpleResponse> rateDown(@Body Token token);
 }
