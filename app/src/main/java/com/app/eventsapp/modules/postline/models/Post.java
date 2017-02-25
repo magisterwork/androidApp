@@ -13,13 +13,14 @@ public class Post
     private String name;
     private String description;
     private Place place;
+    private String rate;
     private Calendar beginTime;
     private Calendar endTime;
     private String previewUrl;
     private String imageUrl;
 
     public Post(Long id, String name, String description, Place place, Calendar beginTime,
-                Calendar endTime, String previewUrl, String imageUrl)
+                Calendar endTime, String previewUrl, String imageUrl, String rate)
     {
         this.id = id;
         this.name = name;
@@ -29,6 +30,7 @@ public class Post
         this.endTime = endTime;
         this.previewUrl = previewUrl;
         this.imageUrl = imageUrl;
+        this.rate = rate;
     }
 
     public Long getId()
@@ -109,5 +111,15 @@ public class Post
     public void setPreviewUrl(String previewUrl)
     {
         this.previewUrl = previewUrl;
+    }
+
+    public String getRate()
+    {
+        return rate;
+    }
+
+    public void setRate(String rate)
+    {
+        this.rate = rate;
     }
 }
