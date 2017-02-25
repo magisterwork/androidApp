@@ -1,4 +1,4 @@
-package com.app.eventsapp.modules.auth.rest;
+package com.app.eventsapp.modules.auth.rest.request;
 
 /**
  * Created by Grigory Kalyashov on 19.02.2017.
