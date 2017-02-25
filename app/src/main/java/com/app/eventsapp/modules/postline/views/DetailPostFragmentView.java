@@ -1,5 +1,7 @@
 package com.app.eventsapp.modules.postline.views;
 
+import com.app.eventsapp.modules.postline.models.Post;
+
 /**
  * Created by Grigory Kalyashov on 13.11.2016.
  *
@@ -7,4 +9,30 @@ package com.app.eventsapp.modules.postline.views;
  */
 public interface DetailPostFragmentView
 {
+    /**
+     * Успешное добавление в избранное
+     */
+    void onSuccessfulAddToFavorites();
+
+    /**
+     * Ошибка при добавлении в избранное
+     */
+    void onUnsuccessfulAddToFavorites();
+
+    /**
+     * Установить текущий пост
+     * @param post - текущий пост (событие)
+     */
+    void setCurrentPost(Post post);
+
+    /**
+     * Отобразить детали поста
+     * @param post - пост
+     */
+    void setPostDetails(final Post post);
+
+    /**
+     * Ошибка при получении поста
+     */
+    void onFailureGetPost();
 }

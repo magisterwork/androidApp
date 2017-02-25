@@ -1,6 +1,7 @@
 package com.app.eventsapp.modules.postline.views;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
@@ -13,14 +14,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.eventsapp.R;
 import com.app.eventsapp.core.base.BaseFragment;
 import com.app.eventsapp.core.base.DetailFragmentBase;
 import com.app.eventsapp.core.cache.PostCacheUtils;
 import com.app.eventsapp.core.managers.PicassoImageManager;
+import com.app.eventsapp.modules.auth.session.UserSessionManager;
 import com.app.eventsapp.modules.postline.models.Post;
 import com.app.eventsapp.modules.postline.presenters.DetailPostPresenterImpl;
+import com.app.eventsapp.rest.postapi.EventsService;
 import com.app.eventsapp.utils.DateTimeHelper;
 import com.app.eventsapp.utils.PostUtils;
 import com.app.eventsapp.utils.ViewUtils;
@@ -54,6 +58,7 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
 
     private GoogleMap map;
     private Post currentPost;
+    private UserSessionManager sessionManager;
 
     public DetailPostFragment()
     {
@@ -72,6 +77,11 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
     protected View initRootView(LayoutInflater inflater, ViewGroup container)
     {
         rootView = inflater.inflate(R.layout.detailpost_fragment, container, false);
+
+        presenter.init(this);
+
+        sessionManager = new UserSessionManager(context);
+
         return rootView;
     }
 
@@ -84,22 +94,19 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
 
         Long postId = this.getArguments().getLong(PostUtils.postIdBundleKey);
 
-        currentPost = PostCacheUtils.getPostFromCache(postId);
-
-        setPostDetails(rootView, currentPost);
-
-        initMap();
+        presenter.getPost(postId);
 
         return rootView;
     }
 
-    private void setPostDetails(View view, final Post post)
+    @Override
+    public void setPostDetails(final Post post)
     {
-        TextView postTitle = (TextView) view.findViewById(R.id.detail_post_title);
-        ImageView poster = (ImageView) view.findViewById(R.id.detail_post_poster);
-        TextView address = (TextView) view.findViewById(R.id.detail_post_address);
-        TextView description = (TextView) view.findViewById(R.id.detail_post_description);
-        TextView date = (TextView) view.findViewById(R.id.detail_post_date);
+        TextView postTitle = (TextView) rootView.findViewById(R.id.detail_post_title);
+        ImageView poster = (ImageView)  rootView.findViewById(R.id.detail_post_poster);
+        TextView address = (TextView)  rootView.findViewById(R.id.detail_post_address);
+        TextView description = (TextView)  rootView.findViewById(R.id.detail_post_description);
+        TextView date = (TextView)  rootView.findViewById(R.id.detail_post_date);
 
         postTitle.setText(post.getName());
         ViewUtils.hideTextViewIfNoText(post.getPlace().toString(), address);
@@ -143,6 +150,19 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
                 startActivity(intent);
             }
         });
+
+        Button saveToFavorites = (Button) rootView.findViewById(R.id.add_to_favorites);
+
+        saveToFavorites.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                presenter.saveToFavorites(currentPost.getId(), sessionManager);
+            }
+        });
+
+        initMap();
     }
 
     private void initToolbar()
@@ -208,5 +228,31 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
         map.getUiSettings().setAllGesturesEnabled(false);
         map.addMarker(new MarkerOptions().position(place).title(currentPost.getName()));
         map.moveCamera( CameraUpdateFactory.newLatLngZoom(place , 17.0f) );
+    }
+
+    @Override
+    public void setCurrentPost(Post post)
+    {
+        currentPost = post;
+    }
+
+    @Override
+    public void onSuccessfulAddToFavorites()
+    {
+        Button saveToFavorites = (Button) rootView.findViewById(R.id.add_to_favorites);
+        Drawable icon = getContext().getResources().getDrawable( R.drawable.ic_bookmark_fill);
+        saveToFavorites.setCompoundDrawablesWithIntrinsicBounds( null, icon, null, null);
+    }
+
+    @Override
+    public void onUnsuccessfulAddToFavorites()
+    {
+        Toast.makeText(context, R.string.unsuccessful_add_to_favorires, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onFailureGetPost()
+    {
+        Toast.makeText(context, R.string.error_loading, Toast.LENGTH_SHORT).show();
     }
 }

@@ -166,7 +166,7 @@ public class PostLineFragment extends BaseFragment implements PostLineFragmentVi
         }
         else
         {
-            presenter.addPostsToAdapter(posts);
+            adapter.addPosts(posts);
         }
     }
 

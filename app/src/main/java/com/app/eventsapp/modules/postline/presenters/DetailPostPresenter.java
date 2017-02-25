@@ -10,5 +10,16 @@ import com.app.eventsapp.modules.postline.views.DetailPostFragmentView;
  */
 public interface DetailPostPresenter extends BaseFragmentPresenter<DetailPostFragmentView>
 {
+    /**
+     * Отобразить полное изображение
+     * @param context - конекст
+     * @param fullImageUrl - url изображения
+     */
     void showFullEventImage(Context context, String fullImageUrl);
+
+    /**
+     * Получить пост
+     * @param id - идентификатор
+     */
+    void getPost(long id);
 }
