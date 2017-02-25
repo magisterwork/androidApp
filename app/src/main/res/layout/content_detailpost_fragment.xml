@@ -28,7 +28,35 @@
                 android:fontFamily="sans-serif-medium"
                 android:textColor="@color/colorWhite"
                 android:layout_marginTop="@dimen/margin_text"
-                android:layout_marginLeft="@dimen/horizontal_margin" />
+                android:layout_toLeftOf="@+id/event_rating"
+                android:layout_alignLeft="@+id/detail_post_date"
+                android:layout_alignStart="@+id/detail_post_date" />
+
+            <!-- Рейтинг события -->
+            <TextView
+                android:id="@+id/event_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/colorWhite"
+                android:text="0.0"
+                android:layout_marginRight="42dp"
+                android:layout_marginEnd="42dp"
+                android:layout_marginTop="9dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_action_star_border"
+                android:layout_alignTop="@+id/event_rating"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="1dp"
+                android:layout_marginRight="@dimen/medium_margin"
+                android:layout_marginEnd="@dimen/medium_margin" />
 
             <!-- Дата -->
             <TextView

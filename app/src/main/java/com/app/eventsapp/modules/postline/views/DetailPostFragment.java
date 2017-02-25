@@ -107,10 +107,12 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
         TextView address = (TextView)  rootView.findViewById(R.id.detail_post_address);
         TextView description = (TextView)  rootView.findViewById(R.id.detail_post_description);
         TextView date = (TextView)  rootView.findViewById(R.id.detail_post_date);
+        TextView rating = (TextView) rootView.findViewById(R.id.event_rating);
 
         postTitle.setText(post.getName());
         ViewUtils.hideTextViewIfNoText(post.getPlace().toString(), address);
         ViewUtils.hideTextViewIfNoText(post.getDescription(), description);
+        rating.setText(post.getRate());
 
         String dateTime = DateTimeHelper.formatDateWithPeriod(post.getBeginTime(), post.getEndTime());
 
