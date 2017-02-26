@@ -112,10 +112,10 @@ public class UserFavoritesFragment extends NavigationDrawerFragment implements U
         {
             adapter = new FavoritesAdapter(favorites, context);
             favoritesList.setAdapter(adapter);
-            //recyclerView.setAdapter(adapter);
         }
         else
         {
+            adapter.clear();
             adapter.addPosts(favorites);
         }
     }
