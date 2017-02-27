@@ -1,8 +1,10 @@
 package com.app.eventsapp.modules.auth.rest;
 
 import com.app.eventsapp.modules.auth.rest.request.FavoriteRq;
+import com.app.eventsapp.modules.auth.rest.request.IsFavoriteRq;
 import com.app.eventsapp.modules.auth.rest.request.Token;
 import com.app.eventsapp.modules.auth.rest.response.FavoritesResponse;
+import com.app.eventsapp.modules.auth.rest.response.IsFavoriteResponse;
 import com.app.eventsapp.modules.auth.rest.response.SimpleResponse;
 
 import okhttp3.ResponseBody;
@@ -41,4 +43,13 @@ public interface UserAPI
      */
     @POST("user/favorites/list")
     Call<FavoritesResponse> getFavorites(@Body Token token);
+
+    /**
+     * Проверка находится ли событие в избранном у пользователя
+     *
+     * @param request
+     * @return
+     */
+    @POST("user/favorites/isFavorite")
+    Call<IsFavoriteResponse> isFavorite(@Body IsFavoriteRq request);
 }
