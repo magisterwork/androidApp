@@ -11,6 +11,8 @@ import com.app.eventsapp.core.cache.PostCacheUtils;
 import com.app.eventsapp.core.managers.PicassoImageManager;
 import com.app.eventsapp.modules.auth.rest.UserService;
 import com.app.eventsapp.modules.auth.rest.request.FavoriteRq;
+import com.app.eventsapp.modules.auth.rest.response.FavoritesResponse;
+import com.app.eventsapp.modules.auth.rest.response.IsFavoriteResponse;
 import com.app.eventsapp.modules.auth.rest.response.ResponseStatus;
 import com.app.eventsapp.modules.auth.rest.response.SimpleResponse;
 import com.app.eventsapp.modules.auth.session.UserSessionManager;
@@ -39,7 +41,6 @@ public class DetailPostPresenterImpl implements DetailPostPresenter
 
     private UserService userService = new UserService();
     private EventsService eventsService = new EventsService();
-    private UserSessionManager sessionManager;
 
     @Inject
     public DetailPostPresenterImpl()
@@ -84,8 +85,10 @@ public class DetailPostPresenterImpl implements DetailPostPresenter
     }
 
     @Override
-    public void getPost(long id)
+    public void getPost(long id, final UserSessionManager sessionManager)
     {
+        checkIsFavoriteEvent(id, sessionManager);
+
         Post postFromCache = PostCacheUtils.getPostFromCache(id);
 
         if(postFromCache != null)
@@ -128,6 +131,7 @@ public class DetailPostPresenterImpl implements DetailPostPresenter
         }
     }
 
+    @Override
     public void saveToFavorites(Long eventId, final UserSessionManager sessionManager)
     {
         String userToken = sessionManager.getUserToken();
@@ -161,6 +165,86 @@ public class DetailPostPresenterImpl implements DetailPostPresenter
             public void onFailure(Call<SimpleResponse> call, Throwable t)
             {
                 view.onUnsuccessfulAddToFavorites();
+            }
+        });
+    }
+
+    @Override
+    public void deleteFromFavorites(Long eventId, final UserSessionManager sessionManager)
+    {
+        String userToken = sessionManager.getUserToken();
+
+        userService.removeFavorite(new FavoriteRq(userToken, eventId), new RequestListener<SimpleResponse>()
+        {
+            @Override
+            public void onSuccess(Call<SimpleResponse> call, Response<SimpleResponse> response)
+            {
+                SimpleResponse rs = response.body();
+
+                if(rs.getStatus().equals(ResponseStatus.SUCCESS))
+                {
+                    sessionManager.saveUserToken(rs.getToken());
+                    view.onSuccessfulAddToFavorites();
+                }
+                else
+                {
+                    view.onUnsuccessfulAddToFavorites();
+                }
+
+            }
+
+            @Override
+            public void onErrorResponse(Call<SimpleResponse> call, Response<SimpleResponse> response)
+            {
+                view.onUnsuccessfulAddToFavorites();
+            }
+
+            @Override
+            public void onFailure(Call<SimpleResponse> call, Throwable t)
+            {
+                view.onUnsuccessfulAddToFavorites();
+            }
+        });
+    }
+
+    private void checkIsFavoriteEvent(long id, final UserSessionManager sessionManager)
+    {
+        userService.isFavorite(sessionManager.getUserToken(),id, new RequestListener<IsFavoriteResponse>()
+        {
+            @Override
+            public void onSuccess(Call<IsFavoriteResponse> call, Response<IsFavoriteResponse> response)
+            {
+                IsFavoriteResponse rs = response.body();
+
+                if(rs.getStatus().equals(ResponseStatus.SUCCESS))
+                {
+                    if(rs.isFavorite())
+                    {
+                        view.markEventAsFavorite();
+                    }
+                    else
+                    {
+                        view.markEventAsNotFavorite();
+                    }
+
+                    sessionManager.saveUserToken(rs.getToken());
+                }
+                else
+                {
+                    view.markEventAsNotFavorite();
+                }
+            }
+
+            @Override
+            public void onErrorResponse(Call<IsFavoriteResponse> call, Response<IsFavoriteResponse> response)
+            {
+                view.markEventAsNotFavorite();
+            }
+
+            @Override
+            public void onFailure(Call<IsFavoriteResponse> call, Throwable t)
+            {
+                view.markEventAsNotFavorite();
             }
         });
     }

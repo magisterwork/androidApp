@@ -10,6 +10,16 @@ import com.app.eventsapp.modules.postline.models.Post;
 public interface DetailPostFragmentView
 {
     /**
+     * Отметить событие как "избранное"
+     */
+    void markEventAsFavorite();
+
+    /**
+     * Отметить событие как не "избранное"
+     */
+    void markEventAsNotFavorite();
+
+    /**
      * Успешное добавление в избранное
      */
     void onSuccessfulAddToFavorites();

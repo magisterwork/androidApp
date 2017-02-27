@@ -94,7 +94,7 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
 
         Long postId = this.getArguments().getLong(PostUtils.postIdBundleKey);
 
-        presenter.getPost(postId);
+        presenter.getPost(postId, sessionManager);
 
         return rootView;
     }
@@ -150,17 +150,6 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
                         .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
 
                 startActivity(intent);
-            }
-        });
-
-        Button saveToFavorites = (Button) rootView.findViewById(R.id.add_to_favorites);
-
-        saveToFavorites.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                presenter.saveToFavorites(currentPost.getId(), sessionManager);
             }
         });
 
@@ -239,11 +228,44 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
     }
 
     @Override
+    public void markEventAsFavorite()
+    {
+        Button saveToFavorites = (Button) rootView.findViewById(R.id.add_to_favorites);
+
+        saveToFavorites.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                presenter.deleteFromFavorites(currentPost.getId(), sessionManager);
+            }
+        });
+
+        onSuccessfulAddToFavorites();
+    }
+
+    @Override
+    public void markEventAsNotFavorite()
+    {
+        Button saveToFavorites = (Button) rootView.findViewById(R.id.add_to_favorites);
+
+        saveToFavorites.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                presenter.saveToFavorites(currentPost.getId(), sessionManager);
+            }
+        });
+    }
+
+    @Override
     public void onSuccessfulAddToFavorites()
     {
         Button saveToFavorites = (Button) rootView.findViewById(R.id.add_to_favorites);
         Drawable icon = getContext().getResources().getDrawable( R.drawable.ic_bookmark_fill);
-        saveToFavorites.setCompoundDrawablesWithIntrinsicBounds( null, icon, null, null);
+        icon.setBounds(0,0,50,50);
+        saveToFavorites.setCompoundDrawables( null, icon, null, null);
     }
 
     @Override
