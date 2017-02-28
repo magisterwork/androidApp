@@ -263,9 +263,8 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
     public void onSuccessfulAddToFavorites()
     {
         Button saveToFavorites = (Button) rootView.findViewById(R.id.add_to_favorites);
-        Drawable icon = getContext().getResources().getDrawable( R.drawable.ic_bookmark_fill);
-        icon.setBounds(0,0,50,50);
-        saveToFavorites.setCompoundDrawables( null, icon, null, null);
+        Drawable icon = getContext().getResources().getDrawable(R.drawable.ic_bookmark_fill);
+        saveToFavorites.setCompoundDrawablesWithIntrinsicBounds( null, icon, null, null);
     }
 
     @Override
