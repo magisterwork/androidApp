@@ -17,14 +17,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.eventsapp.R;
-import com.app.eventsapp.core.base.BaseFragment;
 import com.app.eventsapp.core.base.DetailFragmentBase;
-import com.app.eventsapp.core.cache.PostCacheUtils;
 import com.app.eventsapp.core.managers.PicassoImageManager;
 import com.app.eventsapp.modules.auth.session.UserSessionManager;
 import com.app.eventsapp.modules.postline.models.Post;
 import com.app.eventsapp.modules.postline.presenters.DetailPostPresenterImpl;
-import com.app.eventsapp.rest.postapi.EventsService;
 import com.app.eventsapp.utils.DateTimeHelper;
 import com.app.eventsapp.utils.PostUtils;
 import com.app.eventsapp.utils.ViewUtils;
@@ -37,8 +34,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
-
-import java.util.Calendar;
 
 import javax.inject.Inject;
 
@@ -237,7 +232,7 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
             @Override
             public void onClick(View view)
             {
-                presenter.deleteFromFavorites(currentPost.getId(), sessionManager);
+                presenter.removeFavorite(currentPost.getId(), sessionManager);
             }
         });
 
@@ -271,6 +266,20 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
     public void onUnsuccessfulAddToFavorites()
     {
         Toast.makeText(context, R.string.unsuccessful_add_to_favorires, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSuccessfulRemoveFavorite()
+    {
+        Button saveToFavorites = (Button) rootView.findViewById(R.id.add_to_favorites);
+        Drawable icon = getContext().getResources().getDrawable(R.drawable.ic_action_bookmark_border);
+        saveToFavorites.setCompoundDrawablesWithIntrinsicBounds( null, icon, null, null);
+    }
+
+    @Override
+    public void onUnsuccessfulRemoveFavorite()
+    {
+        Toast.makeText(context, R.string.unsuccessful_remove_favorire, Toast.LENGTH_SHORT).show();
     }
 
     @Override

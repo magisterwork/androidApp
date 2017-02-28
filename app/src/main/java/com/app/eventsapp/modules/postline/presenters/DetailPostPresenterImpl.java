@@ -170,7 +170,7 @@ public class DetailPostPresenterImpl implements DetailPostPresenter
     }
 
     @Override
-    public void deleteFromFavorites(Long eventId, final UserSessionManager sessionManager)
+    public void removeFavorite(Long eventId, final UserSessionManager sessionManager)
     {
         String userToken = sessionManager.getUserToken();
 
@@ -184,11 +184,11 @@ public class DetailPostPresenterImpl implements DetailPostPresenter
                 if(rs.getStatus().equals(ResponseStatus.SUCCESS))
                 {
                     sessionManager.saveUserToken(rs.getToken());
-                    view.onSuccessfulAddToFavorites();
+                    view.onSuccessfulRemoveFavorite();
                 }
                 else
                 {
-                    view.onUnsuccessfulAddToFavorites();
+                    view.onUnsuccessfulRemoveFavorite();
                 }
 
             }

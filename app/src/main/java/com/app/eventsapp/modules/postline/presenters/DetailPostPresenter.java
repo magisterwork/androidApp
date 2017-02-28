@@ -38,5 +38,5 @@ public interface DetailPostPresenter extends BaseFragmentPresenter<DetailPostFra
      * @param eventId - идентификатор события
      * @param sessionManager - менеджер сессии
      */
-    void deleteFromFavorites(Long eventId, final UserSessionManager sessionManager);
+    void removeFavorite(Long eventId, final UserSessionManager sessionManager);
 }

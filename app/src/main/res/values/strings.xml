@@ -38,6 +38,7 @@
     <string name="need_internet_connection">Необходимо подключение к сети Интернет</string>
 
     <string name="unsuccessful_add_to_favorires">Не удалось добавить в избранное</string>
+    <string name="unsuccessful_remove_favorire">Не удалось удалить из избранного</string>
     <string name="error_favorites_loading">Не удалось загрузить избранное</string>
 
     <string-array name="cities">

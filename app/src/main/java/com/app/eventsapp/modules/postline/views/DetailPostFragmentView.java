@@ -30,6 +30,16 @@ public interface DetailPostFragmentView
     void onUnsuccessfulAddToFavorites();
 
     /**
+     * Успешное добавление в избранное
+     */
+    void onSuccessfulRemoveFavorite();
+
+    /**
+     * Ошибка при добавлении в избранное
+     */
+    void onUnsuccessfulRemoveFavorite();
+
+    /**
      * Установить текущий пост
      * @param post - текущий пост (событие)
      */
