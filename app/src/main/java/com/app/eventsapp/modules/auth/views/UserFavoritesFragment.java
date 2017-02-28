@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.app.eventsapp.R;
@@ -124,6 +125,20 @@ public class UserFavoritesFragment extends NavigationDrawerFragment implements U
     public void onErrorLoading()
     {
         Toast.makeText(context,R.string.error_favorites_loading, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showProgressBar()
+    {
+        ProgressBar progressBar = (ProgressBar) context.findViewById(R.id.favorites_progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar()
+    {
+        ProgressBar progressBar = (ProgressBar) context.findViewById(R.id.favorites_progress_bar);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     private void openPostDetails(int position)

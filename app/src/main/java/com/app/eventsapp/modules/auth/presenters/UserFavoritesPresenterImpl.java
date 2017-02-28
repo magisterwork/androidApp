@@ -31,6 +31,7 @@ public class UserFavoritesPresenterImpl implements UserFavoritesPresenter
     @Override
     public void onResume(UserSessionManager sessionManager)
     {
+        view.showProgressBar();
         sendFavoritesRequest(sessionManager);
     }
 
@@ -57,18 +58,22 @@ public class UserFavoritesPresenterImpl implements UserFavoritesPresenter
                     {
                         view.onErrorLoading();
                     }
+
+                    view.hideProgressBar();
                 }
 
                 @Override
                 public void onErrorResponse(Call<FavoritesResponse> call, Response<FavoritesResponse> response)
                 {
                     view.onErrorLoading();
+                    view.hideProgressBar();
                 }
 
                 @Override
                 public void onFailure(Call<FavoritesResponse> call, Throwable t)
                 {
                     view.onErrorLoading();
+                    view.hideProgressBar();
                 }
             });
         }
