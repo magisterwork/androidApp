@@ -138,7 +138,11 @@ public class UserFavoritesFragment extends NavigationDrawerFragment implements U
     public void hideProgressBar()
     {
         ProgressBar progressBar = (ProgressBar) context.findViewById(R.id.favorites_progress_bar);
-        progressBar.setVisibility(View.INVISIBLE);
+
+        if(progressBar != null)
+        {
+            progressBar.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void openPostDetails(int position)

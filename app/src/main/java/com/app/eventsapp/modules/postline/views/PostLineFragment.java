@@ -196,7 +196,11 @@ public class PostLineFragment extends BaseFragment implements PostLineFragmentVi
     public void hideProgressBar()
     {
         ProgressBar progressBar = (ProgressBar) activity.findViewById(R.id.postline_progress_bar);
-        progressBar.setVisibility(View.INVISIBLE);
+
+        if(progressBar != null)
+        {
+            progressBar.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
