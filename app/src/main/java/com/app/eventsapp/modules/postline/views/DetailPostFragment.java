@@ -148,6 +148,17 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
             }
         });
 
+        Button evaluateEvent = (Button) rootView.findViewById(R.id.evaluate_event);
+
+        evaluateEvent.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                showRatingDialog(post.getRate());
+            }
+        });
+
         initMap();
     }
 
@@ -286,5 +297,11 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
     public void onFailureGetPost()
     {
         Toast.makeText(context, R.string.error_loading, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showRatingDialog(String rating)
+    {
+        RatingDialogFragment ratingDialogFragment = RatingDialogFragment.newInstanse(rating);
+        ratingDialogFragment.show(getChildFragmentManager(), "rating_dialog");
     }
 }
