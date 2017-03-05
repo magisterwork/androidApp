@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.app.eventsapp.BlankFragment;
+import com.app.eventsapp.modules.places.views.PlacesListFragment;
 import com.app.eventsapp.modules.postline.views.PostLineFragment;
 
 /**
@@ -15,7 +16,7 @@ import com.app.eventsapp.modules.postline.views.PostLineFragment;
 public class TabNavigationAdapter extends FragmentPagerAdapter
 {
     //TODO доставать из строковых ресурсов
-    private final String[] tabsTitles = {"СОБЫТИЯ", "ЗАВЕДЕНИЯ", "ПОИСК"};
+    private final String[] tabsTitles = {"СОБЫТИЯ", "ЗАВЕДЕНИЯ"};
 
     public TabNavigationAdapter(FragmentManager fm)
     {
@@ -39,7 +40,7 @@ public class TabNavigationAdapter extends FragmentPagerAdapter
                 fragment = new PostLineFragment();
                 break;
             default:
-                fragment = new BlankFragment();
+                fragment = new PlacesListFragment();
                 break;
         }
 
