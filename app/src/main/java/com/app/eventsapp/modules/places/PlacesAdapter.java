@@ -1,17 +1,15 @@
 package com.app.eventsapp.modules.places;
 
-import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.eventsapp.R;
 import com.app.eventsapp.core.managers.PicassoImageManager;
 import com.app.eventsapp.modules.places.models.Place;
-import com.app.eventsapp.modules.postline.models.Post;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
@@ -20,64 +18,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Grigory Kalyashov on 05.03.2017.
+ * Created by Grigory Kalyashov on 08.03.2017.
+ *
+ * Адаптер для списка заведений
  */
-public class PlacesAdapter extends BaseAdapter
+public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
     private List<Place> places;
-    private LayoutInflater inflater;
 
-    public PlacesAdapter(Context context)
+    public PlacesAdapter()
     {
         places = new ArrayList<>();
-        inflater = LayoutInflater.from(context);
     }
 
-    public PlacesAdapter(List<Place> places, Context context)
+    public PlacesAdapter(List<Place> places)
     {
         this.places = places;
-        inflater = LayoutInflater.from(context);
-    }
-
-    @Override
-    public int getCount()
-    {
-        return places.size();
-    }
-
-    @Override
-    public Object getItem(int i)
-    {
-        return places.get(i);
-    }
-
-    @Override
-    public long getItemId(int i)
-    {
-        return places.get(i).getId();
-    }
-
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup)
-    {
-        view = inflater.inflate(R.layout.place_post_layout, null);
-
-        Place place = places.get(i);
-
-        TextView title = (TextView) view.findViewById(R.id.place_post_title);
-        ImageView poster = (ImageView) view.findViewById(R.id.place_post_poster);
-
-        title.setText(place.getName());
-
-        String posterURL = place.getImageUrl();
-
-        if (!StringUtils.isEmpty(posterURL))
-        {
-            PicassoImageManager.getInstance()
-                    .loadResource(posterURL, poster, Picasso.Priority.HIGH);
-        }
-
-        return view;
     }
 
     public void setPlaces(List<Place> places)
@@ -91,14 +47,60 @@ public class PlacesAdapter extends BaseAdapter
         notifyDataSetChanged();
     }
 
-    public Place getPlace(int i)
+    public Place getPlace(int id)
     {
-        return places.get(i);
+        return places.get(id);
     }
 
     public void clear()
     {
         this.places.clear();
         notifyDataSetChanged();
+    }
+
+    private static class PlaceViewHolder extends RecyclerView.ViewHolder
+    {
+        private TextView placeName;
+        private ImageView image;
+
+        public PlaceViewHolder(View itemView)
+        {
+            super(itemView);
+
+            placeName = (TextView) itemView.findViewById(R.id.place_post_title);
+            image = (ImageView) itemView.findViewById(R.id.place_post_poster);
+        }
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
+        View view = LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.place_post_layout, parent, false);
+
+        return new PlaceViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
+    {
+        PlaceViewHolder postViewHolder = (PlaceViewHolder) holder;
+        Place place = places.get(position);
+
+        postViewHolder.placeName.setText(place.getName());
+
+        String imageUrl = place.getImageUrl();
+
+        if (!StringUtils.isEmpty(imageUrl))
+        {
+            PicassoImageManager.getInstance().loadResource(imageUrl,
+                    postViewHolder.image, Picasso.Priority.HIGH);
+        }
+    }
+
+    @Override
+    public int getItemCount()
+    {
+        return places.size();
     }
 }
