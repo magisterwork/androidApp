@@ -94,15 +94,17 @@
             android:layout_below="@+id/detail_header"
             android:background="@drawable/layout_divider">
 
-            <Button
+            <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
                 android:id="@+id/add_to_favorites"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/ic_action_bookmark_border"
-                android:background="?android:attr/selectableItemBackground"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp"
-                android:text="@string/to_favorites" />
+                android:text="@string/to_favorites"
+                app:spinning_bar_width="2dp"
+                app:spinning_bar_color="@color/colorAccent"
+                app:spinning_bar_padding="8dp"/>
 
             <Button
                 android:id="@+id/evaluate_event"

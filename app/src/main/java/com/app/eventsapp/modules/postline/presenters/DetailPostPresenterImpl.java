@@ -134,6 +134,8 @@ public class DetailPostPresenterImpl implements DetailPostPresenter
     @Override
     public void saveToFavorites(Long eventId, final UserSessionManager sessionManager)
     {
+        view.startFavoriteButtonAnimation();
+
         String userToken = sessionManager.getUserToken();
 
         userService.addFavorite(new FavoriteRq(userToken, eventId), new RequestListener<SimpleResponse>()
@@ -153,17 +155,20 @@ public class DetailPostPresenterImpl implements DetailPostPresenter
                     view.onUnsuccessfulAddToFavorites();
                 }
 
+                view.stopFavoriteButtonAnimation();
             }
 
             @Override
             public void onErrorResponse(Call<SimpleResponse> call, Response<SimpleResponse> response)
             {
+                view.stopFavoriteButtonAnimation();
                 view.onUnsuccessfulAddToFavorites();
             }
 
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t)
             {
+                view.stopFavoriteButtonAnimation();
                 view.onUnsuccessfulAddToFavorites();
             }
         });
@@ -172,6 +177,8 @@ public class DetailPostPresenterImpl implements DetailPostPresenter
     @Override
     public void removeFavorite(Long eventId, final UserSessionManager sessionManager)
     {
+        view.startFavoriteButtonAnimation();
+
         String userToken = sessionManager.getUserToken();
 
         userService.removeFavorite(new FavoriteRq(userToken, eventId), new RequestListener<SimpleResponse>()
@@ -191,17 +198,20 @@ public class DetailPostPresenterImpl implements DetailPostPresenter
                     view.onUnsuccessfulRemoveFavorite();
                 }
 
+                view.stopFavoriteButtonAnimation();
             }
 
             @Override
             public void onErrorResponse(Call<SimpleResponse> call, Response<SimpleResponse> response)
             {
+                view.stopFavoriteButtonAnimation();
                 view.onUnsuccessfulAddToFavorites();
             }
 
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t)
             {
+                view.stopFavoriteButtonAnimation();
                 view.onUnsuccessfulAddToFavorites();
             }
         });

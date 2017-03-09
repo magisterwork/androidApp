@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
@@ -37,6 +38,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
 
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 
 /**
  * Created by Grigory Kalyashov on 13.11.2016.
@@ -236,7 +238,8 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
     @Override
     public void markEventAsFavorite()
     {
-        Button saveToFavorites = (Button) rootView.findViewById(R.id.add_to_favorites);
+        final CircularProgressButton saveToFavorites = (CircularProgressButton)
+                rootView.findViewById(R.id.add_to_favorites);
 
         saveToFavorites.setOnClickListener(new View.OnClickListener()
         {
@@ -253,7 +256,8 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
     @Override
     public void markEventAsNotFavorite()
     {
-        Button saveToFavorites = (Button) rootView.findViewById(R.id.add_to_favorites);
+        final CircularProgressButton saveToFavorites = (CircularProgressButton )
+                rootView.findViewById(R.id.add_to_favorites);
 
         saveToFavorites.setOnClickListener(new View.OnClickListener()
         {
@@ -268,7 +272,8 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
     @Override
     public void onSuccessfulAddToFavorites()
     {
-        Button saveToFavorites = (Button) rootView.findViewById(R.id.add_to_favorites);
+        CircularProgressButton saveToFavorites = (CircularProgressButton)
+                rootView.findViewById(R.id.add_to_favorites);
         Drawable icon = getContext().getResources().getDrawable(R.drawable.ic_bookmark_fill);
         saveToFavorites.setCompoundDrawablesWithIntrinsicBounds( null, icon, null, null);
     }
@@ -276,13 +281,18 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
     @Override
     public void onUnsuccessfulAddToFavorites()
     {
+        CircularProgressButton saveToFavorites = (CircularProgressButton)
+                rootView.findViewById(R.id.add_to_favorites);
+        Drawable icon = getContext().getResources().getDrawable(R.drawable.ic_action_bookmark_border);
+        saveToFavorites.setCompoundDrawablesWithIntrinsicBounds( null, icon, null, null);
         Toast.makeText(context, R.string.unsuccessful_add_to_favorires, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onSuccessfulRemoveFavorite()
     {
-        Button saveToFavorites = (Button) rootView.findViewById(R.id.add_to_favorites);
+        CircularProgressButton saveToFavorites = (CircularProgressButton)
+                rootView.findViewById(R.id.add_to_favorites);
         Drawable icon = getContext().getResources().getDrawable(R.drawable.ic_action_bookmark_border);
         saveToFavorites.setCompoundDrawablesWithIntrinsicBounds( null, icon, null, null);
     }
@@ -290,6 +300,10 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
     @Override
     public void onUnsuccessfulRemoveFavorite()
     {
+        CircularProgressButton saveToFavorites = (CircularProgressButton)
+                rootView.findViewById(R.id.add_to_favorites);
+        Drawable icon = getContext().getResources().getDrawable(R.drawable.ic_bookmark_fill);
+        saveToFavorites.setCompoundDrawablesWithIntrinsicBounds( null, icon, null, null);
         Toast.makeText(context, R.string.unsuccessful_remove_favorire, Toast.LENGTH_SHORT).show();
     }
 
@@ -299,9 +313,42 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
         Toast.makeText(context, R.string.error_loading, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void startFavoriteButtonAnimation()
+    {
+        CircularProgressButton saveToFavorites = (CircularProgressButton)
+                rootView.findViewById(R.id.add_to_favorites);
+        startProgressButtonAnimation(saveToFavorites);
+    }
+
+    @Override
+    public void stopFavoriteButtonAnimation()
+    {
+        CircularProgressButton saveToFavorites = (CircularProgressButton)
+                rootView.findViewById(R.id.add_to_favorites);
+        stopProgressButtonAnimation(saveToFavorites);
+    }
+
     public void showRatingDialog(String rating)
     {
         RatingDialogFragment ratingDialogFragment = RatingDialogFragment.newInstanse(rating);
         ratingDialogFragment.show(getChildFragmentManager(), "rating_dialog");
+    }
+
+    private void startProgressButtonAnimation(CircularProgressButton button)
+    {
+        if(button != null)
+        {
+            button.setCompoundDrawables(null, null, null, null);
+            button.startAnimation();
+        }
+    }
+
+    private void stopProgressButtonAnimation(CircularProgressButton button)
+    {
+        if(button != null)
+        {
+           button.revertAnimation();
+        }
     }
 }

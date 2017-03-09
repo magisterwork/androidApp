@@ -55,4 +55,16 @@ public interface DetailPostFragmentView
      * Ошибка при получении поста
      */
     void onFailureGetPost();
+
+    /**
+     * Показать анимацию индикатора загрузки для
+     * кнопки добавления в избранное
+     */
+    void startFavoriteButtonAnimation();
+
+    /**
+     * Скрыть анимацию индикатора загрузки для
+     * кнопки добавления в избранное
+     */
+    void stopFavoriteButtonAnimation();
 }
