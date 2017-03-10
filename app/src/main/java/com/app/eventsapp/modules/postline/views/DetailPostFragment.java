@@ -241,14 +241,7 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
         final CircularProgressButton saveToFavorites = (CircularProgressButton)
                 rootView.findViewById(R.id.add_to_favorites);
 
-        saveToFavorites.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                presenter.removeFavorite(currentPost.getId(), sessionManager);
-            }
-        });
+        saveToFavorites.setOnClickListener(new RemoveFavoriteOnClickListener());
 
         onSuccessfulAddToFavorites();
     }
@@ -259,14 +252,7 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
         final CircularProgressButton saveToFavorites = (CircularProgressButton )
                 rootView.findViewById(R.id.add_to_favorites);
 
-        saveToFavorites.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                presenter.saveToFavorites(currentPost.getId(), sessionManager);
-            }
-        });
+        saveToFavorites.setOnClickListener(new SaveFavoriteOnClickListener());
     }
 
     @Override
@@ -276,6 +262,7 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
                 rootView.findViewById(R.id.add_to_favorites);
         Drawable icon = getContext().getResources().getDrawable(R.drawable.ic_bookmark_fill);
         saveToFavorites.setCompoundDrawablesWithIntrinsicBounds( null, icon, null, null);
+        saveToFavorites.setOnClickListener(new RemoveFavoriteOnClickListener());
     }
 
     @Override
@@ -295,6 +282,7 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
                 rootView.findViewById(R.id.add_to_favorites);
         Drawable icon = getContext().getResources().getDrawable(R.drawable.ic_action_bookmark_border);
         saveToFavorites.setCompoundDrawablesWithIntrinsicBounds( null, icon, null, null);
+        saveToFavorites.setOnClickListener(new SaveFavoriteOnClickListener());
     }
 
     @Override
@@ -349,6 +337,24 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
         if(button != null)
         {
            button.revertAnimation();
+        }
+    }
+
+    private class SaveFavoriteOnClickListener implements View.OnClickListener
+    {
+        @Override
+        public void onClick(View view)
+        {
+            presenter.saveToFavorites(currentPost.getId(), sessionManager);
+        }
+    }
+
+    private class RemoveFavoriteOnClickListener implements View.OnClickListener
+    {
+        @Override
+        public void onClick(View view)
+        {
+            presenter.removeFavorite(currentPost.getId(), sessionManager);
         }
     }
 }
