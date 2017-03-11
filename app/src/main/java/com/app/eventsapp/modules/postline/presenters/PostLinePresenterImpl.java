@@ -35,8 +35,7 @@ public class PostLinePresenterImpl implements PostLinePresenter
     public void onResume(int eventsCount)
     {
         totalItemsCount = eventsCount;
-        //TODO
-        offset = calculateOffset();
+        offset = totalItemsCount;
         sendPostRequest(offset, count, true);
     }
 
@@ -49,7 +48,6 @@ public class PostLinePresenterImpl implements PostLinePresenter
     @Override
     public void refresh()
     {
-        //TODO проверять есть ли новые посты, если есть, то добавлять в начало ленты
         view.clearAdapter();
         offset = 0;
         totalItemsCount = 0;
