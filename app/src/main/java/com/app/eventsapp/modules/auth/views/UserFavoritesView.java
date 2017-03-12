@@ -1,9 +1,5 @@
 package com.app.eventsapp.modules.auth.views;
 
-import android.view.View;
-import android.widget.ProgressBar;
-
-import com.app.eventsapp.R;
 import com.app.eventsapp.modules.postline.models.Post;
 
 import java.util.List;
@@ -19,4 +15,5 @@ public interface UserFavoritesView
     void onErrorLoading();
     void showProgressBar();
     void hideProgressBar();
+    void showNeedAuthMessage();
 }

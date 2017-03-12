@@ -145,6 +145,12 @@ public class UserFavoritesFragment extends NavigationDrawerFragment implements U
         }
     }
 
+    @Override
+    public void showNeedAuthMessage()
+    {
+        Toast.makeText(context,R.string.need_auth, Toast.LENGTH_SHORT).show();
+    }
+
     private void openPostDetails(int position)
     {
         Post post = ((FavoritesAdapter) favoritesList.getAdapter()).getPost(position);

@@ -40,6 +40,7 @@
     <string name="unsuccessful_add_to_favorires">Не удалось добавить в избранное</string>
     <string name="unsuccessful_remove_favorire">Не удалось удалить из избранного</string>
     <string name="error_favorites_loading">Не удалось загрузить избранное</string>
+    <string name="need_auth">Необходима авторизация для просмотра избранного</string>
 
     <string-array name="cities">
         <item>Вологда</item>

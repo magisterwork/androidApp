@@ -31,7 +31,6 @@ public class UserFavoritesPresenterImpl implements UserFavoritesPresenter
     @Override
     public void onResume(UserSessionManager sessionManager)
     {
-        view.showProgressBar();
         sendFavoritesRequest(sessionManager);
     }
 
@@ -41,6 +40,8 @@ public class UserFavoritesPresenterImpl implements UserFavoritesPresenter
 
         if(!StringUtils.isEmpty(token))
         {
+            view.showProgressBar();
+
             userService.getFavorites(token, new RequestListener<FavoritesResponse>()
             {
                 @Override
@@ -76,6 +77,10 @@ public class UserFavoritesPresenterImpl implements UserFavoritesPresenter
                     view.hideProgressBar();
                 }
             });
+        }
+        else
+        {
+            view.showNeedAuthMessage();
         }
     }
 }
