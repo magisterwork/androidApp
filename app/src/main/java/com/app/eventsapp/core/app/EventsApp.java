@@ -6,6 +6,9 @@ import android.content.Context;
 import com.app.eventsapp.core.di.components.DaggerEventsAppComponent;
 import com.app.eventsapp.core.di.components.EventsAppComponent;
 import com.app.eventsapp.core.di.modules.EventsAppModule;
+import com.crashlytics.android.Crashlytics;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by Grigory Kalyashov on 30.10.2016.
@@ -26,8 +29,8 @@ public class EventsApp extends Application
     public void onCreate() {
         super.onCreate();
         buildGraphAndInject();
-
         instance = this;
+        Fabric.with(this, new Crashlytics());
     }
 
     public EventsAppComponent getAppComponent()
