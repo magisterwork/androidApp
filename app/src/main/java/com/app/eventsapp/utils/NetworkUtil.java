@@ -10,6 +10,12 @@ import android.net.NetworkInfo;
  */
 public class NetworkUtil
 {
+    /**
+     * Проверка - есть ли подключение к интернету
+     *
+     * @param context
+     * @return true - есть, false - нет
+     */
     public static boolean isInternetAvailable(Context context)
     {
         ConnectivityManager cm =
@@ -19,6 +25,12 @@ public class NetworkUtil
                 cm.getActiveNetworkInfo().isConnectedOrConnecting();
     }
 
+    /**
+     * Получить тип подключения к интернету
+     *
+     * @param context
+     * @return тип подключения
+     */
     public static ConnectionType getConnectivityStatus(Context context)
     {
         ConnectivityManager cm = (ConnectivityManager) context
@@ -35,6 +47,9 @@ public class NetworkUtil
         return ConnectionType.NOT_CONNECTED;
     }
 
+    /**
+     * Тип подключения к интернету
+     */
     public enum ConnectionType
     {
         WIFI,

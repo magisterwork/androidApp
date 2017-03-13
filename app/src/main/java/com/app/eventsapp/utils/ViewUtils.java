@@ -7,11 +7,11 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * Created by Grigory Kalyashov on 12.02.2017.
+ *
+ * Вспомогательные функции для UI
  */
-
 public class ViewUtils
 {
-
     /**
      * Скрыть view
      * @param v

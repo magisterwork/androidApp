@@ -18,6 +18,7 @@ import com.app.eventsapp.core.di.HasComponent;
  */
 public abstract class BaseFragment extends Fragment
 {
+    //корневой layout
     protected View rootView;
     protected FragmentManager fragmentManager;
     protected AppCompatActivity context;

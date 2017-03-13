@@ -8,6 +8,8 @@ import java.util.Calendar;
 
 /**
  * Created by Grigory Kalyashov on 07.11.2016.
+ *
+ * Вспомогательные функции для работы с датой/временем
  */
 public class DateTimeHelper
 {

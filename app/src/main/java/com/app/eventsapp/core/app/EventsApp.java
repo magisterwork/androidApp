@@ -12,32 +12,24 @@ import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by Grigory Kalyashov on 30.10.2016.
- *
- * Необходим для создания графа DI
  */
 public class EventsApp extends Application
 {
     private EventsAppComponent appComponent;
     private static EventsApp instance;
 
-    public static EventsApp get(Context context)
-    {
-        return (EventsApp) context.getApplicationContext();
-    }
-
     @Override
-    public void onCreate() {
+    public void onCreate()
+    {
         super.onCreate();
         buildGraphAndInject();
         instance = this;
         Fabric.with(this, new Crashlytics());
     }
 
-    public EventsAppComponent getAppComponent()
-    {
-        return appComponent;
-    }
-
+    /**
+     * Создание графа DI
+     */
     public void buildGraphAndInject()
     {
         appComponent = DaggerEventsAppComponent.builder()
@@ -45,6 +37,16 @@ public class EventsApp extends Application
                 .build();
 
         appComponent.inject(this);
+    }
+
+    public static EventsApp get(Context context)
+    {
+        return (EventsApp) context.getApplicationContext();
+    }
+
+    public EventsAppComponent getAppComponent()
+    {
+        return appComponent;
     }
 
     public static EventsApp getInstance()

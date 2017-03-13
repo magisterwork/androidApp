@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Grigory Kalyashov on 19.11.2016.
  *
- * Содержит ф-ии для добавления и получения постов из кэша
+ * Содержит ф-ии для добавления и получения постов из кеша
  */
 public class PostCacheUtils
 {
@@ -24,8 +24,6 @@ public class PostCacheUtils
             addPostToCache(post);
         }
     }
-
-    //TODO добавление в кеш в другом потоке + обновляемый кеш
 
     /**
      * Добавить пост в кэш

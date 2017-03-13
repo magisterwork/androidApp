@@ -15,7 +15,8 @@ import com.app.eventsapp.core.di.components.EventsAppComponent;
 public abstract class BaseActivity extends AppCompatActivity
 {
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState)
+    {
         super.onCreate(savedInstanceState, persistentState);
         setupComponent(EventsApp.get(this).getAppComponent());
 

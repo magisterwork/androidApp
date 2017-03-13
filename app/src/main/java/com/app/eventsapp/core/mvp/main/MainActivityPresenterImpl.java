@@ -14,7 +14,8 @@ import static com.app.eventsapp.MainActivity.FRAGMENT_CONTAINER;
 /**
  * Created by Grigory Kalyashov on 30.10.2016.
  */
-public class MainActivityPresenterImpl implements MainActivityPresenter {
+public class MainActivityPresenterImpl implements MainActivityPresenter
+{
 
     private MainActivityView view;
 
@@ -25,7 +26,8 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
     }
 
     @Override
-    public void onProfileImageClick(FragmentManager fragmentManager, UserSessionManager userSessionManager)
+    public void onProfileImageClick(FragmentManager fragmentManager,
+                                    UserSessionManager userSessionManager)
     {
         if(userSessionManager.isUserLoggedIn())
         {

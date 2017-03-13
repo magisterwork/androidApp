@@ -19,7 +19,7 @@ public abstract class NavigationDrawerFragment extends BaseFragment
     {
         super.onActivityCreated(savedInstanceState);
 
-        NavigationDrawerActivity activity = (NavigationDrawerActivity) context;
+        NavigationDrawerContainer activity = (NavigationDrawerContainer) context;
         activity.initDrawer(toolbar, checkedItem);
     }
 }

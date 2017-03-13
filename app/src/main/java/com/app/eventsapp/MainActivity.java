@@ -1,7 +1,6 @@
 package com.app.eventsapp;
 
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -14,7 +13,7 @@ import android.widget.TextView;
 
 import com.app.eventsapp.core.app.EventsApp;
 import com.app.eventsapp.core.base.BaseActivity;
-import com.app.eventsapp.core.base.NavigationDrawerActivity;
+import com.app.eventsapp.core.base.NavigationDrawerContainer;
 import com.app.eventsapp.core.di.HasComponent;
 import com.app.eventsapp.core.di.components.DaggerMainActivityComponent;
 import com.app.eventsapp.core.di.components.EventsAppComponent;
@@ -32,7 +31,7 @@ import com.squareup.picasso.Picasso;
 import javax.inject.Inject;
 
 public class MainActivity extends BaseActivity implements MainActivityView,
-        HasComponent<MainActivityComponent>, NavigationDrawerActivity
+        HasComponent<MainActivityComponent>, NavigationDrawerContainer
 {
     @Inject
     public MainActivityPresenterImpl presenter;
