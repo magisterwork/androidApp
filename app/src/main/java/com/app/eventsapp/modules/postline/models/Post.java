@@ -2,7 +2,7 @@ package com.app.eventsapp.modules.postline.models;
 
 import java.util.Calendar;
 
-import com.app.eventsapp.entities.Place;
+import com.app.eventsapp.entities.EventPlace;
 
 /**
  * Created by Grigory Kalyashov on 31.10.2016.
@@ -12,20 +12,20 @@ public class Post
     private Long id;
     private String name;
     private String description;
-    private Place place;
+    private EventPlace eventPlace;
     private String rate;
     private Calendar beginTime;
     private Calendar endTime;
     private String previewUrl;
     private String imageUrl;
 
-    public Post(Long id, String name, String description, Place place, Calendar beginTime,
+    public Post(Long id, String name, String description, EventPlace eventPlace, Calendar beginTime,
                 Calendar endTime, String previewUrl, String imageUrl, String rate)
     {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.place = place;
+        this.eventPlace = eventPlace;
         this.beginTime = beginTime;
         this.endTime = endTime;
         this.previewUrl = previewUrl;
@@ -63,14 +63,14 @@ public class Post
         this.description = description;
     }
 
-    public Place getPlace()
+    public EventPlace getEventPlace()
     {
-        return place;
+        return eventPlace;
     }
 
-    public void setPlace(Place place)
+    public void setEventPlace(EventPlace eventPlace)
     {
-        this.place = place;
+        this.eventPlace = eventPlace;
     }
 
     public Calendar getBeginTime()

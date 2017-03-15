@@ -3,9 +3,9 @@ package com.app.eventsapp.core.mvp.main;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.app.eventsapp.modules.auth.session.UserSessionManager;
-import com.app.eventsapp.modules.auth.views.AuthFragment;
-import com.app.eventsapp.modules.auth.views.UserProfileFragment;
+import com.app.eventsapp.modules.user.util.UserDataManager;
+import com.app.eventsapp.modules.user.views.AuthFragment;
+import com.app.eventsapp.modules.user.views.UserProfileFragment;
 
 import javax.inject.Inject;
 
@@ -27,9 +27,9 @@ public class MainActivityPresenterImpl implements MainActivityPresenter
 
     @Override
     public void onProfileImageClick(FragmentManager fragmentManager,
-                                    UserSessionManager userSessionManager)
+                                    UserDataManager userDataManager)
     {
-        if(userSessionManager.isUserLoggedIn())
+        if(userDataManager.isUserLoggedIn())
         {
             UserProfileFragment userProfileFragment = (UserProfileFragment)
                     fragmentManager.findFragmentByTag(UserProfileFragment.FRAGMENT_TAG);

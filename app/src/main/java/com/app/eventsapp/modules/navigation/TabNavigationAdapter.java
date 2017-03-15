@@ -4,7 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.app.eventsapp.BlankFragment;
 import com.app.eventsapp.modules.places.views.PlacesListFragment;
 import com.app.eventsapp.modules.postline.views.PostLineFragment;
 

@@ -5,9 +5,9 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Created by Grigory Kalyashov on 31.10.2016.
  *
- * Местоположение
+ * Местоположение события
  */
-public class Place
+public class EventPlace
 {
     private String country;
     private String city;
@@ -16,7 +16,7 @@ public class Place
     private Double latitude;
     private Double longitude;
 
-    public Place(String country, String city, String address, Double latitude, Double longitude)
+    public EventPlace(String country, String city, String address, Double latitude, Double longitude)
     {
         this.country = country;
         this.city = city;

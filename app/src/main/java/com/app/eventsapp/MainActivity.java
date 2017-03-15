@@ -22,9 +22,9 @@ import com.app.eventsapp.core.di.modules.MainActivityModule;
 import com.app.eventsapp.core.managers.PicassoImageManager;
 import com.app.eventsapp.core.mvp.main.MainActivityPresenterImpl;
 import com.app.eventsapp.core.mvp.main.MainActivityView;
-import com.app.eventsapp.modules.auth.models.User;
-import com.app.eventsapp.modules.auth.session.UserSessionManager;
-import com.app.eventsapp.modules.auth.views.UserFavoritesFragment;
+import com.app.eventsapp.modules.user.models.User;
+import com.app.eventsapp.modules.user.util.UserDataManager;
+import com.app.eventsapp.modules.user.views.UserFavoritesFragment;
 import com.app.eventsapp.modules.navigation.ContentFragment;
 import com.squareup.picasso.Picasso;
 
@@ -42,7 +42,7 @@ public class MainActivity extends BaseActivity implements MainActivityView,
     private FragmentManager fragmentManager;
     private ActionBarDrawerToggle drawerToggle;
     private DrawerLayout drawerLayout;
-    private UserSessionManager userSessionManager;
+    private UserDataManager userDataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class MainActivity extends BaseActivity implements MainActivityView,
                     .commit();
         }
 
-        userSessionManager = new UserSessionManager(getApplicationContext());
+        userDataManager = new UserDataManager(getApplicationContext());
     }
 
     @Override
@@ -162,13 +162,13 @@ public class MainActivity extends BaseActivity implements MainActivityView,
             @Override
             public void onClick(View view)
             {
-                presenter.onProfileImageClick(fragmentManager, userSessionManager);
+                presenter.onProfileImageClick(fragmentManager, userDataManager);
             }
         });
 
-        if(userSessionManager.isUserLoggedIn())
+        if(userDataManager.isUserLoggedIn())
         {
-            User currentUser = userSessionManager.getUserData();
+            User currentUser = userDataManager.getUserData();
             String userPhotoUrl = currentUser.getPhotoUrl();
 
             if(userPhotoUrl != null)

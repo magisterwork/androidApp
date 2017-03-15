@@ -3,7 +3,7 @@ package com.app.eventsapp.modules.postline.presenters;
 import android.content.Context;
 
 import com.app.eventsapp.core.base.BaseFragmentPresenter;
-import com.app.eventsapp.modules.auth.session.UserSessionManager;
+import com.app.eventsapp.modules.user.util.UserDataManager;
 import com.app.eventsapp.modules.postline.views.DetailPostFragmentView;
 
 /**
@@ -22,7 +22,7 @@ public interface DetailPostPresenter extends BaseFragmentPresenter<DetailPostFra
      * Получить пост
      * @param id - идентификатор
      */
-    void getPost(long id, UserSessionManager sessionManager);
+    void getPost(long id, UserDataManager sessionManager);
 
     /**
      * Сохранить событие в избранное
@@ -30,7 +30,7 @@ public interface DetailPostPresenter extends BaseFragmentPresenter<DetailPostFra
      * @param eventId - идентификатор события
      * @param sessionManager - менеджер сессии
      */
-    void saveToFavorites(Long eventId, final UserSessionManager sessionManager);
+    void saveToFavorites(Long eventId, final UserDataManager sessionManager);
 
     /**
      * Удалить событие из избранного
@@ -38,5 +38,5 @@ public interface DetailPostPresenter extends BaseFragmentPresenter<DetailPostFra
      * @param eventId - идентификатор события
      * @param sessionManager - менеджер сессии
      */
-    void removeFavorite(Long eventId, final UserSessionManager sessionManager);
+    void removeFavorite(Long eventId, final UserDataManager sessionManager);
 }

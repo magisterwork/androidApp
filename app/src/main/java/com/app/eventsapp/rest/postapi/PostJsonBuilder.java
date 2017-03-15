@@ -20,5 +20,4 @@ public class PostJsonBuilder
         return gsonBuilder.create();
 
     }
-
 }

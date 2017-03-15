@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
@@ -20,7 +19,7 @@ import android.widget.Toast;
 import com.app.eventsapp.R;
 import com.app.eventsapp.core.base.DetailFragmentBase;
 import com.app.eventsapp.core.managers.PicassoImageManager;
-import com.app.eventsapp.modules.auth.session.UserSessionManager;
+import com.app.eventsapp.modules.user.util.UserDataManager;
 import com.app.eventsapp.modules.postline.models.Post;
 import com.app.eventsapp.modules.postline.presenters.DetailPostPresenterImpl;
 import com.app.eventsapp.utils.DateTimeHelper;
@@ -55,7 +54,7 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
 
     private GoogleMap map;
     private Post currentPost;
-    private UserSessionManager sessionManager;
+    private UserDataManager sessionManager;
 
     public DetailPostFragment()
     {
@@ -77,7 +76,7 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
 
         presenter.init(this);
 
-        sessionManager = new UserSessionManager(context);
+        sessionManager = new UserDataManager(context);
 
         return rootView;
     }
@@ -107,7 +106,7 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
         TextView rating = (TextView) rootView.findViewById(R.id.event_rating);
 
         postTitle.setText(post.getName());
-        ViewUtils.hideTextViewIfNoText(post.getPlace().toString(), address);
+        ViewUtils.hideTextViewIfNoText(post.getEventPlace().toString(), address);
         ViewUtils.hideTextViewIfNoText(post.getDescription(), description);
         rating.setText(post.getRate());
 
@@ -143,7 +142,7 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
                         .setData(CalendarContract.Events.CONTENT_URI)
                         .putExtra(CalendarContract.Events.TITLE, post.getName())
                         .putExtra(CalendarContract.Events.DESCRIPTION, post.getDescription())
-                        .putExtra(CalendarContract.Events.EVENT_LOCATION, post.getPlace().toString())
+                        .putExtra(CalendarContract.Events.EVENT_LOCATION, post.getEventPlace().toString())
                         .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
 
                 startActivity(intent);
@@ -203,7 +202,7 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
 
-        if(currentPost.getPlace().hasCoordinates())
+        if(currentPost.getEventPlace().hasCoordinates())
         {
             mapFragment.onLowMemory();
             mapFragment.getMapAsync(this);
@@ -220,8 +219,8 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
     {
         map = googleMap;
 
-        Double latitude = currentPost.getPlace().getLatitude();
-        Double longitude = currentPost.getPlace().getLongitude();
+        Double latitude = currentPost.getEventPlace().getLatitude();
+        Double longitude = currentPost.getEventPlace().getLongitude();
 
         LatLng place = new LatLng(latitude, longitude);
         map.getUiSettings().setAllGesturesEnabled(false);

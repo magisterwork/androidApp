@@ -2,20 +2,18 @@ package com.app.eventsapp.modules.postline.presenters;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.app.eventsapp.R;
 import com.app.eventsapp.core.cache.PostCacheUtils;
 import com.app.eventsapp.core.managers.PicassoImageManager;
-import com.app.eventsapp.modules.auth.rest.UserService;
-import com.app.eventsapp.modules.auth.rest.request.FavoriteRq;
-import com.app.eventsapp.modules.auth.rest.response.FavoritesResponse;
-import com.app.eventsapp.modules.auth.rest.response.IsFavoriteResponse;
-import com.app.eventsapp.modules.auth.rest.response.ResponseStatus;
-import com.app.eventsapp.modules.auth.rest.response.SimpleResponse;
-import com.app.eventsapp.modules.auth.session.UserSessionManager;
+import com.app.eventsapp.modules.user.rest.UserDataService;
+import com.app.eventsapp.modules.user.rest.request.FavoriteRq;
+import com.app.eventsapp.modules.user.rest.response.IsFavoriteResponse;
+import com.app.eventsapp.modules.user.rest.response.ResponseStatus;
+import com.app.eventsapp.modules.user.rest.response.SimpleResponse;
+import com.app.eventsapp.modules.user.util.UserDataManager;
 import com.app.eventsapp.modules.postline.models.Post;
 import com.app.eventsapp.modules.postline.views.DetailPostFragmentView;
 import com.app.eventsapp.rest.postapi.EventsService;
@@ -27,7 +25,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import uk.co.senab.photoview.PhotoView;
@@ -39,7 +36,7 @@ public class DetailPostPresenterImpl implements DetailPostPresenter
 {
     private DetailPostFragmentView view;
 
-    private UserService userService = new UserService();
+    private UserDataService userDateService = new UserDataService();
     private EventsService eventsService = new EventsService();
 
     @Inject
@@ -85,7 +82,7 @@ public class DetailPostPresenterImpl implements DetailPostPresenter
     }
 
     @Override
-    public void getPost(long id, final UserSessionManager sessionManager)
+    public void getPost(long id, final UserDataManager sessionManager)
     {
         checkIsFavoriteEvent(id, sessionManager);
 
@@ -132,13 +129,13 @@ public class DetailPostPresenterImpl implements DetailPostPresenter
     }
 
     @Override
-    public void saveToFavorites(Long eventId, final UserSessionManager sessionManager)
+    public void saveToFavorites(Long eventId, final UserDataManager sessionManager)
     {
         view.startFavoriteButtonAnimation();
 
         String userToken = sessionManager.getUserToken();
 
-        userService.addFavorite(new FavoriteRq(userToken, eventId), new RequestListener<SimpleResponse>()
+        userDateService.addFavorite(new FavoriteRq(userToken, eventId), new RequestListener<SimpleResponse>()
         {
             @Override
             public void onSuccess(Call<SimpleResponse> call, Response<SimpleResponse> response)
@@ -175,13 +172,13 @@ public class DetailPostPresenterImpl implements DetailPostPresenter
     }
 
     @Override
-    public void removeFavorite(Long eventId, final UserSessionManager sessionManager)
+    public void removeFavorite(Long eventId, final UserDataManager sessionManager)
     {
         view.startFavoriteButtonAnimation();
 
         String userToken = sessionManager.getUserToken();
 
-        userService.removeFavorite(new FavoriteRq(userToken, eventId), new RequestListener<SimpleResponse>()
+        userDateService.removeFavorite(new FavoriteRq(userToken, eventId), new RequestListener<SimpleResponse>()
         {
             @Override
             public void onSuccess(Call<SimpleResponse> call, Response<SimpleResponse> response)
@@ -217,9 +214,9 @@ public class DetailPostPresenterImpl implements DetailPostPresenter
         });
     }
 
-    private void checkIsFavoriteEvent(long id, final UserSessionManager sessionManager)
+    private void checkIsFavoriteEvent(long id, final UserDataManager sessionManager)
     {
-        userService.isFavorite(sessionManager.getUserToken(),id, new RequestListener<IsFavoriteResponse>()
+        userDateService.isFavorite(sessionManager.getUserToken(),id, new RequestListener<IsFavoriteResponse>()
         {
             @Override
             public void onSuccess(Call<IsFavoriteResponse> call, Response<IsFavoriteResponse> response)
