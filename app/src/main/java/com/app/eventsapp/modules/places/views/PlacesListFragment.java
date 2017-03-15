@@ -3,6 +3,7 @@ package com.app.eventsapp.modules.places.views;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -44,12 +45,18 @@ public class PlacesListFragment extends BaseFragment implements  PlacesListView
             adapter.addPlaces(PlacesHelper.getPlaces());
         }
 
+
+
         placesRecyclerView = (RecyclerView) rootView.findViewById(R.id.places_list);
         placesRecyclerView.setSaveEnabled(true);
         GridLayoutManager recyclerViewLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerViewLayoutManager.supportsPredictiveItemAnimations();
         placesRecyclerView.setLayoutManager(recyclerViewLayoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
+                placesRecyclerView.getContext(),  recyclerViewLayoutManager.getOrientation());
+        placesRecyclerView.addItemDecoration(dividerItemDecoration);
         placesRecyclerView.setAdapter(adapter);
+
 
         return rootView;
     }
