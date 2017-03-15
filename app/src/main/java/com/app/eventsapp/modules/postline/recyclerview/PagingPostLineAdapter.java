@@ -99,7 +99,7 @@ public class PagingPostLineAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         postViewHolder.name.setText(post.getName());
         postViewHolder.description.setText(post.getDescription());
-        postViewHolder.address.setText(post.getEventPlace().toString());
+        postViewHolder.address.setText(post.getPlace().toString());
 
         Calendar postBeginTime = post.getBeginTime();
         postViewHolder.beginTime.setText(DateTimeHelper.formatEventDate(postBeginTime));

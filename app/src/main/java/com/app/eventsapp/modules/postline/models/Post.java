@@ -12,20 +12,20 @@ public class Post
     private Long id;
     private String name;
     private String description;
-    private EventPlace eventPlace;
+    private EventPlace place;
     private String rate;
     private Calendar beginTime;
     private Calendar endTime;
     private String previewUrl;
     private String imageUrl;
 
-    public Post(Long id, String name, String description, EventPlace eventPlace, Calendar beginTime,
+    public Post(Long id, String name, String description, EventPlace place, Calendar beginTime,
                 Calendar endTime, String previewUrl, String imageUrl, String rate)
     {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.eventPlace = eventPlace;
+        this.place = place;
         this.beginTime = beginTime;
         this.endTime = endTime;
         this.previewUrl = previewUrl;
@@ -63,14 +63,14 @@ public class Post
         this.description = description;
     }
 
-    public EventPlace getEventPlace()
+    public EventPlace getPlace()
     {
-        return eventPlace;
+        return place;
     }
 
-    public void setEventPlace(EventPlace eventPlace)
+    public void setPlace(EventPlace place)
     {
-        this.eventPlace = eventPlace;
+        this.place = place;
     }
 
     public Calendar getBeginTime()

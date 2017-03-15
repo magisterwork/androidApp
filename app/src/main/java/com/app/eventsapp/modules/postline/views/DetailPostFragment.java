@@ -106,7 +106,7 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
         TextView rating = (TextView) rootView.findViewById(R.id.event_rating);
 
         postTitle.setText(post.getName());
-        ViewUtils.hideTextViewIfNoText(post.getEventPlace().toString(), address);
+        ViewUtils.hideTextViewIfNoText(post.getPlace().toString(), address);
         ViewUtils.hideTextViewIfNoText(post.getDescription(), description);
         rating.setText(post.getRate());
 
@@ -142,7 +142,7 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
                         .setData(CalendarContract.Events.CONTENT_URI)
                         .putExtra(CalendarContract.Events.TITLE, post.getName())
                         .putExtra(CalendarContract.Events.DESCRIPTION, post.getDescription())
-                        .putExtra(CalendarContract.Events.EVENT_LOCATION, post.getEventPlace().toString())
+                        .putExtra(CalendarContract.Events.EVENT_LOCATION, post.getPlace().toString())
                         .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
 
                 startActivity(intent);
@@ -202,7 +202,7 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
 
-        if(currentPost.getEventPlace().hasCoordinates())
+        if(currentPost.getPlace().hasCoordinates())
         {
             mapFragment.onLowMemory();
             mapFragment.getMapAsync(this);
@@ -219,8 +219,8 @@ public class DetailPostFragment extends DetailFragmentBase implements DetailPost
     {
         map = googleMap;
 
-        Double latitude = currentPost.getEventPlace().getLatitude();
-        Double longitude = currentPost.getEventPlace().getLongitude();
+        Double latitude = currentPost.getPlace().getLatitude();
+        Double longitude = currentPost.getPlace().getLongitude();
 
         LatLng place = new LatLng(latitude, longitude);
         map.getUiSettings().setAllGesturesEnabled(false);
