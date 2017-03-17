@@ -13,16 +13,26 @@ import android.view.ViewGroup;
 import com.app.eventsapp.R;
 import com.app.eventsapp.core.base.BaseFragment;
 import com.app.eventsapp.modules.places.PlacesAdapter;
-import com.app.eventsapp.modules.places.PlacesHelper;
+import com.app.eventsapp.modules.places.models.Place;
+import com.app.eventsapp.modules.places.presenters.PlacesListPresenterImpl;
+import com.app.eventsapp.modules.places.rest.PlacesService;
+
+import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * Created by Grigory Kalyashov on 05.03.2017.
  *
  * Список заведений
  */
-public class PlacesListFragment extends BaseFragment implements  PlacesListView
+public class PlacesListFragment extends BaseFragment implements PlacesListView
 {
     public static String FRAGMENT_TAG = "PlacesListFragment";
+
+    @Inject
+    public PlacesListPresenterImpl presenter = new PlacesListPresenterImpl(new PlacesService());
+
     private PlacesAdapter adapter;
     private RecyclerView placesRecyclerView;
 
@@ -31,6 +41,15 @@ public class PlacesListFragment extends BaseFragment implements  PlacesListView
     {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        presenter.init(this);
+        presenter.onResume(adapter.getItemCount());
     }
 
     @NonNull
@@ -42,10 +61,7 @@ public class PlacesListFragment extends BaseFragment implements  PlacesListView
         if(adapter == null)
         {
             adapter = new PlacesAdapter();
-            adapter.addPlaces(PlacesHelper.getPlaces());
         }
-
-
 
         placesRecyclerView = (RecyclerView) rootView.findViewById(R.id.places_list);
         placesRecyclerView.setSaveEnabled(true);
@@ -59,5 +75,60 @@ public class PlacesListFragment extends BaseFragment implements  PlacesListView
 
 
         return rootView;
+    }
+
+    @Override
+    public void clearAdapter()
+    {
+
+    }
+
+    @Override
+    public void openPlaceDetails(int position) {
+
+    }
+
+    @Override
+    public void addPlacesToAdapter(List<Place> places)
+    {
+        adapter.addPlaces(places);
+    }
+
+    @Override
+    public void showProgressBar()
+    {
+
+    }
+
+    @Override
+    public void hideProgressBar()
+    {
+
+    }
+
+    @Override
+    public void onErrorLoading()
+    {
+
+    }
+
+    @Override
+    public void onFailureLoading()
+    {
+
+    }
+
+    @Override
+    public void setRecyclerViewAdapter(List<Place> places)
+    {
+        if(adapter == null)
+        {
+            adapter = new PlacesAdapter(places);
+            placesRecyclerView.setAdapter(adapter);
+        }
+        else
+        {
+            adapter.addPlaces(places);
+        }
     }
 }

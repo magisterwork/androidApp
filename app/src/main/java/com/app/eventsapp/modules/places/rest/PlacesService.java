@@ -23,7 +23,7 @@ public class PlacesService extends RestService
      * @param offset - сдвиг
      * @param count - количество заведений
      */
-    public void sendPostRequest(RequestListener<List<Place>> requestListener,
+    public void getPlacesList(RequestListener<List<Place>> requestListener,
                                  int offset, int count)
     {
         PlacesAPI placesAPI = buildRetrofit().create(PlacesAPI.class);
