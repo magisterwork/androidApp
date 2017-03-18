@@ -1,6 +1,8 @@
-package com.app.eventsapp.modules.places;
+package com.app.eventsapp.modules.places.ui;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 
 import com.app.eventsapp.R;
 import com.app.eventsapp.core.managers.PicassoImageManager;
+import com.app.eventsapp.entities.PlaceCategory;
 import com.app.eventsapp.modules.places.models.Place;
 import com.squareup.picasso.Picasso;
 
@@ -16,6 +19,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.nekocode.badge.BadgeDrawable;
 
 /**
  * Created by Grigory Kalyashov on 08.03.2017.
@@ -62,6 +67,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     {
         private TextView placeName;
         private ImageView image;
+        private TextView placeCategories;
 
         public PlaceViewHolder(View itemView)
         {
@@ -69,6 +75,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             placeName = (TextView) itemView.findViewById(R.id.place_post_title);
             image = (ImageView) itemView.findViewById(R.id.place_post_poster);
+            placeCategories = (TextView) itemView.findViewById(R.id.place_categories);
         }
     }
 
@@ -84,17 +91,33 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
-        PlaceViewHolder postViewHolder = (PlaceViewHolder) holder;
+        PlaceViewHolder placeViewHolder = (PlaceViewHolder) holder;
         Place place = places.get(position);
 
-        postViewHolder.placeName.setText(place.getName());
+        placeViewHolder.placeName.setText(place.getName());
+
+        List<BadgeDrawable> badges = new ArrayList<>();
+
+        for(PlaceCategory category : place.getCategories())
+        {
+            badges.add(new BadgeDrawable.Builder()
+                        .type(BadgeDrawable.TYPE_ONLY_ONE_TEXT)
+                        .badgeColor(PlaceCategoryColors.getColor(category))
+                        .text1(category.getCategoryName())
+                        .build());
+        }
+
+        SpannableString spannableString
+                = new SpannableString(TextUtils.concat(badges.get(0).toSpannable()));
+
+        placeViewHolder.placeCategories.setText(spannableString);
 
         String imageUrl = place.getImageUrl();
 
         if (!StringUtils.isEmpty(imageUrl))
         {
             PicassoImageManager.getInstance().loadResource(imageUrl,
-                    postViewHolder.image, Picasso.Priority.HIGH);
+                    placeViewHolder.image, Picasso.Priority.HIGH);
         }
     }
 
