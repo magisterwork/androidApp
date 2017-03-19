@@ -15,7 +15,7 @@ public abstract class DetailFragmentBase extends BaseFragment
     {
         super.onActivityCreated(savedInstanceState);
 
-        NavigationDrawerActivity navigationActivity = (NavigationDrawerActivity) context;
+        NavigationDrawerContainer navigationActivity = (NavigationDrawerContainer) context;
         navigationActivity.setDrawerLockMode();
     }
 }
