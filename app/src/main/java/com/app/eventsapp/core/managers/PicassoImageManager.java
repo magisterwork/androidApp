@@ -45,7 +45,7 @@ public class PicassoImageManager
                     instance = new PicassoImageManager();
             }
 
-            instance.setDebugMode(true);
+            //instance.setDebugMode(true);
         }
         return PicassoImageManager.instance;
     }
