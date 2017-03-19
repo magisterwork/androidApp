@@ -2,9 +2,11 @@ package com.app.eventsapp.core.di.modules;
 
 import com.app.eventsapp.core.mvp.main.MainActivityPresenterImpl;
 import com.app.eventsapp.core.mvp.main.MainActivityView;
+import com.app.eventsapp.modules.user.presenters.AuthPresenterImpl;
+import com.app.eventsapp.modules.user.presenters.UserProfilePresenterImpl;
 import com.app.eventsapp.modules.postline.presenters.DetailPostPresenterImpl;
 import com.app.eventsapp.modules.postline.presenters.PostLinePresenterImpl;
-import com.app.eventsapp.rest.postapi.PostService;
+import com.app.eventsapp.rest.postapi.EventsService;
 
 import dagger.Module;
 import dagger.Provides;
@@ -34,9 +36,9 @@ public class MainActivityModule
     }
 
     @Provides
-    public PostLinePresenterImpl providesPostLinePresenterImpl(PostService postService)
+    public PostLinePresenterImpl providesPostLinePresenterImpl(EventsService eventsService)
     {
-        return new PostLinePresenterImpl(postService);
+        return new PostLinePresenterImpl(eventsService);
     }
 
     @Provides
@@ -46,8 +48,20 @@ public class MainActivityModule
     }
 
     @Provides
-    public PostService providesPostService()
+    public AuthPresenterImpl providesAuthPresenterImpl()
     {
-        return new PostService();
+        return new AuthPresenterImpl();
+    }
+
+    @Provides
+    public UserProfilePresenterImpl providesUserProfilePresenterImpl()
+    {
+        return new UserProfilePresenterImpl();
+    }
+
+    @Provides
+    public EventsService providesPostService()
+    {
+        return new EventsService();
     }
 }

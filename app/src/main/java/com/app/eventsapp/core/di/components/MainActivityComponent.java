@@ -3,6 +3,8 @@ package com.app.eventsapp.core.di.components;
 import com.app.eventsapp.MainActivity;
 import com.app.eventsapp.core.di.modules.MainActivityModule;
 import com.app.eventsapp.core.di.scopes.ActivityScope;
+import com.app.eventsapp.modules.user.views.AuthFragment;
+import com.app.eventsapp.modules.user.views.UserProfileFragment;
 import com.app.eventsapp.modules.postline.views.DetailPostFragment;
 import com.app.eventsapp.modules.postline.views.PostLineFragment;
 
@@ -21,4 +23,6 @@ public interface MainActivityComponent
     void inject(MainActivity activity);
     void inject(PostLineFragment postLineFragment);
     void inject(DetailPostFragment detailPostFragment);
+    void inject(AuthFragment authFragment);
+    void inject(UserProfileFragment userProfileFragment);
 }
