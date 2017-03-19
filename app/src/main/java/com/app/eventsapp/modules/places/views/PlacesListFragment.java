@@ -9,13 +9,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.app.eventsapp.R;
 import com.app.eventsapp.core.base.BaseFragment;
-import com.app.eventsapp.modules.places.PlacesAdapter;
+import com.app.eventsapp.modules.places.ui.PlacesAdapter;
 import com.app.eventsapp.modules.places.models.Place;
 import com.app.eventsapp.modules.places.presenters.PlacesListPresenterImpl;
 import com.app.eventsapp.modules.places.rest.PlacesService;
+import com.app.eventsapp.modules.postline.recyclerview.OnLoadMoreListener;
 
 import java.util.List;
 
@@ -73,6 +76,7 @@ public class PlacesListFragment extends BaseFragment implements PlacesListView
         placesRecyclerView.addItemDecoration(dividerItemDecoration);
         placesRecyclerView.setAdapter(adapter);
 
+        setOnScrollListener();
 
         return rootView;
     }
@@ -80,11 +84,15 @@ public class PlacesListFragment extends BaseFragment implements PlacesListView
     @Override
     public void clearAdapter()
     {
-
+        if (adapter != null && adapter.getItemCount() > 0)
+        {
+            adapter.clear();
+        }
     }
 
     @Override
-    public void openPlaceDetails(int position) {
+    public void openPlaceDetails(int position)
+    {
 
     }
 
@@ -97,25 +105,33 @@ public class PlacesListFragment extends BaseFragment implements PlacesListView
     @Override
     public void showProgressBar()
     {
-
+        ProgressBar progressBar = (ProgressBar) context.findViewById(R.id.places_progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressBar()
     {
+        ProgressBar progressBar = (ProgressBar) context.findViewById(R.id.places_progress_bar);
 
+        if(progressBar != null)
+        {
+            progressBar.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
     public void onErrorLoading()
     {
-
+        Toast.makeText(context,context.getResources().getString(R.string.error_loading),
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onFailureLoading()
     {
-
+        Toast.makeText(context,context.getResources().getString(R.string.error_loading),
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -130,5 +146,19 @@ public class PlacesListFragment extends BaseFragment implements PlacesListView
         {
             adapter.addPlaces(places);
         }
+    }
+
+    private void setOnScrollListener()
+    {
+        placesRecyclerView.addOnScrollListener(
+                new OnLoadMoreListener()
+                {
+                    @Override
+                    public void onLoadMore()
+                    {
+                        presenter.onLoadMore();
+                    }
+                }
+        );
     }
 }
