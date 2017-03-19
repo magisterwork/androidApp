@@ -113,10 +113,16 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         placeViewHolder.placeCategories.setText(spannableString);
 
         String imageUrl = place.getImageUrl();
+        String icon = place.getIcon();
 
         if (!StringUtils.isEmpty(imageUrl))
         {
             PicassoImageManager.getInstance().loadResource(imageUrl,
+                    placeViewHolder.image, Picasso.Priority.HIGH);
+        }
+        else if(!StringUtils.isEmpty(icon))
+        {
+            PicassoImageManager.getInstance().loadResource(icon,
                     placeViewHolder.image, Picasso.Priority.HIGH);
         }
     }

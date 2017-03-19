@@ -15,6 +15,7 @@ public class Place
     private String name;
     private String imageUrl;
     private String address;
+    private String icon;
     private List<PlaceCategory> categories;
     private double googleRating;
     private double latitude;
@@ -101,5 +102,15 @@ public class Place
     public void setLongitude(double longitude)
     {
         this.longitude = longitude;
+    }
+
+    public String getIcon()
+    {
+        return icon;
+    }
+
+    public void setIcon(String icon)
+    {
+        this.icon = icon;
     }
 }
