@@ -15,7 +15,9 @@ public enum PlaceCategory
     MUSEUM("Музей"),
     NIGHT_CLUB("Ночной клуб"),
     RESTAURANT("Ресторан"),
-    ZOO("Зоопарк");
+    ZOO("Зоопарк"),
+    ESTABLISHMENT("Заведение"),
+    POINT_OF_INTEREST("Достопримечательность");
 
     private String categoryName;
 

@@ -27,6 +27,8 @@ public class PlaceCategoryColors
         placeCategoryColors.put(PlaceCategory.NIGHT_CLUB, 0xffCC9999);
         placeCategoryColors.put(PlaceCategory.RESTAURANT, 0xffCC9999);
         placeCategoryColors.put(PlaceCategory.ZOO, 0xffCC9933);
+        placeCategoryColors.put(PlaceCategory.ESTABLISHMENT, 0xffCC9999);
+        placeCategoryColors.put(PlaceCategory.POINT_OF_INTEREST, 0xffCC9933);
     }
 
     /**
